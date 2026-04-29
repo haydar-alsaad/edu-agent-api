@@ -1,0 +1,3019 @@
+[
+  {
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 400,
+    "Seats Taken": 0,
+    "Seats Remaining": 400,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 200,
+    "Seats Taken": 150,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 200,
+    "Seats Taken": 120,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "BA101",
+    "Course Name": "Introduction to Business",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 200,
+    "Seats Taken": 0,
+    "Seats Remaining": 200,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "BA101",
+    "Course Name": "Introduction to Business",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 70,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "BA102",
+    "Course Name": "Microeconomics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 200,
+    "Seats Taken": 0,
+    "Seats Remaining": 200,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "BA102",
+    "Course Name": "Microeconomics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 65,
+    "Seats Remaining": 35,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "BA201",
+    "Course Name": "Financial Accounting",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101"
+  },
+  {
+    "Course Code": "BA201",
+    "Course Name": "Financial Accounting",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 56,
+    "Seats Remaining": 24,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101"
+  },
+  {
+    "Course Code": "BA202",
+    "Course Name": "Macroeconomics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA102"
+    ],
+    "Prerequisites Display": "BA102"
+  },
+  {
+    "Course Code": "BA202",
+    "Course Name": "Macroeconomics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 44,
+    "Seats Remaining": 36,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA102"
+    ],
+    "Prerequisites Display": "BA102"
+  },
+  {
+    "Course Code": "BA203",
+    "Course Name": "Business Statistics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "BA203",
+    "Course Name": "Business Statistics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 48,
+    "Seats Remaining": 32,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "BA204",
+    "Course Name": "Managerial Accounting",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 0,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA201"
+    ],
+    "Prerequisites Display": "BA201"
+  },
+  {
+    "Course Code": "BA204",
+    "Course Name": "Managerial Accounting",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 38,
+    "Seats Remaining": 32,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA201"
+    ],
+    "Prerequisites Display": "BA201"
+  },
+  {
+    "Course Code": "BA301",
+    "Course Name": "Marketing Management",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101"
+  },
+  {
+    "Course Code": "BA301",
+    "Course Name": "Marketing Management",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 45,
+    "Seats Remaining": 15,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101"
+  },
+  {
+    "Course Code": "BA302",
+    "Course Name": "Organizational Behavior",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101"
+  },
+  {
+    "Course Code": "BA302",
+    "Course Name": "Organizational Behavior",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 36,
+    "Seats Remaining": 24,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101"
+  },
+  {
+    "Course Code": "BA303",
+    "Course Name": "Corporate Finance",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA201",
+      "BA203"
+    ],
+    "Prerequisites Display": "BA201, BA203"
+  },
+  {
+    "Course Code": "BA303",
+    "Course Name": "Corporate Finance",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 33,
+    "Seats Remaining": 27,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA201",
+      "BA203"
+    ],
+    "Prerequisites Display": "BA201, BA203"
+  },
+  {
+    "Course Code": "BA304",
+    "Course Name": "Operations Management",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA203"
+    ],
+    "Prerequisites Display": "BA203"
+  },
+  {
+    "Course Code": "BA304",
+    "Course Name": "Operations Management",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 30,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA203"
+    ],
+    "Prerequisites Display": "BA203"
+  },
+  {
+    "Course Code": "BA401",
+    "Course Name": "Strategic Management",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA301",
+      "BA302"
+    ],
+    "Prerequisites Display": "BA301, BA302"
+  },
+  {
+    "Course Code": "BA401",
+    "Course Name": "Strategic Management",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 45,
+    "Seats Remaining": 5,
+    "Availability": "Nearly Full",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA301",
+      "BA302"
+    ],
+    "Prerequisites Display": "BA301, BA302"
+  },
+  {
+    "Course Code": "BA402",
+    "Course Name": "Entrepreneurship",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA301"
+    ],
+    "Prerequisites Display": "BA301"
+  },
+  {
+    "Course Code": "BA402",
+    "Course Name": "Entrepreneurship",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 27,
+    "Seats Remaining": 23,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA301"
+    ],
+    "Prerequisites Display": "BA301"
+  },
+  {
+    "Course Code": "BA450",
+    "Course Name": "Senior Project (BA)",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 0,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA401"
+    ],
+    "Prerequisites Display": "BA401"
+  },
+  {
+    "Course Code": "BA450",
+    "Course Name": "Senior Project (BA)",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 16,
+    "Seats Remaining": 24,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "BA401"
+    ],
+    "Prerequisites Display": "BA401"
+  },
+  {
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 3,
+    "Total Seats": 360,
+    "Seats Taken": 0,
+    "Seats Remaining": 360,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 2,
+    "Total Seats": 240,
+    "Seats Taken": 162,
+    "Seats Remaining": 78,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 120,
+    "Seats Taken": 72,
+    "Seats Remaining": 48,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 200,
+    "Seats Taken": 0,
+    "Seats Remaining": 200,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS101"
+    ],
+    "Prerequisites Display": "CS101"
+  },
+  {
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 2,
+    "Total Seats": 200,
+    "Seats Taken": 115,
+    "Seats Remaining": 85,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 2,
+    "Prerequisites": [
+      "CS101"
+    ],
+    "Prerequisites Display": "CS101"
+  },
+  {
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 50,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS101"
+    ],
+    "Prerequisites Display": "CS101"
+  },
+  {
+    "Course Code": "CS201",
+    "Course Name": "Data Structures",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 160,
+    "Seats Taken": 0,
+    "Seats Remaining": 160,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS102"
+    ],
+    "Prerequisites Display": "CS102"
+  },
+  {
+    "Course Code": "CS201",
+    "Course Name": "Data Structures",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 60,
+    "Seats Remaining": 20,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS102"
+    ],
+    "Prerequisites Display": "CS102"
+  },
+  {
+    "Course Code": "CS202",
+    "Course Name": "Discrete Mathematics",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "CS202",
+    "Course Name": "Discrete Mathematics",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 48,
+    "Seats Remaining": 32,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "CS203",
+    "Course Name": "Computer Architecture",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 140,
+    "Seats Taken": 0,
+    "Seats Remaining": 140,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS102"
+    ],
+    "Prerequisites Display": "CS102"
+  },
+  {
+    "Course Code": "CS203",
+    "Course Name": "Computer Architecture",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 45,
+    "Seats Remaining": 25,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS102"
+    ],
+    "Prerequisites Display": "CS102"
+  },
+  {
+    "Course Code": "CS301",
+    "Course Name": "Database Systems",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 120,
+    "Seats Taken": 0,
+    "Seats Remaining": 120,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 2,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS301",
+    "Course Name": "Database Systems",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 55,
+    "Seats Remaining": 5,
+    "Availability": "Nearly Full",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS302",
+    "Course Name": "Operating Systems",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 120,
+    "Seats Taken": 0,
+    "Seats Remaining": 120,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 2,
+    "Prerequisites": [
+      "CS201",
+      "CS203"
+    ],
+    "Prerequisites Display": "CS201, CS203"
+  },
+  {
+    "Course Code": "CS302",
+    "Course Name": "Operating Systems",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 42,
+    "Seats Remaining": 18,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201",
+      "CS203"
+    ],
+    "Prerequisites Display": "CS201, CS203"
+  },
+  {
+    "Course Code": "CS303",
+    "Course Name": "Computer Networks",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 120,
+    "Seats Taken": 0,
+    "Seats Remaining": 120,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS303",
+    "Course Name": "Computer Networks",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 33,
+    "Seats Remaining": 27,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS304",
+    "Course Name": "Algorithms Analysis",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201",
+      "CS202"
+    ],
+    "Prerequisites Display": "CS201, CS202"
+  },
+  {
+    "Course Code": "CS304",
+    "Course Name": "Algorithms Analysis",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 30,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201",
+      "CS202"
+    ],
+    "Prerequisites Display": "CS201, CS202"
+  },
+  {
+    "Course Code": "CS305",
+    "Course Name": "Web Development",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 100,
+    "Seats Taken": 0,
+    "Seats Remaining": 100,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS305",
+    "Course Name": "Web Development",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 35,
+    "Seats Remaining": 15,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS305",
+    "Course Name": "Web Development",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 35,
+    "Seats Remaining": 15,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS306",
+    "Course Name": "Mobile App Development",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201"
+  },
+  {
+    "Course Code": "CS401",
+    "Course Name": "Software Engineering",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 100,
+    "Seats Taken": 0,
+    "Seats Remaining": 100,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 2,
+    "Prerequisites": [
+      "CS301"
+    ],
+    "Prerequisites Display": "CS301"
+  },
+  {
+    "Course Code": "CS401",
+    "Course Name": "Software Engineering",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 2,
+    "Total Seats": 100,
+    "Seats Taken": 85,
+    "Seats Remaining": 15,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS301"
+    ],
+    "Prerequisites Display": "CS301"
+  },
+  {
+    "Course Code": "CS402",
+    "Course Name": "Artificial Intelligence",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 100,
+    "Seats Taken": 0,
+    "Seats Remaining": 100,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 2,
+    "Prerequisites": [
+      "CS201",
+      "MATH201"
+    ],
+    "Prerequisites Display": "CS201, MATH201"
+  },
+  {
+    "Course Code": "CS402",
+    "Course Name": "Artificial Intelligence",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 2,
+    "Total Seats": 100,
+    "Seats Taken": 98,
+    "Seats Remaining": 2,
+    "Availability": "Nearly Full",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS201",
+      "MATH201"
+    ],
+    "Prerequisites Display": "CS201, MATH201"
+  },
+  {
+    "Course Code": "CS403",
+    "Course Name": "Machine Learning",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS402",
+      "MATH301"
+    ],
+    "Prerequisites Display": "CS402, MATH301"
+  },
+  {
+    "Course Code": "CS403",
+    "Course Name": "Machine Learning",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 42,
+    "Seats Remaining": 8,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS402",
+      "MATH301"
+    ],
+    "Prerequisites Display": "CS402, MATH301"
+  },
+  {
+    "Course Code": "CS404",
+    "Course Name": "Cybersecurity Fundamentals",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS302",
+      "CS303"
+    ],
+    "Prerequisites Display": "CS302, CS303"
+  },
+  {
+    "Course Code": "CS404",
+    "Course Name": "Cybersecurity Fundamentals",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS302",
+      "CS303"
+    ],
+    "Prerequisites Display": "CS302, CS303"
+  },
+  {
+    "Course Code": "CS405",
+    "Course Name": "Cloud Computing",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS302",
+      "CS303"
+    ],
+    "Prerequisites Display": "CS302, CS303"
+  },
+  {
+    "Course Code": "CS407",
+    "Course Name": "Compilers",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 0,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS304"
+    ],
+    "Prerequisites Display": "CS304"
+  },
+  {
+    "Course Code": "CS450",
+    "Course Name": "Senior Project I",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 2,
+    "Prerequisites": [
+      "CS401"
+    ],
+    "Prerequisites Display": "CS401"
+  },
+  {
+    "Course Code": "CS450",
+    "Course Name": "Senior Project I",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 22,
+    "Seats Remaining": 18,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS401"
+    ],
+    "Prerequisites Display": "CS401"
+  },
+  {
+    "Course Code": "CS451",
+    "Course Name": "Senior Project II",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 0,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS450"
+    ],
+    "Prerequisites Display": "CS450"
+  },
+  {
+    "Course Code": "CS451",
+    "Course Name": "Senior Project II",
+    "Department": "Computer Science",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 18,
+    "Seats Remaining": 22,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS450"
+    ],
+    "Prerequisites Display": "CS450"
+  },
+  {
+    "Course Code": "EE101",
+    "Course Name": "Circuit Analysis I",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101"
+    ],
+    "Prerequisites Display": "PHYS101"
+  },
+  {
+    "Course Code": "EE101",
+    "Course Name": "Circuit Analysis I",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101"
+    ],
+    "Prerequisites Display": "PHYS101"
+  },
+  {
+    "Course Code": "EE201",
+    "Course Name": "Electronics",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 0,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE101",
+      "PHYS201"
+    ],
+    "Prerequisites Display": "EE101, PHYS201"
+  },
+  {
+    "Course Code": "EE201",
+    "Course Name": "Electronics",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 38,
+    "Seats Remaining": 32,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE101",
+      "PHYS201"
+    ],
+    "Prerequisites Display": "EE101, PHYS201"
+  },
+  {
+    "Course Code": "EE202",
+    "Course Name": "Circuit Analysis II",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 0,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE101"
+    ],
+    "Prerequisites Display": "EE101"
+  },
+  {
+    "Course Code": "EE202",
+    "Course Name": "Circuit Analysis II",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 35,
+    "Seats Remaining": 35,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE101"
+    ],
+    "Prerequisites Display": "EE101"
+  },
+  {
+    "Course Code": "EE301",
+    "Course Name": "Signals & Systems",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE202",
+      "MATH301"
+    ],
+    "Prerequisites Display": "EE202, MATH301"
+  },
+  {
+    "Course Code": "EE301",
+    "Course Name": "Signals & Systems",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 36,
+    "Seats Remaining": 24,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE202",
+      "MATH301"
+    ],
+    "Prerequisites Display": "EE202, MATH301"
+  },
+  {
+    "Course Code": "EE302",
+    "Course Name": "Electromagnetics",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS201",
+      "MATH301"
+    ],
+    "Prerequisites Display": "PHYS201, MATH301"
+  },
+  {
+    "Course Code": "EE302",
+    "Course Name": "Electromagnetics",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 30,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS201",
+      "MATH301"
+    ],
+    "Prerequisites Display": "PHYS201, MATH301"
+  },
+  {
+    "Course Code": "EE303",
+    "Course Name": "Digital Systems Design",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE201"
+    ],
+    "Prerequisites Display": "EE201"
+  },
+  {
+    "Course Code": "EE303",
+    "Course Name": "Digital Systems Design",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 33,
+    "Seats Remaining": 27,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE201"
+    ],
+    "Prerequisites Display": "EE201"
+  },
+  {
+    "Course Code": "EE401",
+    "Course Name": "Power Systems",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE202"
+    ],
+    "Prerequisites Display": "EE202"
+  },
+  {
+    "Course Code": "EE401",
+    "Course Name": "Power Systems",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 25,
+    "Seats Remaining": 25,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE202"
+    ],
+    "Prerequisites Display": "EE202"
+  },
+  {
+    "Course Code": "EE402",
+    "Course Name": "Control Systems",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE301"
+    ],
+    "Prerequisites Display": "EE301"
+  },
+  {
+    "Course Code": "EE402",
+    "Course Name": "Control Systems",
+    "Department": "Electrical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 27,
+    "Seats Remaining": 23,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE301"
+    ],
+    "Prerequisites Display": "EE301"
+  },
+  {
+    "Course Code": "EE450",
+    "Course Name": "Senior Project (EE)",
+    "Department": "Electrical Engineering",
+    "Credits": 6,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 30,
+    "Seats Taken": 0,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE401"
+    ],
+    "Prerequisites Display": "EE401"
+  },
+  {
+    "Course Code": "EE450",
+    "Course Name": "Senior Project (EE)",
+    "Department": "Electrical Engineering",
+    "Credits": 6,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 30,
+    "Seats Taken": 10,
+    "Seats Remaining": 20,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "EE401"
+    ],
+    "Prerequisites Display": "EE401"
+  },
+  {
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 3,
+    "Total Seats": 600,
+    "Seats Taken": 0,
+    "Seats Remaining": 600,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 2,
+    "Total Seats": 400,
+    "Seats Taken": 330,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 200,
+    "Seats Taken": 150,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 0,
+    "Seats Remaining": 100,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ENG101"
+    ],
+    "Prerequisites Display": "ENG101"
+  },
+  {
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Department": "Languages",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 50,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ENG101"
+    ],
+    "Prerequisites Display": "ENG101"
+  },
+  {
+    "Course Code": "IS101",
+    "Course Name": "Introduction to Information Systems",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 0,
+    "Seats Remaining": 100,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "IS101",
+    "Course Name": "Introduction to Information Systems",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 60,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "IS201",
+    "Course Name": "Systems Analysis & Design",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS101"
+    ],
+    "Prerequisites Display": "CS101"
+  },
+  {
+    "Course Code": "IS201",
+    "Course Name": "Systems Analysis & Design",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 33,
+    "Seats Remaining": 27,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS101"
+    ],
+    "Prerequisites Display": "CS101"
+  },
+  {
+    "Course Code": "IS202",
+    "Course Name": "Business Process Management",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS101"
+    ],
+    "Prerequisites Display": "IS101"
+  },
+  {
+    "Course Code": "IS202",
+    "Course Name": "Business Process Management",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 30,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS101"
+    ],
+    "Prerequisites Display": "IS101"
+  },
+  {
+    "Course Code": "IS301",
+    "Course Name": "Enterprise Systems",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS201"
+    ],
+    "Prerequisites Display": "IS201"
+  },
+  {
+    "Course Code": "IS301",
+    "Course Name": "Enterprise Systems",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 22,
+    "Seats Remaining": 28,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS201"
+    ],
+    "Prerequisites Display": "IS201"
+  },
+  {
+    "Course Code": "IS302",
+    "Course Name": "Data Warehousing & BI",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS301"
+    ],
+    "Prerequisites Display": "CS301"
+  },
+  {
+    "Course Code": "IS302",
+    "Course Name": "Data Warehousing & BI",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 20,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "CS301"
+    ],
+    "Prerequisites Display": "CS301"
+  },
+  {
+    "Course Code": "IS303",
+    "Course Name": "IT Project Management",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS201"
+    ],
+    "Prerequisites Display": "IS201"
+  },
+  {
+    "Course Code": "IS303",
+    "Course Name": "IT Project Management",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 27,
+    "Seats Remaining": 23,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS201"
+    ],
+    "Prerequisites Display": "IS201"
+  },
+  {
+    "Course Code": "IS401",
+    "Course Name": "IS Strategy & Governance",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS301"
+    ],
+    "Prerequisites Display": "IS301"
+  },
+  {
+    "Course Code": "IS401",
+    "Course Name": "IS Strategy & Governance",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 25,
+    "Seats Remaining": 25,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS301"
+    ],
+    "Prerequisites Display": "IS301"
+  },
+  {
+    "Course Code": "IS402",
+    "Course Name": "E-Commerce Systems",
+    "Department": "Information Systems",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 0,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS301"
+    ],
+    "Prerequisites Display": "IS301"
+  },
+  {
+    "Course Code": "IS450",
+    "Course Name": "Senior Project (IS)",
+    "Department": "Information Systems",
+    "Credits": 6,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 30,
+    "Seats Taken": 0,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS401"
+    ],
+    "Prerequisites Display": "IS401"
+  },
+  {
+    "Course Code": "IS450",
+    "Course Name": "Senior Project (IS)",
+    "Department": "Information Systems",
+    "Credits": 6,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 30,
+    "Seats Taken": 9,
+    "Seats Remaining": 21,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "IS401"
+    ],
+    "Prerequisites Display": "IS401"
+  },
+  {
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Department": "Islamic Studies",
+    "Credits": 2,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 400,
+    "Seats Taken": 0,
+    "Seats Remaining": 400,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Department": "Islamic Studies",
+    "Credits": 2,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 200,
+    "Seats Taken": 160,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Department": "Islamic Studies",
+    "Credits": 2,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 200,
+    "Seats Taken": 130,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Department": "Islamic Studies",
+    "Credits": 2,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 200,
+    "Seats Taken": 0,
+    "Seats Remaining": 200,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ISLM101"
+    ],
+    "Prerequisites Display": "ISLM101"
+  },
+  {
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Department": "Islamic Studies",
+    "Credits": 2,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 200,
+    "Seats Taken": 130,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ISLM101"
+    ],
+    "Prerequisites Display": "ISLM101"
+  },
+  {
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Department": "Islamic Studies",
+    "Credits": 2,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 150,
+    "Seats Taken": 0,
+    "Seats Remaining": 150,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ISLM201"
+    ],
+    "Prerequisites Display": "ISLM201"
+  },
+  {
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 300,
+    "Seats Taken": 0,
+    "Seats Remaining": 300,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 150,
+    "Seats Taken": 120,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 150,
+    "Seats Taken": 105,
+    "Seats Remaining": 45,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 240,
+    "Seats Taken": 0,
+    "Seats Remaining": 240,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 120,
+    "Seats Taken": 94,
+    "Seats Remaining": 26,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 120,
+    "Seats Taken": 78,
+    "Seats Remaining": 42,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "MATH202",
+    "Course Name": "Probability & Statistics",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 0,
+    "Seats Remaining": 100,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "MATH202",
+    "Course Name": "Probability & Statistics",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 60,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101"
+  },
+  {
+    "Course Code": "MATH301",
+    "Course Name": "Linear Algebra",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH201"
+    ],
+    "Prerequisites Display": "MATH201"
+  },
+  {
+    "Course Code": "MATH301",
+    "Course Name": "Linear Algebra",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 62,
+    "Seats Remaining": 18,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH201"
+    ],
+    "Prerequisites Display": "MATH201"
+  },
+  {
+    "Course Code": "MATH302",
+    "Course Name": "Differential Equations",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH201"
+    ],
+    "Prerequisites Display": "MATH201"
+  },
+  {
+    "Course Code": "MATH302",
+    "Course Name": "Differential Equations",
+    "Department": "Mathematics",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 44,
+    "Seats Remaining": 36,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "MATH201"
+    ],
+    "Prerequisites Display": "MATH201"
+  },
+  {
+    "Course Code": "ME101",
+    "Course Name": "Engineering Drawing",
+    "Department": "Mechanical Engineering",
+    "Credits": 2,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 0,
+    "Seats Remaining": 80,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ME101",
+    "Course Name": "Engineering Drawing",
+    "Department": "Mechanical Engineering",
+    "Credits": 2,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 80,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ME102",
+    "Course Name": "Engineering Workshop",
+    "Department": "Mechanical Engineering",
+    "Credits": 1,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ME102",
+    "Course Name": "Engineering Workshop",
+    "Department": "Mechanical Engineering",
+    "Credits": 1,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 36,
+    "Seats Remaining": 24,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "ME201",
+    "Course Name": "Statics",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 0,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101",
+      "MATH101"
+    ],
+    "Prerequisites Display": "PHYS101, MATH101"
+  },
+  {
+    "Course Code": "ME201",
+    "Course Name": "Statics",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 38,
+    "Seats Remaining": 32,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101",
+      "MATH101"
+    ],
+    "Prerequisites Display": "PHYS101, MATH101"
+  },
+  {
+    "Course Code": "ME202",
+    "Course Name": "Dynamics",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 0,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME201"
+    ],
+    "Prerequisites Display": "ME201"
+  },
+  {
+    "Course Code": "ME202",
+    "Course Name": "Dynamics",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 35,
+    "Seats Remaining": 35,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME201"
+    ],
+    "Prerequisites Display": "ME201"
+  },
+  {
+    "Course Code": "ME203",
+    "Course Name": "Thermodynamics I",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 0,
+    "Seats Remaining": 70,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101",
+      "MATH201"
+    ],
+    "Prerequisites Display": "PHYS101, MATH201"
+  },
+  {
+    "Course Code": "ME203",
+    "Course Name": "Thermodynamics I",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 70,
+    "Seats Taken": 38,
+    "Seats Remaining": 32,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101",
+      "MATH201"
+    ],
+    "Prerequisites Display": "PHYS101, MATH201"
+  },
+  {
+    "Course Code": "ME301",
+    "Course Name": "Fluid Mechanics",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME202",
+      "ME203"
+    ],
+    "Prerequisites Display": "ME202, ME203"
+  },
+  {
+    "Course Code": "ME301",
+    "Course Name": "Fluid Mechanics",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 36,
+    "Seats Remaining": 24,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME202",
+      "ME203"
+    ],
+    "Prerequisites Display": "ME202, ME203"
+  },
+  {
+    "Course Code": "ME302",
+    "Course Name": "Heat Transfer",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME203",
+      "ME301"
+    ],
+    "Prerequisites Display": "ME203, ME301"
+  },
+  {
+    "Course Code": "ME302",
+    "Course Name": "Heat Transfer",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 30,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME203",
+      "ME301"
+    ],
+    "Prerequisites Display": "ME203, ME301"
+  },
+  {
+    "Course Code": "ME303",
+    "Course Name": "Mechanics of Materials",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 0,
+    "Seats Remaining": 60,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME201"
+    ],
+    "Prerequisites Display": "ME201"
+  },
+  {
+    "Course Code": "ME303",
+    "Course Name": "Mechanics of Materials",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 60,
+    "Seats Taken": 33,
+    "Seats Remaining": 27,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME201"
+    ],
+    "Prerequisites Display": "ME201"
+  },
+  {
+    "Course Code": "ME401",
+    "Course Name": "Machine Design",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 0,
+    "Seats Remaining": 50,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME303"
+    ],
+    "Prerequisites Display": "ME303"
+  },
+  {
+    "Course Code": "ME401",
+    "Course Name": "Machine Design",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 50,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME303"
+    ],
+    "Prerequisites Display": "ME303"
+  },
+  {
+    "Course Code": "ME402",
+    "Course Name": "HVAC & Refrigeration",
+    "Department": "Mechanical Engineering",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 40,
+    "Seats Taken": 0,
+    "Seats Remaining": 40,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME302"
+    ],
+    "Prerequisites Display": "ME302"
+  },
+  {
+    "Course Code": "ME450",
+    "Course Name": "Senior Project (ME)",
+    "Department": "Mechanical Engineering",
+    "Credits": 6,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 30,
+    "Seats Taken": 0,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME401"
+    ],
+    "Prerequisites Display": "ME401"
+  },
+  {
+    "Course Code": "ME450",
+    "Course Name": "Senior Project (ME)",
+    "Department": "Mechanical Engineering",
+    "Credits": 6,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 30,
+    "Seats Taken": 12,
+    "Seats Remaining": 18,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "ME401"
+    ],
+    "Prerequisites Display": "ME401"
+  },
+  {
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Department": "Physics",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 300,
+    "Seats Taken": 0,
+    "Seats Remaining": 300,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Department": "Physics",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 150,
+    "Seats Taken": 130,
+    "Seats Remaining": 20,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Department": "Physics",
+    "Credits": 3,
+    "Semester": "Summer 2026",
+    "Total Sections": 1,
+    "Total Seats": 150,
+    "Seats Taken": 82,
+    "Seats Remaining": 68,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Department": "Physics",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 0,
+    "Seats Remaining": 100,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101"
+    ],
+    "Prerequisites Display": "PHYS101"
+  },
+  {
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Department": "Physics",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 70,
+    "Seats Remaining": 30,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [
+      "PHYS101"
+    ],
+    "Prerequisites Display": "PHYS101"
+  }
+]

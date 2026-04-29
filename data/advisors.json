@@ -1,0 +1,80 @@
+[
+  {
+    "Advisor ID": "ADV-001",
+    "Faculty ID": "FAC-001",
+    "Name": "Dr. Ali Hassan",
+    "Department": "Computer Science",
+    "Email": "a.hassan@kfu.edu.sa",
+    "Phone": "+966 13 860 4001",
+    "Office": "CS-210",
+    "Available Days": "Sun, Tue, Thu",
+    "Available Hours": "10:00-12:00",
+    "Max Students": 30,
+    "Current Students": 18
+  },
+  {
+    "Advisor ID": "ADV-002",
+    "Faculty ID": "FAC-010",
+    "Name": "Dr. Maha Al-Rashid",
+    "Department": "Information Systems",
+    "Email": "m.rashid.is@kfu.edu.sa",
+    "Phone": "+966 13 860 4010",
+    "Office": "IS-105",
+    "Available Days": "Mon, Wed",
+    "Available Hours": "09:00-11:00",
+    "Max Students": 25,
+    "Current Students": 16
+  },
+  {
+    "Advisor ID": "ADV-003",
+    "Faculty ID": "FAC-020",
+    "Name": "Dr. Saad Al-Mutairi",
+    "Department": "Mechanical Engineering",
+    "Email": "s.mutairi@kfu.edu.sa",
+    "Phone": "+966 13 860 4020",
+    "Office": "ME-312",
+    "Available Days": "Sun, Mon, Wed",
+    "Available Hours": "11:00-13:00",
+    "Max Students": 35,
+    "Current Students": 22
+  },
+  {
+    "Advisor ID": "ADV-004",
+    "Faculty ID": "FAC-040",
+    "Name": "Dr. Noura Faisal",
+    "Department": "Business Administration",
+    "Email": "n.faisal@kfu.edu.sa",
+    "Phone": "+966 13 860 4040",
+    "Office": "BA-201",
+    "Available Days": "Sun, Tue",
+    "Available Hours": "10:00-12:00",
+    "Max Students": 30,
+    "Current Students": 15
+  },
+  {
+    "Advisor ID": "ADV-005",
+    "Faculty ID": "FAC-005",
+    "Name": "Dr. Yara Al-Otaibi",
+    "Department": "Computer Science",
+    "Email": "y.otaibi@kfu.edu.sa",
+    "Phone": "+966 13 860 4008",
+    "Office": "CS-230",
+    "Available Days": "Sun, Tue, Thu",
+    "Available Hours": "09:00-11:00",
+    "Max Students": 30,
+    "Current Students": 12
+  },
+  {
+    "Advisor ID": "ADV-006",
+    "Faculty ID": "FAC-030",
+    "Name": "Dr. Tariq Al-Sulaiman",
+    "Department": "Electrical Engineering",
+    "Email": "t.sulaiman@kfu.edu.sa",
+    "Phone": "+966 13 860 4030",
+    "Office": "EE-201",
+    "Available Days": "Sun, Tue, Thu",
+    "Available Hours": "13:00-15:00",
+    "Max Students": 30,
+    "Current Students": 14
+  }
+]

@@ -1,0 +1,1332 @@
+[
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Computer Science",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS102",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Programming Fundamentals",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Data Structures",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS202",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Discrete Mathematics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS203",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Computer Architecture",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Database Systems",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS302",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Operating Systems",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS303",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Computer Networks",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS304",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Algorithms Analysis",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS401",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Software Engineering",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS402",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Artificial Intelligence",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS450",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Senior Project I",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS451",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Senior Project II",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "MATH101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "MATH201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "MATH202",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Probability & Statistics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "MATH301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Linear Algebra",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "PHYS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "General Physics I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "PHYS201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "General Physics II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS305",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Web Development",
+    "Typical Year": 3,
+    "Notes": "Choose any 6 courses (18 credits) from the CS elective pool"
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS306",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Mobile App Development",
+    "Typical Year": 3,
+    "Notes": "Choose any 6 courses (18 credits) from the CS elective pool"
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS403",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Machine Learning",
+    "Typical Year": 4,
+    "Notes": "Choose any 6 courses (18 credits) from the CS elective pool"
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS404",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Cybersecurity Fundamentals",
+    "Typical Year": 4,
+    "Notes": "Choose any 6 courses (18 credits) from the CS elective pool"
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS405",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Cloud Computing",
+    "Typical Year": 4,
+    "Notes": "Choose any 6 courses (18 credits) from the CS elective pool"
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS406",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Human-Computer Interaction",
+    "Typical Year": 4,
+    "Notes": "Choose any 6 courses (18 credits) from the CS elective pool"
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "CS407",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Compilers",
+    "Typical Year": 4,
+    "Notes": "Choose any 6 courses (18 credits) from the CS elective pool"
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "ENG101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Academic English",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "ENG201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Technical Writing",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "ARAB101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Arabic Communication",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "ISLM101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "ISLM201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-CS",
+    "Course Code": "ISLM301",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Ethics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "CS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Computer Science",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "CS102",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Programming Fundamentals",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "CS201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Data Structures",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Information Systems",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Systems Analysis & Design",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS202",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Business Process Management",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Enterprise Systems",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS302",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Data Warehousing & BI",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS303",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "IT Project Management",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS401",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "IS Strategy & Governance",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS450",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 6,
+    "Course Name": "Senior Project (IS)",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Business",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA102",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Microeconomics",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Financial Accounting",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA203",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Business Statistics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Marketing Management",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "MATH101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "MATH202",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Probability & Statistics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "CS301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Database Systems",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "IS402",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "E-Commerce Systems",
+    "Typical Year": 3,
+    "Notes": "Choose any 8 courses (24 credits) from the IS elective pool"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "CS305",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Web Development",
+    "Typical Year": 3,
+    "Notes": "Choose any 8 courses (24 credits) from the IS elective pool"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "CS404",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Cybersecurity Fundamentals",
+    "Typical Year": 3,
+    "Notes": "Choose any 8 courses (24 credits) from the IS elective pool"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA302",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Organizational Behavior",
+    "Typical Year": 3,
+    "Notes": "Choose any 8 courses (24 credits) from the IS elective pool"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA303",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Corporate Finance",
+    "Typical Year": 3,
+    "Notes": "Choose any 8 courses (24 credits) from the IS elective pool"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA304",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Operations Management",
+    "Typical Year": 3,
+    "Notes": "Choose any 8 courses (24 credits) from the IS elective pool"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "BA402",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Entrepreneurship",
+    "Typical Year": 3,
+    "Notes": "Choose any 8 courses (24 credits) from the IS elective pool"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "ENG101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Academic English",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "ENG201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Technical Writing",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "ARAB101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Arabic Communication",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "ISLM101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "ISLM201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Course Code": "ISLM301",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Ethics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Engineering Drawing",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME102",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 1,
+    "Course Name": "Engineering Workshop",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Statics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME202",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Dynamics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME203",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Thermodynamics I",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Fluid Mechanics",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME302",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Heat Transfer",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME303",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Mechanics of Materials",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME401",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Machine Design",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME450",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 6,
+    "Course Name": "Senior Project (ME)",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "MATH101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "MATH201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "MATH301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Linear Algebra",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "MATH302",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Differential Equations",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "PHYS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "General Physics I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "PHYS201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "General Physics II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "EE101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Circuit Analysis I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "CS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Computer Science",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ME402",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "HVAC & Refrigeration",
+    "Typical Year": 4,
+    "Notes": "Plus additional ME-approved electives totaling 16 credits"
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ENG101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Academic English",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ENG201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Technical Writing",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ARAB101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Arabic Communication",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ISLM101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ISLM201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Course Code": "ISLM301",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Ethics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Circuit Analysis I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Electronics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE202",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Circuit Analysis II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Signals & Systems",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE302",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Electromagnetics",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE303",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Digital Systems Design",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE401",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Power Systems",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE402",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Control Systems",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "EE450",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 6,
+    "Course Name": "Senior Project (EE)",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "MATH101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "MATH201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "MATH301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Linear Algebra",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "MATH302",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Differential Equations",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "PHYS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "General Physics I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "PHYS201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "General Physics II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "CS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Computer Science",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "CS102",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Programming Fundamentals",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "ENG101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Academic English",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "ENG201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Technical Writing",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "ARAB101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Arabic Communication",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "ISLM101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "ISLM201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Course Code": "ISLM301",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Ethics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Business",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA102",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Microeconomics",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA201",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Financial Accounting",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA202",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Macroeconomics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA203",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Business Statistics",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA204",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Managerial Accounting",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA301",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Marketing Management",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA302",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Organizational Behavior",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA303",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Corporate Finance",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA304",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Operations Management",
+    "Typical Year": 3,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA401",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Strategic Management",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA450",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Senior Project (BA)",
+    "Typical Year": 4,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "MATH101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Calculus I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "CS101",
+    "Requirement Type": "Core",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Introduction to Computer Science",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "BA402",
+    "Requirement Type": "Elective Pool",
+    "Required": false,
+    "Credits": 3,
+    "Course Name": "Entrepreneurship",
+    "Typical Year": 4,
+    "Notes": "Plus additional BA-approved electives totaling 24 credits"
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "ENG101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Academic English",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "ENG201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Technical Writing",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "ARAB101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 3,
+    "Course Name": "Arabic Communication",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "ISLM101",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture I",
+    "Typical Year": 1,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "ISLM201",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Culture II",
+    "Typical Year": 2,
+    "Notes": ""
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Course Code": "ISLM301",
+    "Requirement Type": "General Education",
+    "Required": true,
+    "Credits": 2,
+    "Course Name": "Islamic Ethics",
+    "Typical Year": 2,
+    "Notes": ""
+  }
+]

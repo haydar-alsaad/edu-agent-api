@@ -1,0 +1,1782 @@
+[
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Fall 2024",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Fall 2024",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Fall 2024",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Fall 2024",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Fall 2024",
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Spring 2025",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Spring 2025",
+    "Course Code": "CS201",
+    "Course Name": "Data Structures",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Spring 2025",
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Spring 2025",
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Fall 2025",
+    "Course Code": "CS301",
+    "Course Name": "Database Systems",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Fall 2025",
+    "Course Code": "CS302",
+    "Course Name": "Operating Systems",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Spring 2026",
+    "Course Code": "CS401",
+    "Course Name": "Software Engineering",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Semester": "Spring 2026",
+    "Course Code": "CS402",
+    "Course Name": "Artificial Intelligence",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2024",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2024",
+    "Course Code": "BA101",
+    "Course Name": "Introduction to Business",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2024",
+    "Course Code": "BA102",
+    "Course Name": "Microeconomics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2024",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2024",
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2025",
+    "Course Code": "BA201",
+    "Course Name": "Financial Accounting",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2025",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2025",
+    "Course Code": "IS101",
+    "Course Name": "Introduction to Information Systems",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2025",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2025",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2025",
+    "Course Code": "BA203",
+    "Course Name": "Business Statistics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2025",
+    "Course Code": "CS201",
+    "Course Name": "Data Structures",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2025",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2025",
+    "Course Code": "IS201",
+    "Course Name": "Systems Analysis & Design",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Fall 2025",
+    "Course Code": "IS202",
+    "Course Name": "Business Process Management",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2026",
+    "Course Code": "BA301",
+    "Course Name": "Marketing Management",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2026",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2026",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024002",
+    "Semester": "Spring 2026",
+    "Course Code": "MATH202",
+    "Course Name": "Probability & Statistics",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2022",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2022",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2022",
+    "Course Code": "EE101",
+    "Course Name": "Circuit Analysis I",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2022",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2022",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2023",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2023",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2023",
+    "Course Code": "ME101",
+    "Course Name": "Engineering Drawing",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2023",
+    "Course Code": "ME102",
+    "Course Name": "Engineering Workshop",
+    "Credits": 1,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2023",
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2023",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2023",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2023",
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2023",
+    "Course Code": "ME201",
+    "Course Name": "Statics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2023",
+    "Course Code": "ME202",
+    "Course Name": "Dynamics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2024",
+    "Course Code": "MATH301",
+    "Course Name": "Linear Algebra",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2024",
+    "Course Code": "MATH302",
+    "Course Name": "Differential Equations",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2024",
+    "Course Code": "ME203",
+    "Course Name": "Thermodynamics I",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2024",
+    "Course Code": "ME301",
+    "Course Name": "Fluid Mechanics",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Spring 2024",
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2024",
+    "Course Code": "ME302",
+    "Course Name": "Heat Transfer",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2024",
+    "Course Code": "ME303",
+    "Course Name": "Mechanics of Materials",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2024",
+    "Course Code": "ME401",
+    "Course Name": "Machine Design",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024003",
+    "Semester": "Fall 2024",
+    "Course Code": "ME450",
+    "Course Name": "Senior Project (ME)",
+    "Credits": 6,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2023",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2023",
+    "Course Code": "BA101",
+    "Course Name": "Introduction to Business",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2023",
+    "Course Code": "BA102",
+    "Course Name": "Microeconomics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2023",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2023",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2024",
+    "Course Code": "BA201",
+    "Course Name": "Financial Accounting",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2024",
+    "Course Code": "BA202",
+    "Course Name": "Macroeconomics",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2024",
+    "Course Code": "BA203",
+    "Course Name": "Business Statistics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2024",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2024",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2024",
+    "Course Code": "BA204",
+    "Course Name": "Managerial Accounting",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2024",
+    "Course Code": "BA301",
+    "Course Name": "Marketing Management",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2024",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2024",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Fall 2024",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2025",
+    "Course Code": "BA302",
+    "Course Name": "Organizational Behavior",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2025",
+    "Course Code": "BA303",
+    "Course Name": "Corporate Finance",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2025",
+    "Course Code": "BA304",
+    "Course Name": "Operations Management",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2025",
+    "Course Code": "BA401",
+    "Course Name": "Strategic Management",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Semester": "Spring 2025",
+    "Course Code": "BA450",
+    "Course Name": "Senior Project (BA)",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2024",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2024",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "C-",
+    "Grade Points": 1.75,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2024",
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2024",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "C",
+    "Grade Points": 2.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2024",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Spring 2025",
+    "Course Code": "CS201",
+    "Course Name": "Data Structures",
+    "Credits": 3,
+    "Grade": "C",
+    "Grade Points": 2.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Spring 2025",
+    "Course Code": "CS202",
+    "Course Name": "Discrete Mathematics",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Spring 2025",
+    "Course Code": "CS203",
+    "Course Name": "Computer Architecture",
+    "Credits": 3,
+    "Grade": "C",
+    "Grade Points": 2.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Spring 2025",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Spring 2025",
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Credits": 3,
+    "Grade": "C",
+    "Grade Points": 2.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2025",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "D+",
+    "Grade Points": 1.5,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2025",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "D+",
+    "Grade Points": 1.5,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2025",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2025",
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Fall 2025",
+    "Course Code": "MATH202",
+    "Course Name": "Probability & Statistics",
+    "Credits": 3,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Spring 2026",
+    "Course Code": "CS301",
+    "Course Name": "Database Systems",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Semester": "Spring 2026",
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2024",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2024",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2024",
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2024",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2024",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2025",
+    "Course Code": "CS201",
+    "Course Name": "Data Structures",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2025",
+    "Course Code": "CS202",
+    "Course Name": "Discrete Mathematics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2025",
+    "Course Code": "CS203",
+    "Course Name": "Computer Architecture",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2025",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2025",
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2025",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2025",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2025",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2025",
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Credits": 3,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Fall 2025",
+    "Course Code": "MATH202",
+    "Course Name": "Probability & Statistics",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2026",
+    "Course Code": "CS301",
+    "Course Name": "Database Systems",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2026",
+    "Course Code": "CS302",
+    "Course Name": "Operating Systems",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2026",
+    "Course Code": "CS303",
+    "Course Name": "Computer Networks",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024006",
+    "Semester": "Spring 2026",
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2022",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2022",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2022",
+    "Course Code": "EE101",
+    "Course Name": "Circuit Analysis I",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2022",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2022",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2023",
+    "Course Code": "EE201",
+    "Course Name": "Electronics",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2023",
+    "Course Code": "EE202",
+    "Course Name": "Circuit Analysis II",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2023",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2023",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2023",
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2023",
+    "Course Code": "EE301",
+    "Course Name": "Signals & Systems",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2023",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2023",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2023",
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2023",
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2024",
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2024",
+    "Course Code": "EE302",
+    "Course Name": "Electromagnetics",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2024",
+    "Course Code": "EE303",
+    "Course Name": "Digital Systems Design",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2024",
+    "Course Code": "MATH301",
+    "Course Name": "Linear Algebra",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Spring 2024",
+    "Course Code": "MATH302",
+    "Course Name": "Differential Equations",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2024",
+    "Course Code": "EE401",
+    "Course Name": "Power Systems",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2024",
+    "Course Code": "EE402",
+    "Course Name": "Control Systems",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024007",
+    "Semester": "Fall 2024",
+    "Course Code": "EE450",
+    "Course Name": "Senior Project (EE)",
+    "Credits": 6,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2024",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2024",
+    "Course Code": "BA101",
+    "Course Name": "Introduction to Business",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2024",
+    "Course Code": "BA102",
+    "Course Name": "Microeconomics",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2024",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2024",
+    "Course Code": "CS102",
+    "Course Name": "Programming Fundamentals",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2025",
+    "Course Code": "BA201",
+    "Course Name": "Financial Accounting",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2025",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2025",
+    "Course Code": "IS101",
+    "Course Name": "Introduction to Information Systems",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2025",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2025",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2025",
+    "Course Code": "BA203",
+    "Course Name": "Business Statistics",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2025",
+    "Course Code": "CS201",
+    "Course Name": "Data Structures",
+    "Credits": 3,
+    "Grade": "A",
+    "Grade Points": 4.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2025",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2025",
+    "Course Code": "IS201",
+    "Course Name": "Systems Analysis & Design",
+    "Credits": 3,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Fall 2025",
+    "Course Code": "IS202",
+    "Course Name": "Business Process Management",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2026",
+    "Course Code": "BA301",
+    "Course Name": "Marketing Management",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2026",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2026",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024008",
+    "Semester": "Spring 2026",
+    "Course Code": "MATH202",
+    "Course Name": "Probability & Statistics",
+    "Credits": 3,
+    "Grade": "",
+    "Grade Points": "",
+    "Status": "In Progress"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2023",
+    "Course Code": "ARAB101",
+    "Course Name": "Arabic Communication",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2023",
+    "Course Code": "CS101",
+    "Course Name": "Introduction to Computer Science",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2023",
+    "Course Code": "EE101",
+    "Course Name": "Circuit Analysis I",
+    "Credits": 3,
+    "Grade": "C",
+    "Grade Points": 2.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2023",
+    "Course Code": "ENG101",
+    "Course Name": "Academic English",
+    "Credits": 3,
+    "Grade": "C",
+    "Grade Points": 2.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2023",
+    "Course Code": "ISLM101",
+    "Course Name": "Islamic Culture I",
+    "Credits": 2,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2024",
+    "Course Code": "ENG201",
+    "Course Name": "Technical Writing",
+    "Credits": 3,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2024",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2024",
+    "Course Code": "ME101",
+    "Course Name": "Engineering Drawing",
+    "Credits": 2,
+    "Grade": "A-",
+    "Grade Points": 3.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2024",
+    "Course Code": "ME102",
+    "Course Name": "Engineering Workshop",
+    "Credits": 1,
+    "Grade": "B",
+    "Grade Points": 3.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2024",
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I",
+    "Credits": 3,
+    "Grade": "C-",
+    "Grade Points": 1.75,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2024",
+    "Course Code": "ISLM201",
+    "Course Name": "Islamic Culture II",
+    "Credits": 2,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2024",
+    "Course Code": "ISLM301",
+    "Course Name": "Islamic Ethics",
+    "Credits": 2,
+    "Grade": "C",
+    "Grade Points": 2.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2024",
+    "Course Code": "MATH201",
+    "Course Name": "Calculus II",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2024",
+    "Course Code": "ME201",
+    "Course Name": "Statics",
+    "Credits": 3,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2024",
+    "Course Code": "ME202",
+    "Course Name": "Dynamics",
+    "Credits": 3,
+    "Grade": "D",
+    "Grade Points": 1.0,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2025",
+    "Course Code": "MATH301",
+    "Course Name": "Linear Algebra",
+    "Credits": 3,
+    "Grade": "B+",
+    "Grade Points": 3.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2025",
+    "Course Code": "MATH302",
+    "Course Name": "Differential Equations",
+    "Credits": 3,
+    "Grade": "D+",
+    "Grade Points": 1.5,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2025",
+    "Course Code": "ME203",
+    "Course Name": "Thermodynamics I",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2025",
+    "Course Code": "ME301",
+    "Course Name": "Fluid Mechanics",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Spring 2025",
+    "Course Code": "PHYS201",
+    "Course Name": "General Physics II",
+    "Credits": 3,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2025",
+    "Course Code": "ME302",
+    "Course Name": "Heat Transfer",
+    "Credits": 3,
+    "Grade": "C-",
+    "Grade Points": 1.75,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2025",
+    "Course Code": "ME303",
+    "Course Name": "Mechanics of Materials",
+    "Credits": 3,
+    "Grade": "B-",
+    "Grade Points": 2.7,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2025",
+    "Course Code": "ME401",
+    "Course Name": "Machine Design",
+    "Credits": 3,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  },
+  {
+    "Student ID": "STU-2024009",
+    "Semester": "Fall 2025",
+    "Course Code": "ME450",
+    "Course Name": "Senior Project (ME)",
+    "Credits": 6,
+    "Grade": "C+",
+    "Grade Points": 2.3,
+    "Status": "Completed"
+  }
+]

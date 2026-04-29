@@ -1,0 +1,1500 @@
+[
+  {
+    "Course Code": "CS101",
+    "Course Name (EN)": "Introduction to Computer Science",
+    "Course Name (AR)": "مقدمة في علوم الحاسب",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 120,
+    "Description": "Fundamentals of computing, algorithms, and programming concepts in Python."
+  },
+  {
+    "Course Code": "CS102",
+    "Course Name (EN)": "Programming Fundamentals",
+    "Course Name (AR)": "أساسيات البرمجة",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS101"
+    ],
+    "Prerequisites Display": "CS101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 100,
+    "Description": "Object-oriented programming in Java, problem solving, and software design basics."
+  },
+  {
+    "Course Code": "CS201",
+    "Course Name (EN)": "Data Structures",
+    "Course Name (AR)": "هياكل البيانات",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS102"
+    ],
+    "Prerequisites Display": "CS102",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "Arrays, linked lists, trees, graphs, sorting and searching algorithms."
+  },
+  {
+    "Course Code": "CS202",
+    "Course Name (EN)": "Discrete Mathematics",
+    "Course Name (AR)": "الرياضيات المتقطعة",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "Logic, sets, relations, graph theory, combinatorics for CS applications."
+  },
+  {
+    "Course Code": "CS203",
+    "Course Name (EN)": "Computer Architecture",
+    "Course Name (AR)": "معمارية الحاسوب",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS102"
+    ],
+    "Prerequisites Display": "CS102",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 70,
+    "Description": "Digital logic, CPU design, memory hierarchy, assembly programming."
+  },
+  {
+    "Course Code": "CS301",
+    "Course Name (EN)": "Database Systems",
+    "Course Name (AR)": "قواعد البيانات",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Relational databases, SQL, normalization, transaction management."
+  },
+  {
+    "Course Code": "CS302",
+    "Course Name (EN)": "Operating Systems",
+    "Course Name (AR)": "أنظمة التشغيل",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS201",
+      "CS203"
+    ],
+    "Prerequisites Display": "CS201, CS203",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Process management, memory, file systems, concurrency."
+  },
+  {
+    "Course Code": "CS303",
+    "Course Name (EN)": "Computer Networks",
+    "Course Name (AR)": "شبكات الحاسب",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "TCP/IP, routing, network protocols, socket programming."
+  },
+  {
+    "Course Code": "CS304",
+    "Course Name (EN)": "Algorithms Analysis",
+    "Course Name (AR)": "تحليل الخوارزميات",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "CS201",
+      "CS202"
+    ],
+    "Prerequisites Display": "CS201, CS202",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Algorithm design paradigms, complexity analysis, NP-completeness."
+  },
+  {
+    "Course Code": "CS305",
+    "Course Name (EN)": "Web Development",
+    "Course Name (AR)": "تطوير الويب",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 300,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 50,
+    "Description": "HTML, CSS, JavaScript, React, Node.js, REST APIs."
+  },
+  {
+    "Course Code": "CS306",
+    "Course Name (EN)": "Mobile App Development",
+    "Course Name (AR)": "تطوير تطبيقات الهاتف",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 300,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS201"
+    ],
+    "Prerequisites Display": "CS201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "iOS and Android development, mobile UX, native vs cross-platform."
+  },
+  {
+    "Course Code": "CS401",
+    "Course Name (EN)": "Software Engineering",
+    "Course Name (AR)": "هندسة البرمجيات",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "CS301"
+    ],
+    "Prerequisites Display": "CS301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Software development lifecycle, design patterns, testing, project management."
+  },
+  {
+    "Course Code": "CS402",
+    "Course Name (EN)": "Artificial Intelligence",
+    "Course Name (AR)": "الذكاء الاصطناعي",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS201",
+      "MATH201"
+    ],
+    "Prerequisites Display": "CS201, MATH201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Search algorithms, machine learning, neural networks, NLP basics."
+  },
+  {
+    "Course Code": "CS403",
+    "Course Name (EN)": "Machine Learning",
+    "Course Name (AR)": "تعلم الآلة",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS402",
+      "MATH301"
+    ],
+    "Prerequisites Display": "CS402, MATH301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Supervised/unsupervised learning, deep learning, model evaluation."
+  },
+  {
+    "Course Code": "CS404",
+    "Course Name (EN)": "Cybersecurity Fundamentals",
+    "Course Name (AR)": "أساسيات الأمن السيبراني",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS302",
+      "CS303"
+    ],
+    "Prerequisites Display": "CS302, CS303",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Cryptography, network security, ethical hacking, security policies."
+  },
+  {
+    "Course Code": "CS405",
+    "Course Name (EN)": "Cloud Computing",
+    "Course Name (AR)": "الحوسبة السحابية",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS302",
+      "CS303"
+    ],
+    "Prerequisites Display": "CS302, CS303",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "AWS/Azure, containers, microservices, serverless architectures."
+  },
+  {
+    "Course Code": "CS406",
+    "Course Name (EN)": "Human-Computer Interaction",
+    "Course Name (AR)": "التفاعل بين الإنسان والحاسب",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": false,
+    "Prerequisites": [
+      "CS305"
+    ],
+    "Prerequisites Display": "CS305",
+    "Semester Offered": [
+      "Spring"
+    ],
+    "Max Enrollment": 40,
+    "Description": "User research, interface design, usability testing, accessibility."
+  },
+  {
+    "Course Code": "CS407",
+    "Course Name (EN)": "Compilers",
+    "Course Name (AR)": "المترجمات",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS304"
+    ],
+    "Prerequisites Display": "CS304",
+    "Semester Offered": [
+      "Fall"
+    ],
+    "Max Enrollment": 40,
+    "Description": "Lexical analysis, parsing, semantic analysis, code generation."
+  },
+  {
+    "Course Code": "CS450",
+    "Course Name (EN)": "Senior Project I",
+    "Course Name (AR)": "مشروع التخرج ١",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "CS401"
+    ],
+    "Prerequisites Display": "CS401",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 40,
+    "Description": "First half of capstone: proposal, design, prototype."
+  },
+  {
+    "Course Code": "CS451",
+    "Course Name (EN)": "Senior Project II",
+    "Course Name (AR)": "مشروع التخرج ٢",
+    "Credits": 3,
+    "Department": "Computer Science",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "CS450"
+    ],
+    "Prerequisites Display": "CS450",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 40,
+    "Description": "Second half of capstone: implementation, testing, defense."
+  },
+  {
+    "Course Code": "IS101",
+    "Course Name (EN)": "Introduction to Information Systems",
+    "Course Name (AR)": "مقدمة في نظم المعلومات",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 100,
+    "Description": "IS in organizations, data, processes, and people."
+  },
+  {
+    "Course Code": "IS201",
+    "Course Name (EN)": "Systems Analysis & Design",
+    "Course Name (AR)": "تحليل وتصميم النظم",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "CS101"
+    ],
+    "Prerequisites Display": "CS101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Requirements analysis, system modeling, UML, SDLC methodologies."
+  },
+  {
+    "Course Code": "IS202",
+    "Course Name (EN)": "Business Process Management",
+    "Course Name (AR)": "إدارة العمليات",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "IS101"
+    ],
+    "Prerequisites Display": "IS101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "BPMN, process modeling, workflow optimization."
+  },
+  {
+    "Course Code": "IS301",
+    "Course Name (EN)": "Enterprise Systems",
+    "Course Name (AR)": "أنظمة المنشآت",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "IS201"
+    ],
+    "Prerequisites Display": "IS201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "ERP systems, business process integration, SAP/Oracle."
+  },
+  {
+    "Course Code": "IS302",
+    "Course Name (EN)": "Data Warehousing & BI",
+    "Course Name (AR)": "مستودعات البيانات وذكاء الأعمال",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "CS301"
+    ],
+    "Prerequisites Display": "CS301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "OLAP, ETL, dashboards, Power BI/Tableau."
+  },
+  {
+    "Course Code": "IS303",
+    "Course Name (EN)": "IT Project Management",
+    "Course Name (AR)": "إدارة مشاريع تقنية المعلومات",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "IS201"
+    ],
+    "Prerequisites Display": "IS201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "PMBOK, Agile/Scrum, project planning, risk management."
+  },
+  {
+    "Course Code": "IS401",
+    "Course Name (EN)": "IS Strategy & Governance",
+    "Course Name (AR)": "استراتيجية وحوكمة نظم المعلومات",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "IS301"
+    ],
+    "Prerequisites Display": "IS301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "IT governance, strategic alignment, COBIT, ITIL."
+  },
+  {
+    "Course Code": "IS402",
+    "Course Name (EN)": "E-Commerce Systems",
+    "Course Name (AR)": "نظم التجارة الإلكترونية",
+    "Credits": 3,
+    "Department": "Information Systems",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "IS301"
+    ],
+    "Prerequisites Display": "IS301",
+    "Semester Offered": [
+      "Fall"
+    ],
+    "Max Enrollment": 40,
+    "Description": "E-commerce platforms, payment systems, digital marketing integration."
+  },
+  {
+    "Course Code": "IS450",
+    "Course Name (EN)": "Senior Project (IS)",
+    "Course Name (AR)": "مشروع التخرج - نظم المعلومات",
+    "Credits": 6,
+    "Department": "Information Systems",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "IS401"
+    ],
+    "Prerequisites Display": "IS401",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 30,
+    "Description": "Capstone project: design and implement an enterprise IS solution."
+  },
+  {
+    "Course Code": "ME101",
+    "Course Name (EN)": "Engineering Drawing",
+    "Course Name (AR)": "الرسم الهندسي",
+    "Credits": 2,
+    "Department": "Mechanical Engineering",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "Technical drawing, AutoCAD, orthographic projection."
+  },
+  {
+    "Course Code": "ME102",
+    "Course Name (EN)": "Engineering Workshop",
+    "Course Name (AR)": "ورشة هندسية",
+    "Credits": 1,
+    "Department": "Mechanical Engineering",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Hands-on machining, welding, fabrication basics."
+  },
+  {
+    "Course Code": "ME201",
+    "Course Name (EN)": "Statics",
+    "Course Name (AR)": "الستاتيكا",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "PHYS101",
+      "MATH101"
+    ],
+    "Prerequisites Display": "PHYS101, MATH101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 70,
+    "Description": "Forces, moments, equilibrium of rigid bodies."
+  },
+  {
+    "Course Code": "ME202",
+    "Course Name (EN)": "Dynamics",
+    "Course Name (AR)": "الديناميكا",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "ME201"
+    ],
+    "Prerequisites Display": "ME201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 70,
+    "Description": "Kinematics and kinetics of particles and rigid bodies."
+  },
+  {
+    "Course Code": "ME203",
+    "Course Name (EN)": "Thermodynamics I",
+    "Course Name (AR)": "الديناميكا الحرارية ١",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "PHYS101",
+      "MATH201"
+    ],
+    "Prerequisites Display": "PHYS101, MATH201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 70,
+    "Description": "Energy, work, heat, first and second laws."
+  },
+  {
+    "Course Code": "ME301",
+    "Course Name (EN)": "Fluid Mechanics",
+    "Course Name (AR)": "ميكانيكا الموائع",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "ME202",
+      "ME203"
+    ],
+    "Prerequisites Display": "ME202, ME203",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Fluid statics, dynamics, pipe flow, boundary layers."
+  },
+  {
+    "Course Code": "ME302",
+    "Course Name (EN)": "Heat Transfer",
+    "Course Name (AR)": "انتقال الحرارة",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "ME203",
+      "ME301"
+    ],
+    "Prerequisites Display": "ME203, ME301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Conduction, convection, radiation, heat exchangers."
+  },
+  {
+    "Course Code": "ME303",
+    "Course Name (EN)": "Mechanics of Materials",
+    "Course Name (AR)": "ميكانيكا المواد",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "ME201"
+    ],
+    "Prerequisites Display": "ME201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Stress, strain, beam bending, torsion."
+  },
+  {
+    "Course Code": "ME401",
+    "Course Name (EN)": "Machine Design",
+    "Course Name (AR)": "تصميم الآلات",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "ME303"
+    ],
+    "Prerequisites Display": "ME303",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Design of mechanical components, stress analysis, material selection."
+  },
+  {
+    "Course Code": "ME402",
+    "Course Name (EN)": "HVAC & Refrigeration",
+    "Course Name (AR)": "التكييف والتبريد",
+    "Credits": 3,
+    "Department": "Mechanical Engineering",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": true,
+    "Prerequisites": [
+      "ME302"
+    ],
+    "Prerequisites Display": "ME302",
+    "Semester Offered": [
+      "Fall"
+    ],
+    "Max Enrollment": 40,
+    "Description": "Air conditioning, refrigeration cycles, building systems."
+  },
+  {
+    "Course Code": "ME450",
+    "Course Name (EN)": "Senior Project (ME)",
+    "Course Name (AR)": "مشروع التخرج - الهندسة الميكانيكية",
+    "Credits": 6,
+    "Department": "Mechanical Engineering",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "ME401"
+    ],
+    "Prerequisites Display": "ME401",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 30,
+    "Description": "Capstone: design, build, and test a mechanical system."
+  },
+  {
+    "Course Code": "EE101",
+    "Course Name (EN)": "Circuit Analysis I",
+    "Course Name (AR)": "تحليل الدوائر ١",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "PHYS101"
+    ],
+    "Prerequisites Display": "PHYS101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "DC circuits, Kirchhoff's laws, network theorems."
+  },
+  {
+    "Course Code": "EE201",
+    "Course Name (EN)": "Electronics",
+    "Course Name (AR)": "الإلكترونيات",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "EE101",
+      "PHYS201"
+    ],
+    "Prerequisites Display": "EE101, PHYS201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 70,
+    "Description": "Semiconductor devices, amplifiers, digital circuits."
+  },
+  {
+    "Course Code": "EE202",
+    "Course Name (EN)": "Circuit Analysis II",
+    "Course Name (AR)": "تحليل الدوائر ٢",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "EE101"
+    ],
+    "Prerequisites Display": "EE101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 70,
+    "Description": "AC circuits, transient analysis, frequency response."
+  },
+  {
+    "Course Code": "EE301",
+    "Course Name (EN)": "Signals & Systems",
+    "Course Name (AR)": "الإشارات والأنظمة",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "EE202",
+      "MATH301"
+    ],
+    "Prerequisites Display": "EE202, MATH301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Signal processing, Fourier analysis, system response."
+  },
+  {
+    "Course Code": "EE302",
+    "Course Name (EN)": "Electromagnetics",
+    "Course Name (AR)": "الكهرومغناطيسية",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "PHYS201",
+      "MATH301"
+    ],
+    "Prerequisites Display": "PHYS201, MATH301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Maxwell's equations, wave propagation, antennas."
+  },
+  {
+    "Course Code": "EE303",
+    "Course Name (EN)": "Digital Systems Design",
+    "Course Name (AR)": "تصميم الأنظمة الرقمية",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "EE201"
+    ],
+    "Prerequisites Display": "EE201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Combinational/sequential logic, FPGA, VHDL/Verilog."
+  },
+  {
+    "Course Code": "EE401",
+    "Course Name (EN)": "Power Systems",
+    "Course Name (AR)": "أنظمة القوى",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "EE202"
+    ],
+    "Prerequisites Display": "EE202",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Power generation, transmission, distribution, transformers."
+  },
+  {
+    "Course Code": "EE402",
+    "Course Name (EN)": "Control Systems",
+    "Course Name (AR)": "أنظمة التحكم",
+    "Credits": 3,
+    "Department": "Electrical Engineering",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "EE301"
+    ],
+    "Prerequisites Display": "EE301",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Feedback control, PID, stability, root locus."
+  },
+  {
+    "Course Code": "EE450",
+    "Course Name (EN)": "Senior Project (EE)",
+    "Course Name (AR)": "مشروع التخرج - الهندسة الكهربائية",
+    "Credits": 6,
+    "Department": "Electrical Engineering",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "EE401"
+    ],
+    "Prerequisites Display": "EE401",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 30,
+    "Description": "Capstone: design and build an electrical/electronic system."
+  },
+  {
+    "Course Code": "BA101",
+    "Course Name (EN)": "Introduction to Business",
+    "Course Name (AR)": "مقدمة في الأعمال",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 100,
+    "Description": "Business environment, functions, ethics, entrepreneurship."
+  },
+  {
+    "Course Code": "BA102",
+    "Course Name (EN)": "Microeconomics",
+    "Course Name (AR)": "الاقتصاد الجزئي",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 100,
+    "Description": "Supply, demand, market structures, consumer behavior."
+  },
+  {
+    "Course Code": "BA201",
+    "Course Name (EN)": "Financial Accounting",
+    "Course Name (AR)": "المحاسبة المالية",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "Financial statements, journal entries, accounting principles."
+  },
+  {
+    "Course Code": "BA202",
+    "Course Name (EN)": "Macroeconomics",
+    "Course Name (AR)": "الاقتصاد الكلي",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA102"
+    ],
+    "Prerequisites Display": "BA102",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "GDP, inflation, monetary/fiscal policy, international trade."
+  },
+  {
+    "Course Code": "BA203",
+    "Course Name (EN)": "Business Statistics",
+    "Course Name (AR)": "الإحصاء التجاري",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "Probability, distributions, hypothesis testing, regression."
+  },
+  {
+    "Course Code": "BA204",
+    "Course Name (EN)": "Managerial Accounting",
+    "Course Name (AR)": "المحاسبة الإدارية",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA201"
+    ],
+    "Prerequisites Display": "BA201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 70,
+    "Description": "Cost accounting, budgeting, performance measurement."
+  },
+  {
+    "Course Code": "BA301",
+    "Course Name (EN)": "Marketing Management",
+    "Course Name (AR)": "إدارة التسويق",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Marketing strategy, consumer behavior, market research."
+  },
+  {
+    "Course Code": "BA302",
+    "Course Name (EN)": "Organizational Behavior",
+    "Course Name (AR)": "السلوك التنظيمي",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA101"
+    ],
+    "Prerequisites Display": "BA101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Motivation, leadership, teams, organizational culture."
+  },
+  {
+    "Course Code": "BA303",
+    "Course Name (EN)": "Corporate Finance",
+    "Course Name (AR)": "التمويل المؤسسي",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA201",
+      "BA203"
+    ],
+    "Prerequisites Display": "BA201, BA203",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Capital budgeting, valuation, risk and return."
+  },
+  {
+    "Course Code": "BA304",
+    "Course Name (EN)": "Operations Management",
+    "Course Name (AR)": "إدارة العمليات",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA203"
+    ],
+    "Prerequisites Display": "BA203",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 60,
+    "Description": "Supply chain, inventory, quality, lean operations."
+  },
+  {
+    "Course Code": "BA401",
+    "Course Name (EN)": "Strategic Management",
+    "Course Name (AR)": "الإدارة الاستراتيجية",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA301",
+      "BA302"
+    ],
+    "Prerequisites Display": "BA301, BA302",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Strategic planning, competitive analysis, corporate strategy."
+  },
+  {
+    "Course Code": "BA402",
+    "Course Name (EN)": "Entrepreneurship",
+    "Course Name (AR)": "ريادة الأعمال",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 400,
+    "Course Type": "Elective",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA301"
+    ],
+    "Prerequisites Display": "BA301",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 50,
+    "Description": "Business plans, venture creation, funding, scaling."
+  },
+  {
+    "Course Code": "BA450",
+    "Course Name (EN)": "Senior Project (BA)",
+    "Course Name (AR)": "مشروع التخرج - إدارة الأعمال",
+    "Credits": 3,
+    "Department": "Business Administration",
+    "Course Level": 400,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "BA401"
+    ],
+    "Prerequisites Display": "BA401",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 40,
+    "Description": "Capstone: comprehensive business case study and analysis."
+  },
+  {
+    "Course Code": "MATH101",
+    "Course Name (EN)": "Calculus I",
+    "Course Name (AR)": "التفاضل والتكامل ١",
+    "Credits": 3,
+    "Department": "Mathematics",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 150,
+    "Description": "Limits, derivatives, integrals, fundamental theorem of calculus."
+  },
+  {
+    "Course Code": "MATH201",
+    "Course Name (EN)": "Calculus II",
+    "Course Name (AR)": "التفاضل والتكامل ٢",
+    "Credits": 3,
+    "Department": "Mathematics",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 120,
+    "Description": "Integration techniques, sequences, series, multivariable introduction."
+  },
+  {
+    "Course Code": "MATH202",
+    "Course Name (EN)": "Probability & Statistics",
+    "Course Name (AR)": "الاحتمالات والإحصاء",
+    "Credits": 3,
+    "Department": "Mathematics",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "MATH101"
+    ],
+    "Prerequisites Display": "MATH101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 100,
+    "Description": "Probability theory, distributions, statistical inference."
+  },
+  {
+    "Course Code": "MATH301",
+    "Course Name (EN)": "Linear Algebra",
+    "Course Name (AR)": "الجبر الخطي",
+    "Credits": 3,
+    "Department": "Mathematics",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "MATH201"
+    ],
+    "Prerequisites Display": "MATH201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "Vectors, matrices, linear transformations, eigenvalues."
+  },
+  {
+    "Course Code": "MATH302",
+    "Course Name (EN)": "Differential Equations",
+    "Course Name (AR)": "المعادلات التفاضلية",
+    "Credits": 3,
+    "Department": "Mathematics",
+    "Course Level": 300,
+    "Course Type": "Core",
+    "Lab Required": false,
+    "Prerequisites": [
+      "MATH201"
+    ],
+    "Prerequisites Display": "MATH201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 80,
+    "Description": "ODEs, Laplace transforms, applications in engineering."
+  },
+  {
+    "Course Code": "PHYS101",
+    "Course Name (EN)": "General Physics I",
+    "Course Name (AR)": "فيزياء عامة ١",
+    "Credits": 3,
+    "Department": "Physics",
+    "Course Level": 100,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 150,
+    "Description": "Mechanics, thermodynamics, waves."
+  },
+  {
+    "Course Code": "PHYS201",
+    "Course Name (EN)": "General Physics II",
+    "Course Name (AR)": "فيزياء عامة ٢",
+    "Credits": 3,
+    "Department": "Physics",
+    "Course Level": 200,
+    "Course Type": "Core",
+    "Lab Required": true,
+    "Prerequisites": [
+      "PHYS101"
+    ],
+    "Prerequisites Display": "PHYS101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 100,
+    "Description": "Electricity, magnetism, optics, modern physics."
+  },
+  {
+    "Course Code": "ENG101",
+    "Course Name (EN)": "Academic English",
+    "Course Name (AR)": "اللغة الإنجليزية الأكاديمية",
+    "Credits": 3,
+    "Department": "Languages",
+    "Course Level": 100,
+    "Course Type": "General",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 200,
+    "Description": "Academic writing, reading comprehension, presentation skills."
+  },
+  {
+    "Course Code": "ENG201",
+    "Course Name (EN)": "Technical Writing",
+    "Course Name (AR)": "الكتابة التقنية",
+    "Credits": 3,
+    "Department": "Languages",
+    "Course Level": 200,
+    "Course Type": "General",
+    "Lab Required": false,
+    "Prerequisites": [
+      "ENG101"
+    ],
+    "Prerequisites Display": "ENG101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 100,
+    "Description": "Reports, proposals, technical documentation."
+  },
+  {
+    "Course Code": "ARAB101",
+    "Course Name (EN)": "Arabic Communication",
+    "Course Name (AR)": "التواصل باللغة العربية",
+    "Credits": 3,
+    "Department": "Languages",
+    "Course Level": 100,
+    "Course Type": "General",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 200,
+    "Description": "Formal Arabic writing, rhetoric, communication skills."
+  },
+  {
+    "Course Code": "ISLM101",
+    "Course Name (EN)": "Islamic Culture I",
+    "Course Name (AR)": "الثقافة الإسلامية ١",
+    "Credits": 2,
+    "Department": "Islamic Studies",
+    "Course Level": 100,
+    "Course Type": "General",
+    "Lab Required": false,
+    "Prerequisites": [],
+    "Prerequisites Display": "None",
+    "Semester Offered": [
+      "Fall",
+      "Spring",
+      "Summer"
+    ],
+    "Max Enrollment": 200,
+    "Description": "Islamic principles, ethics, and cultural foundations."
+  },
+  {
+    "Course Code": "ISLM201",
+    "Course Name (EN)": "Islamic Culture II",
+    "Course Name (AR)": "الثقافة الإسلامية ٢",
+    "Credits": 2,
+    "Department": "Islamic Studies",
+    "Course Level": 200,
+    "Course Type": "General",
+    "Lab Required": false,
+    "Prerequisites": [
+      "ISLM101"
+    ],
+    "Prerequisites Display": "ISLM101",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 200,
+    "Description": "Islamic civilization, jurisprudence basics."
+  },
+  {
+    "Course Code": "ISLM301",
+    "Course Name (EN)": "Islamic Ethics",
+    "Course Name (AR)": "الأخلاق الإسلامية",
+    "Credits": 2,
+    "Department": "Islamic Studies",
+    "Course Level": 300,
+    "Course Type": "General",
+    "Lab Required": false,
+    "Prerequisites": [
+      "ISLM201"
+    ],
+    "Prerequisites Display": "ISLM201",
+    "Semester Offered": [
+      "Fall",
+      "Spring"
+    ],
+    "Max Enrollment": 150,
+    "Description": "Ethical frameworks in Islamic thought, contemporary issues."
+  }
+]

@@ -1,0 +1,399 @@
+[
+  {
+    "Faculty ID": "FAC-001",
+    "Name (EN)": "Dr. Ali Hassan",
+    "Name (AR)": "د. علي حسن",
+    "Title": "Associate Professor",
+    "Department": "Computer Science",
+    "Email": "a.hassan@kfu.edu.sa",
+    "Phone": "+966 13 860 4001",
+    "Office": "CS-210",
+    "Office Hours": "Sun-Tue-Thu 13:00-15:00",
+    "Specialization": "Software Engineering, Project Management",
+    "Years at KFUT": 8,
+    "Is Advisor": true,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-002",
+    "Name (EN)": "Dr. Saleh Ahmad",
+    "Name (AR)": "د. صالح أحمد",
+    "Title": "Assistant Professor",
+    "Department": "Computer Science",
+    "Email": "s.ahmad@kfu.edu.sa",
+    "Phone": "+966 13 860 4005",
+    "Office": "CS-215",
+    "Office Hours": "Mon-Wed 10:00-12:00",
+    "Specialization": "AI, Machine Learning",
+    "Years at KFUT": 4,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-003",
+    "Name (EN)": "Dr. Maha Rashid",
+    "Name (AR)": "د. مها راشد",
+    "Title": "Associate Professor",
+    "Department": "Computer Science",
+    "Email": "m.rashid.cs@kfu.edu.sa",
+    "Phone": "+966 13 860 4006",
+    "Office": "CS-220",
+    "Office Hours": "Sun-Tue-Thu 11:00-13:00",
+    "Specialization": "Databases, Data Engineering",
+    "Years at KFUT": 6,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-004",
+    "Name (EN)": "Dr. Fahad Noor",
+    "Name (AR)": "د. فهد نور",
+    "Title": "Assistant Professor",
+    "Department": "Computer Science",
+    "Email": "f.noor@kfu.edu.sa",
+    "Phone": "+966 13 860 4007",
+    "Office": "CS-225",
+    "Office Hours": "Mon-Wed 13:00-15:00",
+    "Specialization": "Operating Systems, Computer Architecture",
+    "Years at KFUT": 3,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-005",
+    "Name (EN)": "Dr. Yara Al-Otaibi",
+    "Name (AR)": "د. يارا العتيبي",
+    "Title": "Assistant Professor",
+    "Department": "Computer Science",
+    "Email": "y.otaibi@kfu.edu.sa",
+    "Phone": "+966 13 860 4008",
+    "Office": "CS-230",
+    "Office Hours": "Sun-Tue-Thu 09:00-11:00",
+    "Specialization": "Cybersecurity, Networks",
+    "Years at KFUT": 5,
+    "Is Advisor": true,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-006",
+    "Name (EN)": "Dr. Khaled Bin Saud",
+    "Name (AR)": "د. خالد بن سعود",
+    "Title": "Lecturer",
+    "Department": "Computer Science",
+    "Email": "k.binsaud@kfu.edu.sa",
+    "Phone": "+966 13 860 4009",
+    "Office": "CS-235",
+    "Office Hours": "Mon-Wed 09:00-11:00",
+    "Specialization": "Web/Mobile Development",
+    "Years at KFUT": 2,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-010",
+    "Name (EN)": "Dr. Maha Al-Rashid",
+    "Name (AR)": "د. مها الراشد",
+    "Title": "Associate Professor",
+    "Department": "Information Systems",
+    "Email": "m.rashid.is@kfu.edu.sa",
+    "Phone": "+966 13 860 4010",
+    "Office": "IS-105",
+    "Office Hours": "Mon-Wed 09:00-11:00",
+    "Specialization": "Enterprise Systems, ERP",
+    "Years at KFUT": 7,
+    "Is Advisor": true,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-011",
+    "Name (EN)": "Dr. Hessa Al-Faisal",
+    "Name (AR)": "د. حصة الفيصل",
+    "Title": "Assistant Professor",
+    "Department": "Information Systems",
+    "Email": "h.faisal@kfu.edu.sa",
+    "Phone": "+966 13 860 4011",
+    "Office": "IS-110",
+    "Office Hours": "Sun-Tue-Thu 10:00-12:00",
+    "Specialization": "Business Intelligence, Analytics",
+    "Years at KFUT": 4,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-020",
+    "Name (EN)": "Dr. Saad Al-Mutairi",
+    "Name (AR)": "د. سعد المطيري",
+    "Title": "Professor",
+    "Department": "Mechanical Engineering",
+    "Email": "s.mutairi@kfu.edu.sa",
+    "Phone": "+966 13 860 4020",
+    "Office": "ME-312",
+    "Office Hours": "Sun-Mon-Wed 11:00-13:00",
+    "Specialization": "Thermodynamics, HVAC",
+    "Years at KFUT": 12,
+    "Is Advisor": true,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-021",
+    "Name (EN)": "Dr. Bandar Al-Rasheed",
+    "Name (AR)": "د. بندر الرشيد",
+    "Title": "Associate Professor",
+    "Department": "Mechanical Engineering",
+    "Email": "b.rasheed@kfu.edu.sa",
+    "Phone": "+966 13 860 4021",
+    "Office": "ME-315",
+    "Office Hours": "Mon-Wed 10:00-12:00",
+    "Specialization": "Machine Design, CAD",
+    "Years at KFUT": 9,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-030",
+    "Name (EN)": "Dr. Tariq Al-Sulaiman",
+    "Name (AR)": "د. طارق السليمان",
+    "Title": "Associate Professor",
+    "Department": "Electrical Engineering",
+    "Email": "t.sulaiman@kfu.edu.sa",
+    "Phone": "+966 13 860 4030",
+    "Office": "EE-201",
+    "Office Hours": "Sun-Tue-Thu 13:00-15:00",
+    "Specialization": "Power Systems",
+    "Years at KFUT": 10,
+    "Is Advisor": true,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-031",
+    "Name (EN)": "Dr. Nasser Al-Harbi",
+    "Name (AR)": "د. ناصر الحربي",
+    "Title": "Assistant Professor",
+    "Department": "Electrical Engineering",
+    "Email": "n.harbi@kfu.edu.sa",
+    "Phone": "+966 13 860 4031",
+    "Office": "EE-205",
+    "Office Hours": "Mon-Wed 09:00-11:00",
+    "Specialization": "Control Systems, Signals",
+    "Years at KFUT": 5,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-040",
+    "Name (EN)": "Dr. Noura Faisal",
+    "Name (AR)": "د. نورة فيصل",
+    "Title": "Professor",
+    "Department": "Business Administration",
+    "Email": "n.faisal@kfu.edu.sa",
+    "Phone": "+966 13 860 4040",
+    "Office": "BA-201",
+    "Office Hours": "Sun-Tue 10:00-12:00",
+    "Specialization": "Strategic Management",
+    "Years at KFUT": 14,
+    "Is Advisor": true,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-041",
+    "Name (EN)": "Dr. Samir Khalid",
+    "Name (AR)": "د. سمير خالد",
+    "Title": "Associate Professor",
+    "Department": "Business Administration",
+    "Email": "s.khalid@kfu.edu.sa",
+    "Phone": "+966 13 860 4041",
+    "Office": "BA-205",
+    "Office Hours": "Mon-Wed 11:00-13:00",
+    "Specialization": "Accounting, Finance",
+    "Years at KFUT": 8,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-042",
+    "Name (EN)": "Dr. Hanan Yousef",
+    "Name (AR)": "د. حنان يوسف",
+    "Title": "Assistant Professor",
+    "Department": "Business Administration",
+    "Email": "h.yousef@kfu.edu.sa",
+    "Phone": "+966 13 860 4042",
+    "Office": "BA-210",
+    "Office Hours": "Sun-Tue-Thu 09:00-11:00",
+    "Specialization": "Marketing",
+    "Years at KFUT": 4,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-050",
+    "Name (EN)": "Dr. Rami Khalil",
+    "Name (AR)": "د. رامي خليل",
+    "Title": "Associate Professor",
+    "Department": "Mathematics",
+    "Email": "r.khalil@kfu.edu.sa",
+    "Phone": "+966 13 860 4050",
+    "Office": "SC-310",
+    "Office Hours": "Sun-Tue-Thu 10:00-12:00",
+    "Specialization": "Linear Algebra, Calculus",
+    "Years at KFUT": 11,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-051",
+    "Name (EN)": "Dr. Nabil Farah",
+    "Name (AR)": "د. نبيل فرح",
+    "Title": "Assistant Professor",
+    "Department": "Mathematics",
+    "Email": "n.farah@kfu.edu.sa",
+    "Phone": "+966 13 860 4051",
+    "Office": "SC-315",
+    "Office Hours": "Mon-Wed 09:00-11:00",
+    "Specialization": "Differential Equations",
+    "Years at KFUT": 6,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-060",
+    "Name (EN)": "Dr. Hamad Nasser",
+    "Name (AR)": "د. حمد ناصر",
+    "Title": "Associate Professor",
+    "Department": "Physics",
+    "Email": "h.nasser@kfu.edu.sa",
+    "Phone": "+966 13 860 4060",
+    "Office": "SC-410",
+    "Office Hours": "Mon-Wed 10:00-12:00",
+    "Specialization": "Mechanics, Optics",
+    "Years at KFUT": 9,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-061",
+    "Name (EN)": "Dr. Tariq Mansour",
+    "Name (AR)": "د. طارق منصور",
+    "Title": "Assistant Professor",
+    "Department": "Physics",
+    "Email": "t.mansour@kfu.edu.sa",
+    "Phone": "+966 13 860 4061",
+    "Office": "SC-415",
+    "Office Hours": "Sun-Tue-Thu 13:00-15:00",
+    "Specialization": "Electromagnetism",
+    "Years at KFUT": 5,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-070",
+    "Name (EN)": "Dr. Lina Al-Sharif",
+    "Name (AR)": "د. لينا الشريف",
+    "Title": "Associate Professor",
+    "Department": "Languages",
+    "Email": "l.sharif@kfu.edu.sa",
+    "Phone": "+966 13 860 4070",
+    "Office": "LL-105",
+    "Office Hours": "Sun-Tue-Thu 09:00-11:00",
+    "Specialization": "Academic English, Linguistics",
+    "Years at KFUT": 10,
+    "Is Advisor": false,
+    "Languages": [
+      "English",
+      "Arabic",
+      "French"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-071",
+    "Name (EN)": "Dr. Abdulrahman Al-Najjar",
+    "Name (AR)": "د. عبدالرحمن النجار",
+    "Title": "Lecturer",
+    "Department": "Languages",
+    "Email": "a.najjar@kfu.edu.sa",
+    "Phone": "+966 13 860 4071",
+    "Office": "LL-110",
+    "Office Hours": "Mon-Wed 11:00-13:00",
+    "Specialization": "Arabic Rhetoric",
+    "Years at KFUT": 7,
+    "Is Advisor": false,
+    "Languages": [
+      "Arabic",
+      "English"
+    ]
+  },
+  {
+    "Faculty ID": "FAC-080",
+    "Name (EN)": "Dr. Ibrahim Al-Sheikh",
+    "Name (AR)": "د. إبراهيم الشيخ",
+    "Title": "Professor",
+    "Department": "Islamic Studies",
+    "Email": "i.sheikh@kfu.edu.sa",
+    "Phone": "+966 13 860 4080",
+    "Office": "IS-Studies-101",
+    "Office Hours": "Sun-Tue-Thu 10:00-12:00",
+    "Specialization": "Islamic Jurisprudence",
+    "Years at KFUT": 15,
+    "Is Advisor": false,
+    "Languages": [
+      "Arabic",
+      "English"
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "Application ID": "ADM-2026001",
+    "Full Name": "Omar Al-Tamimi",
+    "National ID": "1102234567",
+    "Program Applied": "BS Computer Science",
+    "Submission Date": "2026-01-15",
+    "Status": "Accepted",
+    "High School GPA": 95.2,
+    "Qudurat Score": 88,
+    "Tahsili Score": 85,
+    "Notes": "Scholarship eligible"
+  },
+  {
+    "Application ID": "ADM-2026002",
+    "Full Name": "Haya Al-Rashidi",
+    "National ID": "1102345678",
+    "Program Applied": "BS Business Administration",
+    "Submission Date": "2026-01-20",
+    "Status": "Under Review",
+    "High School GPA": 91.0,
+    "Qudurat Score": 82,
+    "Tahsili Score": 79,
+    "Notes": "Interview scheduled for 15-5-2026"
+  },
+  {
+    "Application ID": "ADM-2026003",
+    "Full Name": "Youssef Al-Qarni",
+    "National ID": "1102456789",
+    "Program Applied": "BS Mechanical Engineering",
+    "Submission Date": "2026-02-01",
+    "Status": "Pending Documents",
+    "High School GPA": 93.5,
+    "Qudurat Score": 90,
+    "Tahsili Score": 87,
+    "Notes": "Missing: Medical fitness certificate. Deadline: 30-5-2026"
+  }
+]

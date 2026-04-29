@@ -1,0 +1,62 @@
+[
+  {
+    "Program Code": "PROG-CS",
+    "Program Name (EN)": "BS Computer Science",
+    "Program Name (AR)": "بكالوريوس علوم الحاسب",
+    "Department": "Computer Science",
+    "Total Credits": 132,
+    "Core Credits": 78,
+    "Elective Credits": 18,
+    "General Credits": 36,
+    "Duration (years)": 4,
+    "Notes": "Includes senior project (6 credits)"
+  },
+  {
+    "Program Code": "PROG-IS",
+    "Program Name (EN)": "BS Information Systems",
+    "Program Name (AR)": "بكالوريوس نظم المعلومات",
+    "Department": "Information Systems",
+    "Total Credits": 132,
+    "Core Credits": 72,
+    "Elective Credits": 24,
+    "General Credits": 36,
+    "Duration (years)": 4,
+    "Notes": "Business + technology focus"
+  },
+  {
+    "Program Code": "PROG-ME",
+    "Program Name (EN)": "BS Mechanical Engineering",
+    "Program Name (AR)": "بكالوريوس الهندسة الميكانيكية",
+    "Department": "Mechanical Engineering",
+    "Total Credits": 142,
+    "Core Credits": 90,
+    "Elective Credits": 16,
+    "General Credits": 36,
+    "Duration (years)": 4,
+    "Notes": "ABET accredited"
+  },
+  {
+    "Program Code": "PROG-EE",
+    "Program Name (EN)": "BS Electrical Engineering",
+    "Program Name (AR)": "بكالوريوس الهندسة الكهربائية",
+    "Department": "Electrical Engineering",
+    "Total Credits": 140,
+    "Core Credits": 88,
+    "Elective Credits": 16,
+    "General Credits": 36,
+    "Duration (years)": 4,
+    "Notes": "ABET accredited"
+  },
+  {
+    "Program Code": "PROG-BA",
+    "Program Name (EN)": "BS Business Administration",
+    "Program Name (AR)": "بكالوريوس إدارة الأعمال",
+    "Department": "Business Administration",
+    "Total Credits": 126,
+    "Core Credits": 66,
+    "Elective Credits": 24,
+    "General Credits": 36,
+    "Duration (years)": 4,
+    "Notes": "AACSB accredited"
+  }
+]

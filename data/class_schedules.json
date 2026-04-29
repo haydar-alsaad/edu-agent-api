@@ -1,0 +1,72 @@
+[
+  {
+    "Student ID": "STU-2024001",
+    "Course Code": "CS401",
+    "Course Name": "Software Engineering",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Day 1": "Sun",
+    "Day 2": "Tue",
+    "Day 3": "Thu",
+    "Time": "10:00-11:00",
+    "Duration": "1h",
+    "Room": "CS-201",
+    "Instructor": "Dr. Ali Hassan",
+    "Section": "A"
+  },
+  {
+    "Student ID": "STU-2024001",
+    "Course Code": "CS402",
+    "Course Name": "Artificial Intelligence",
+    "Schedule Pattern": "Mon-Wed",
+    "Day 1": "Mon",
+    "Day 2": "Wed",
+    "Day 3": "",
+    "Time": "08:00-09:30",
+    "Duration": "1.5h",
+    "Room": "CS-305",
+    "Instructor": "Dr. Saleh Ahmad",
+    "Section": "A"
+  },
+  {
+    "Student ID": "STU-2024004",
+    "Course Code": "BA401",
+    "Course Name": "Strategic Management",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Day 1": "Sun",
+    "Day 2": "Tue",
+    "Day 3": "Thu",
+    "Time": "12:00-13:00",
+    "Duration": "1h",
+    "Room": "BA-102",
+    "Instructor": "Dr. Noura Faisal",
+    "Section": "A"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Course Code": "MATH101",
+    "Course Name": "Calculus I (Repeat)",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Day 1": "Sun",
+    "Day 2": "Tue",
+    "Day 3": "Thu",
+    "Time": "08:00-09:00",
+    "Duration": "1h",
+    "Room": "SC-101",
+    "Instructor": "Dr. Rami Khalil",
+    "Section": "A"
+  },
+  {
+    "Student ID": "STU-2024005",
+    "Course Code": "PHYS101",
+    "Course Name": "General Physics I (Repeat)",
+    "Schedule Pattern": "Mon-Wed",
+    "Day 1": "Mon",
+    "Day 2": "Wed",
+    "Day 3": "",
+    "Time": "10:00-11:30",
+    "Duration": "1.5h",
+    "Room": "SC-Lab1",
+    "Instructor": "Dr. Hamad Nasser",
+    "Section": "A"
+  }
+]

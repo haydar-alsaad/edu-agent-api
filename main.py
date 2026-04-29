@@ -1,4 +1,5 @@
-Education Agent Data API — Consolidated (5 endpoints)
+"""
+Education Agent Data API - Consolidated (5 endpoints)
 Deploy on Railway. Replaces vector store searches with fast exact lookups.
 """
 

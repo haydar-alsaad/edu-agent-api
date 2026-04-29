@@ -7,7 +7,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-27",
     "Day": "Tue",
-    "Time": "08:00",
+    "Time": "09:00",
     "Duration (min)": 90,
     "Room": "LL-101",
     "Notes": "Closed book"
@@ -59,7 +59,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-22",
     "Day": "Thu",
-    "Time": "11:00",
+    "Time": "09:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -85,7 +85,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-22",
     "Day": "Thu",
-    "Time": "12:00",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -111,7 +111,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-28",
     "Day": "Wed",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -137,7 +137,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-27",
     "Day": "Tue",
-    "Time": "09:00",
+    "Time": "13:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -163,7 +163,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-21",
     "Day": "Wed",
-    "Time": "11:30",
+    "Time": "09:30",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -217,7 +217,7 @@
     "Day": "Mon",
     "Time": "14:00",
     "Duration (min)": 90,
-    "Room": "BA-102",
+    "Room": "BA-101",
     "Notes": "Closed book"
   },
   {
@@ -241,7 +241,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-29",
     "Day": "Thu",
-    "Time": "13:00",
+    "Time": "12:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -267,7 +267,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-26",
     "Day": "Mon",
-    "Time": "08:00",
+    "Time": "11:30",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -293,7 +293,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-27",
     "Day": "Tue",
-    "Time": "08:00",
+    "Time": "09:00",
     "Duration (min)": 90,
     "Room": "BA-102",
     "Notes": "Open book"
@@ -319,7 +319,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-21",
     "Day": "Wed",
-    "Time": "10:00",
+    "Time": "09:30",
     "Duration (min)": 90,
     "Room": "BA-102",
     "Notes": "Closed book"
@@ -345,7 +345,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-22",
     "Day": "Thu",
-    "Time": "12:00",
+    "Time": "13:00",
     "Duration (min)": 90,
     "Room": "BA-102",
     "Notes": "Closed book"
@@ -371,7 +371,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-22",
     "Day": "Thu",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "CS-101",
     "Notes": "Closed book"
@@ -397,9 +397,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-25",
     "Day": "Sun",
-    "Time": "11:00",
+    "Time": "09:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-101",
     "Notes": "Closed book"
   },
   {
@@ -423,7 +423,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-25",
     "Day": "Sun",
-    "Time": "13:00",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "CS-101",
     "Notes": "Closed book"
@@ -449,9 +449,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-27",
     "Day": "Tue",
-    "Time": "08:00",
+    "Time": "09:00",
     "Duration (min)": 90,
-    "Room": "CS-101",
+    "Room": "CS-102",
     "Notes": "Closed book"
   },
   {
@@ -475,9 +475,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-28",
     "Day": "Wed",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "CS-101",
+    "Room": "CS-102",
     "Notes": "Closed book"
   },
   {
@@ -501,7 +501,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-27",
     "Day": "Tue",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "CS-102",
     "Notes": "Closed book"
@@ -529,7 +529,7 @@
     "Day": "Thu",
     "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-201",
     "Notes": "Closed book"
   },
   {
@@ -553,9 +553,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-18",
     "Day": "Sun",
-    "Time": "12:00",
+    "Time": "11:00",
     "Duration (min)": 90,
-    "Room": "CS-101",
+    "Room": "CS-102",
     "Notes": "Closed book"
   },
   {
@@ -581,7 +581,7 @@
     "Day": "Wed",
     "Time": "11:30",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-101",
     "Notes": "Closed book"
   },
   {
@@ -605,9 +605,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-22",
     "Day": "Thu",
-    "Time": "08:00",
+    "Time": "09:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-201",
     "Notes": "Closed book"
   },
   {
@@ -631,7 +631,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-28",
     "Day": "Wed",
-    "Time": "08:00",
+    "Time": "09:30",
     "Duration (min)": 90,
     "Room": "CS-201",
     "Notes": "Closed book"
@@ -659,7 +659,7 @@
     "Day": "Thu",
     "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "CS-201",
+    "Room": "CS-202",
     "Notes": "Open book"
   },
   {
@@ -683,9 +683,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-19",
     "Day": "Mon",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "CS-201",
+    "Room": "CS-202",
     "Notes": "Closed book"
   },
   {
@@ -709,9 +709,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-20",
     "Day": "Tue",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "CS-201",
+    "Room": "CS-205",
     "Notes": "Closed book"
   },
   {
@@ -735,7 +735,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-26",
     "Day": "Mon",
-    "Time": "10:00",
+    "Time": "11:30",
     "Duration (min)": 90,
     "Room": "CS-102",
     "Notes": "Closed book"
@@ -763,7 +763,7 @@
     "Day": "Sun",
     "Time": "13:00",
     "Duration (min)": 90,
-    "Room": "CS-201",
+    "Room": "CS-102",
     "Notes": "Closed book"
   },
   {
@@ -917,7 +917,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-27",
     "Day": "Tue",
-    "Time": "10:00",
+    "Time": "09:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -943,7 +943,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-26",
     "Day": "Mon",
-    "Time": "11:30",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -969,7 +969,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-29",
     "Day": "Thu",
-    "Time": "12:00",
+    "Time": "13:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -1021,7 +1021,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-29",
     "Day": "Thu",
-    "Time": "09:00",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -1047,7 +1047,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-19",
     "Day": "Mon",
-    "Time": "09:30",
+    "Time": "11:30",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -1073,7 +1073,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-25",
     "Day": "Sun",
-    "Time": "13:00",
+    "Time": "12:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -1099,7 +1099,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-27",
     "Day": "Tue",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "LL-101",
     "Notes": "Closed book"
@@ -1151,7 +1151,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-22",
     "Day": "Thu",
-    "Time": "08:00",
+    "Time": "09:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -1177,7 +1177,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-28",
     "Day": "Wed",
-    "Time": "11:30",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -1281,7 +1281,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-26",
     "Day": "Mon",
-    "Time": "13:00",
+    "Time": "14:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -1307,7 +1307,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-29",
     "Day": "Thu",
-    "Time": "10:00",
+    "Time": "12:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Open book"
@@ -1333,7 +1333,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-26",
     "Day": "Mon",
-    "Time": "10:00",
+    "Time": "11:30",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -1359,7 +1359,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-25",
     "Day": "Sun",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -1385,7 +1385,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-28",
     "Day": "Wed",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "GE-101",
     "Notes": "Closed book"
@@ -1437,7 +1437,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-21",
     "Day": "Wed",
-    "Time": "14:00",
+    "Time": "13:00",
     "Duration (min)": 90,
     "Room": "GE-101",
     "Notes": "Closed book"
@@ -1541,7 +1541,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-22",
     "Day": "Thu",
-    "Time": "12:00",
+    "Time": "09:00",
     "Duration (min)": 90,
     "Room": "SC-101",
     "Notes": "Calculator allowed"
@@ -1567,9 +1567,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-25",
     "Day": "Sun",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "SC-101",
+    "Room": "SC-201",
     "Notes": "Calculator allowed"
   },
   {
@@ -1619,7 +1619,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-21",
     "Day": "Wed",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1645,7 +1645,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-29",
     "Day": "Thu",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1671,7 +1671,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-26",
     "Day": "Mon",
-    "Time": "11:30",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1697,7 +1697,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-20",
     "Day": "Tue",
-    "Time": "12:00",
+    "Time": "13:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1775,7 +1775,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-19",
     "Day": "Mon",
-    "Time": "10:00",
+    "Time": "11:30",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1801,7 +1801,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-20",
     "Day": "Tue",
-    "Time": "10:00",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1827,7 +1827,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-19",
     "Day": "Mon",
-    "Time": "08:00",
+    "Time": "09:30",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1853,7 +1853,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-29",
     "Day": "Thu",
-    "Time": "13:00",
+    "Time": "12:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -1879,7 +1879,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-26",
     "Day": "Mon",
-    "Time": "11:30",
+    "Time": "09:30",
     "Duration (min)": 90,
     "Room": "SC-Lab1",
     "Notes": "Calculator allowed"
@@ -1905,7 +1905,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-10-25",
     "Day": "Sun",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
     "Room": "SC-Lab1",
     "Notes": "Calculator allowed"
@@ -1957,7 +1957,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-19",
     "Day": "Tue",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -1983,7 +1983,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "10:00",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -2009,7 +2009,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -2035,7 +2035,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-20",
     "Day": "Wed",
-    "Time": "13:00",
+    "Time": "14:00",
     "Duration (min)": 90,
     "Room": "BA-101",
     "Notes": "Closed book"
@@ -2062,193 +2062,193 @@
     "Date": "2026-05-19",
     "Day": "Tue",
     "Time": "13:00",
-    "Duration (min)": 90,
-    "Room": "BA-101",
-    "Notes": "Closed book"
-  },
-  {
-    "Course Code": "BA203",
-    "Course Name": "Business Statistics",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Final",
-    "Date": "2026-06-14",
-    "Day": "Sun",
-    "Time": "10:00",
-    "Duration (min)": 180,
-    "Room": "Hall-A",
-    "Notes": "Comprehensive, closed book"
-  },
-  {
-    "Course Code": "BA204",
-    "Course Name": "Managerial Accounting",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Mon-Wed",
-    "Exam Type": "Midterm",
-    "Date": "2026-05-20",
-    "Day": "Wed",
-    "Time": "09:30",
-    "Duration (min)": 90,
-    "Room": "BA-101",
-    "Notes": "Closed book"
-  },
-  {
-    "Course Code": "BA204",
-    "Course Name": "Managerial Accounting",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Mon-Wed",
-    "Exam Type": "Final",
-    "Date": "2026-06-17",
-    "Day": "Wed",
-    "Time": "10:00",
-    "Duration (min)": 180,
-    "Room": "Hall-B",
-    "Notes": "Comprehensive, closed book"
-  },
-  {
-    "Course Code": "BA301",
-    "Course Name": "Marketing Management",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Midterm",
-    "Date": "2026-05-17",
-    "Day": "Sun",
-    "Time": "10:00",
-    "Duration (min)": 90,
-    "Room": "BA-101",
-    "Notes": "Closed book"
-  },
-  {
-    "Course Code": "BA301",
-    "Course Name": "Marketing Management",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Final",
-    "Date": "2026-06-23",
-    "Day": "Tue",
-    "Time": "10:00",
-    "Duration (min)": 180,
-    "Room": "Hall-E",
-    "Notes": "Comprehensive, closed book"
-  },
-  {
-    "Course Code": "BA302",
-    "Course Name": "Organizational Behavior",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Mon-Wed",
-    "Exam Type": "Midterm",
-    "Date": "2026-05-18",
-    "Day": "Mon",
-    "Time": "14:00",
-    "Duration (min)": 90,
-    "Room": "BA-101",
-    "Notes": "Closed book"
-  },
-  {
-    "Course Code": "BA302",
-    "Course Name": "Organizational Behavior",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Mon-Wed",
-    "Exam Type": "Final",
-    "Date": "2026-06-15",
-    "Day": "Mon",
-    "Time": "10:00",
-    "Duration (min)": 180,
-    "Room": "Hall-A",
-    "Notes": "Comprehensive, closed book"
-  },
-  {
-    "Course Code": "BA303",
-    "Course Name": "Corporate Finance",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Midterm",
-    "Date": "2026-05-21",
-    "Day": "Thu",
-    "Time": "08:00",
-    "Duration (min)": 90,
-    "Room": "BA-101",
-    "Notes": "Closed book"
-  },
-  {
-    "Course Code": "BA303",
-    "Course Name": "Corporate Finance",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Final",
-    "Date": "2026-06-16",
-    "Day": "Tue",
-    "Time": "10:00",
-    "Duration (min)": 180,
-    "Room": "Hall-B",
-    "Notes": "Comprehensive, closed book"
-  },
-  {
-    "Course Code": "BA304",
-    "Course Name": "Operations Management",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Mon-Wed",
-    "Exam Type": "Midterm",
-    "Date": "2026-05-18",
-    "Day": "Mon",
-    "Time": "11:30",
-    "Duration (min)": 90,
-    "Room": "BA-101",
-    "Notes": "Closed book"
-  },
-  {
-    "Course Code": "BA304",
-    "Course Name": "Operations Management",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Mon-Wed",
-    "Exam Type": "Final",
-    "Date": "2026-06-22",
-    "Day": "Mon",
-    "Time": "10:00",
-    "Duration (min)": 180,
-    "Room": "Hall-C",
-    "Notes": "Comprehensive, closed book"
-  },
-  {
-    "Course Code": "BA401",
-    "Course Name": "Strategic Management",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Midterm",
-    "Date": "2026-05-19",
-    "Day": "Tue",
-    "Time": "12:00",
-    "Duration (min)": 90,
-    "Room": "BA-101",
-    "Notes": "Open book"
-  },
-  {
-    "Course Code": "BA401",
-    "Course Name": "Strategic Management",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Final",
-    "Date": "2026-06-14",
-    "Day": "Sun",
-    "Time": "10:00",
-    "Duration (min)": 180,
-    "Room": "Hall-A",
-    "Notes": "Comprehensive, closed book"
-  },
-  {
-    "Course Code": "BA450",
-    "Course Name": "Senior Project (BA)",
-    "Semester": "Spring 2026",
-    "Schedule Pattern": "Sun-Tue-Thu",
-    "Exam Type": "Midterm",
-    "Date": "2026-05-21",
-    "Day": "Thu",
-    "Time": "12:00",
     "Duration (min)": 90,
     "Room": "BA-102",
     "Notes": "Closed book"
   },
   {
+    "Course Code": "BA203",
+    "Course Name": "Business Statistics",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Final",
+    "Date": "2026-06-14",
+    "Day": "Sun",
+    "Time": "10:00",
+    "Duration (min)": 180,
+    "Room": "Hall-A",
+    "Notes": "Comprehensive, closed book"
+  },
+  {
+    "Course Code": "BA204",
+    "Course Name": "Managerial Accounting",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Mon-Wed",
+    "Exam Type": "Midterm",
+    "Date": "2026-05-20",
+    "Day": "Wed",
+    "Time": "08:00",
+    "Duration (min)": 90,
+    "Room": "BA-101",
+    "Notes": "Closed book"
+  },
+  {
+    "Course Code": "BA204",
+    "Course Name": "Managerial Accounting",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Mon-Wed",
+    "Exam Type": "Final",
+    "Date": "2026-06-17",
+    "Day": "Wed",
+    "Time": "10:00",
+    "Duration (min)": 180,
+    "Room": "Hall-B",
+    "Notes": "Comprehensive, closed book"
+  },
+  {
+    "Course Code": "BA301",
+    "Course Name": "Marketing Management",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Midterm",
+    "Date": "2026-05-17",
+    "Day": "Sun",
+    "Time": "10:00",
+    "Duration (min)": 90,
+    "Room": "BA-102",
+    "Notes": "Closed book"
+  },
+  {
+    "Course Code": "BA301",
+    "Course Name": "Marketing Management",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Final",
+    "Date": "2026-06-23",
+    "Day": "Tue",
+    "Time": "10:00",
+    "Duration (min)": 180,
+    "Room": "Hall-E",
+    "Notes": "Comprehensive, closed book"
+  },
+  {
+    "Course Code": "BA302",
+    "Course Name": "Organizational Behavior",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Mon-Wed",
+    "Exam Type": "Midterm",
+    "Date": "2026-05-18",
+    "Day": "Mon",
+    "Time": "14:00",
+    "Duration (min)": 90,
+    "Room": "BA-102",
+    "Notes": "Closed book"
+  },
+  {
+    "Course Code": "BA302",
+    "Course Name": "Organizational Behavior",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Mon-Wed",
+    "Exam Type": "Final",
+    "Date": "2026-06-15",
+    "Day": "Mon",
+    "Time": "10:00",
+    "Duration (min)": 180,
+    "Room": "Hall-A",
+    "Notes": "Comprehensive, closed book"
+  },
+  {
+    "Course Code": "BA303",
+    "Course Name": "Corporate Finance",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Midterm",
+    "Date": "2026-05-21",
+    "Day": "Thu",
+    "Time": "08:00",
+    "Duration (min)": 90,
+    "Room": "BA-102",
+    "Notes": "Closed book"
+  },
+  {
+    "Course Code": "BA303",
+    "Course Name": "Corporate Finance",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Final",
+    "Date": "2026-06-16",
+    "Day": "Tue",
+    "Time": "10:00",
+    "Duration (min)": 180,
+    "Room": "Hall-B",
+    "Notes": "Comprehensive, closed book"
+  },
+  {
+    "Course Code": "BA304",
+    "Course Name": "Operations Management",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Mon-Wed",
+    "Exam Type": "Midterm",
+    "Date": "2026-05-18",
+    "Day": "Mon",
+    "Time": "11:00",
+    "Duration (min)": 90,
+    "Room": "BA-102",
+    "Notes": "Closed book"
+  },
+  {
+    "Course Code": "BA304",
+    "Course Name": "Operations Management",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Mon-Wed",
+    "Exam Type": "Final",
+    "Date": "2026-06-22",
+    "Day": "Mon",
+    "Time": "10:00",
+    "Duration (min)": 180,
+    "Room": "Hall-C",
+    "Notes": "Comprehensive, closed book"
+  },
+  {
+    "Course Code": "BA401",
+    "Course Name": "Strategic Management",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Midterm",
+    "Date": "2026-05-19",
+    "Day": "Tue",
+    "Time": "13:00",
+    "Duration (min)": 90,
+    "Room": "BA-101",
+    "Notes": "Open book"
+  },
+  {
+    "Course Code": "BA401",
+    "Course Name": "Strategic Management",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Final",
+    "Date": "2026-06-14",
+    "Day": "Sun",
+    "Time": "10:00",
+    "Duration (min)": 180,
+    "Room": "Hall-A",
+    "Notes": "Comprehensive, closed book"
+  },
+  {
+    "Course Code": "BA450",
+    "Course Name": "Senior Project (BA)",
+    "Semester": "Spring 2026",
+    "Schedule Pattern": "Sun-Tue-Thu",
+    "Exam Type": "Midterm",
+    "Date": "2026-05-21",
+    "Day": "Thu",
+    "Time": "13:00",
+    "Duration (min)": 90,
+    "Room": "BA-104",
+    "Notes": "Closed book"
+  },
+  {
     "Course Code": "BA450",
     "Course Name": "Senior Project (BA)",
     "Semester": "Spring 2026",
@@ -2269,9 +2269,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-201",
     "Notes": "Closed book"
   },
   {
@@ -2295,9 +2295,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-17",
     "Day": "Sun",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "CS-101",
+    "Room": "CS-102",
     "Notes": "Closed book"
   },
   {
@@ -2349,7 +2349,7 @@
     "Day": "Mon",
     "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "CS-101",
+    "Room": "CS-201",
     "Notes": "Closed book"
   },
   {
@@ -2373,9 +2373,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-201",
     "Notes": "Closed book"
   },
   {
@@ -2425,7 +2425,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-20",
     "Day": "Wed",
-    "Time": "11:30",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "CS-101",
     "Notes": "Closed book"
@@ -2479,7 +2479,7 @@
     "Day": "Tue",
     "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-202",
     "Notes": "Closed book"
   },
   {
@@ -2503,9 +2503,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "10:00",
+    "Time": "11:00",
     "Duration (min)": 90,
-    "Room": "CS-101",
+    "Room": "CS-102",
     "Notes": "Closed book"
   },
   {
@@ -2555,7 +2555,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "CS-101",
     "Notes": "Closed book"
@@ -2583,7 +2583,7 @@
     "Day": "Tue",
     "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-202",
     "Notes": "Closed book"
   },
   {
@@ -2609,7 +2609,7 @@
     "Day": "Mon",
     "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-202",
     "Notes": "Closed book"
   },
   {
@@ -2633,9 +2633,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-17",
     "Day": "Sun",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "CS-101",
+    "Room": "CS-102",
     "Notes": "Closed book"
   },
   {
@@ -2659,9 +2659,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "13:00",
+    "Time": "14:00",
     "Duration (min)": 90,
-    "Room": "CS-102",
+    "Room": "CS-201",
     "Notes": "Closed book"
   },
   {
@@ -2737,7 +2737,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-19",
     "Day": "Tue",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -2763,7 +2763,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "11:30",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -2789,7 +2789,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "12:00",
+    "Time": "13:00",
     "Duration (min)": 90,
     "Room": "EE-101",
     "Notes": "Calculator allowed"
@@ -2841,9 +2841,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "EE-101",
+    "Room": "EE-201",
     "Notes": "Calculator allowed"
   },
   {
@@ -2867,9 +2867,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "EE-101",
+    "Room": "EE-201",
     "Notes": "Calculator allowed"
   },
   {
@@ -2895,7 +2895,7 @@
     "Day": "Sun",
     "Time": "13:00",
     "Duration (min)": 90,
-    "Room": "EE-101",
+    "Room": "EE-201",
     "Notes": "Calculator allowed"
   },
   {
@@ -2919,7 +2919,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-19",
     "Day": "Tue",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "LL-101",
     "Notes": "Closed book"
@@ -2997,7 +2997,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-20",
     "Day": "Wed",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -3023,7 +3023,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-19",
     "Day": "Tue",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -3049,7 +3049,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "11:30",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -3101,7 +3101,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "13:00",
+    "Time": "14:00",
     "Duration (min)": 90,
     "Room": "IS-101",
     "Notes": "Closed book"
@@ -3127,9 +3127,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "IS-101",
+    "Room": "IS-105",
     "Notes": "Open book"
   },
   {
@@ -3155,7 +3155,7 @@
     "Day": "Wed",
     "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "IS-101",
+    "Room": "IS-105",
     "Notes": "Closed book"
   },
   {
@@ -3205,7 +3205,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "GE-101",
     "Notes": "Closed book"
@@ -3231,7 +3231,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-17",
     "Day": "Sun",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "SC-101",
     "Notes": "Calculator allowed"
@@ -3283,9 +3283,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "SC-101",
+    "Room": "SC-201",
     "Notes": "Calculator allowed"
   },
   {
@@ -3309,7 +3309,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "13:00",
+    "Time": "09:00",
     "Duration (min)": 90,
     "Room": "SC-101",
     "Notes": "Calculator allowed"
@@ -3335,7 +3335,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-20",
     "Day": "Wed",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "SC-101",
     "Notes": "Calculator allowed"
@@ -3361,7 +3361,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-19",
     "Day": "Tue",
-    "Time": "09:00",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -3387,7 +3387,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-20",
     "Day": "Wed",
-    "Time": "09:30",
+    "Time": "08:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -3413,7 +3413,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "11:00",
+    "Time": "10:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -3439,7 +3439,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "11:30",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "ME-101",
     "Notes": "Calculator allowed"
@@ -3519,7 +3519,7 @@
     "Day": "Tue",
     "Time": "08:00",
     "Duration (min)": 90,
-    "Room": "ME-101",
+    "Room": "ME-205",
     "Notes": "Calculator allowed"
   },
   {
@@ -3543,9 +3543,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "10:00",
+    "Time": "11:00",
     "Duration (min)": 90,
-    "Room": "ME-101",
+    "Room": "ME-205",
     "Notes": "Calculator allowed"
   },
   {
@@ -3571,7 +3571,7 @@
     "Day": "Tue",
     "Time": "10:00",
     "Duration (min)": 90,
-    "Room": "ME-101",
+    "Room": "ME-205",
     "Notes": "Calculator allowed"
   },
   {
@@ -3595,9 +3595,9 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-21",
     "Day": "Thu",
-    "Time": "12:00",
+    "Time": "13:00",
     "Duration (min)": 90,
-    "Room": "ME-101",
+    "Room": "ME-205",
     "Notes": "Calculator allowed"
   },
   {
@@ -3621,7 +3621,7 @@
     "Exam Type": "Midterm",
     "Date": "2026-05-18",
     "Day": "Mon",
-    "Time": "10:00",
+    "Time": "11:00",
     "Duration (min)": 90,
     "Room": "SC-Lab1",
     "Notes": "Calculator allowed"

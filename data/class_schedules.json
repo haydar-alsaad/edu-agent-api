@@ -23,7 +23,7 @@
     "Day 1": "Mon",
     "Day 2": "Wed",
     "Day 3": "",
-    "Time": "09:30-11:00",
+    "Time": "08:00-09:30",
     "Duration": "1.5h",
     "Room": "CS-101",
     "Instructor": "Dr. Ali Hassan",
@@ -40,8 +40,8 @@
     "Day 3": "Thu",
     "Time": "10:00-11:00",
     "Duration": "1h",
-    "Room": "BA-101",
-    "Instructor": "Dr. Noura Faisal",
+    "Room": "BA-102",
+    "Instructor": "Dr. Samir Khalid",
     "Section": "A"
   },
   {
@@ -53,7 +53,7 @@
     "Day 1": "Mon",
     "Day 2": "Wed",
     "Day 3": "",
-    "Time": "09:30-11:00",
+    "Time": "08:00-09:30",
     "Duration": "1.5h",
     "Room": "GE-101",
     "Instructor": "Dr. Ibrahim Al-Sheikh",
@@ -68,10 +68,10 @@
     "Day 1": "Sun",
     "Day 2": "Tue",
     "Day 3": "Thu",
-    "Time": "11:00-12:00",
+    "Time": "10:00-11:00",
     "Duration": "1h",
-    "Room": "SC-101",
-    "Instructor": "Dr. Rami Khalil",
+    "Room": "SC-201",
+    "Instructor": "Dr. Nabil Farah",
     "Section": "A"
   },
   {
@@ -128,7 +128,7 @@
     "Day 1": "Mon",
     "Day 2": "Wed",
     "Day 3": "",
-    "Time": "11:30-13:00",
+    "Time": "11:00-12:30",
     "Duration": "1.5h",
     "Room": "CS-101",
     "Instructor": "Dr. Ali Hassan",
@@ -175,8 +175,8 @@
     "Day 3": "Thu",
     "Time": "10:00-11:00",
     "Duration": "1h",
-    "Room": "BA-101",
-    "Instructor": "Dr. Noura Faisal",
+    "Room": "BA-102",
+    "Instructor": "Dr. Samir Khalid",
     "Section": "A"
   },
   {
@@ -188,7 +188,7 @@
     "Day 1": "Mon",
     "Day 2": "Wed",
     "Day 3": "",
-    "Time": "09:30-11:00",
+    "Time": "08:00-09:30",
     "Duration": "1.5h",
     "Room": "GE-101",
     "Instructor": "Dr. Ibrahim Al-Sheikh",
@@ -203,10 +203,10 @@
     "Day 1": "Sun",
     "Day 2": "Tue",
     "Day 3": "Thu",
-    "Time": "11:00-12:00",
+    "Time": "10:00-11:00",
     "Duration": "1h",
-    "Room": "SC-101",
-    "Instructor": "Dr. Rami Khalil",
+    "Room": "SC-201",
+    "Instructor": "Dr. Nabil Farah",
     "Section": "A"
   }
 ]

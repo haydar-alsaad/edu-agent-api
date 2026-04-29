@@ -606,7 +606,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
@@ -634,16 +634,16 @@
     "Department": "Computer Science",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 2,
-    "Total Seats": 200,
+    "Total Sections": 3,
+    "Total Seats": 300,
     "Seats Taken": 0,
-    "Seats Remaining": 200,
+    "Seats Remaining": 300,
     "Availability": "Open",
     "Patterns Offered": [
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 2,
+    "Number of Instructors": 3,
     "Prerequisites": [
       "CS101"
     ],
@@ -664,7 +664,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 2,
+    "Number of Instructors": 1,
     "Prerequisites": [
       "CS101"
     ],
@@ -746,7 +746,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 2,
+    "Number of Instructors": 1,
     "Prerequisites": [
       "MATH101"
     ],
@@ -2214,12 +2214,13 @@
     "Department": "Islamic Studies",
     "Credits": 2,
     "Semester": "Fall 2026",
-    "Total Sections": 1,
-    "Total Seats": 200,
+    "Total Sections": 2,
+    "Total Seats": 400,
     "Seats Taken": 0,
-    "Seats Remaining": 200,
+    "Seats Remaining": 400,
     "Availability": "Open",
     "Patterns Offered": [
+      "Mon-Wed",
       "Sun-Tue-Thu"
     ],
     "Number of Instructors": 1,
@@ -2480,7 +2481,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 2,
+    "Number of Instructors": 1,
     "Prerequisites": [
       "MATH201"
     ],

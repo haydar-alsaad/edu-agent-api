@@ -14,7 +14,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
@@ -26,8 +26,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 200,
-    "Seats Taken": 150,
-    "Seats Remaining": 50,
+    "Seats Taken": 130,
+    "Seats Remaining": 70,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -44,8 +44,8 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 200,
-    "Seats Taken": 120,
-    "Seats Remaining": 80,
+    "Seats Taken": 110,
+    "Seats Remaining": 90,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -69,50 +69,13 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
   {
     "Course Code": "BA101",
     "Course Name": "Introduction to Business",
-    "Department": "Business Administration",
-    "Credits": 3,
-    "Semester": "Spring 2026",
-    "Total Sections": 1,
-    "Total Seats": 100,
-    "Seats Taken": 70,
-    "Seats Remaining": 30,
-    "Availability": "Open",
-    "Patterns Offered": [
-      "Sun-Tue-Thu"
-    ],
-    "Number of Instructors": 1,
-    "Prerequisites": [],
-    "Prerequisites Display": "None"
-  },
-  {
-    "Course Code": "BA102",
-    "Course Name": "Microeconomics",
-    "Department": "Business Administration",
-    "Credits": 3,
-    "Semester": "Fall 2026",
-    "Total Sections": 2,
-    "Total Seats": 200,
-    "Seats Taken": 0,
-    "Seats Remaining": 200,
-    "Availability": "Open",
-    "Patterns Offered": [
-      "Mon-Wed",
-      "Sun-Tue-Thu"
-    ],
-    "Number of Instructors": 1,
-    "Prerequisites": [],
-    "Prerequisites Display": "None"
-  },
-  {
-    "Course Code": "BA102",
-    "Course Name": "Microeconomics",
     "Department": "Business Administration",
     "Credits": 3,
     "Semester": "Spring 2026",
@@ -129,6 +92,43 @@
     "Prerequisites Display": "None"
   },
   {
+    "Course Code": "BA102",
+    "Course Name": "Microeconomics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Fall 2026",
+    "Total Sections": 2,
+    "Total Seats": 200,
+    "Seats Taken": 0,
+    "Seats Remaining": 200,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed",
+      "Sun-Tue-Thu"
+    ],
+    "Number of Instructors": 2,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
+    "Course Code": "BA102",
+    "Course Name": "Microeconomics",
+    "Department": "Business Administration",
+    "Credits": 3,
+    "Semester": "Spring 2026",
+    "Total Sections": 1,
+    "Total Seats": 100,
+    "Seats Taken": 65,
+    "Seats Remaining": 35,
+    "Availability": "Open",
+    "Patterns Offered": [
+      "Mon-Wed"
+    ],
+    "Number of Instructors": 1,
+    "Prerequisites": [],
+    "Prerequisites Display": "None"
+  },
+  {
     "Course Code": "BA201",
     "Course Name": "Financial Accounting",
     "Department": "Business Administration",
@@ -156,8 +156,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 80,
-    "Seats Taken": 56,
-    "Seats Remaining": 24,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -180,7 +180,7 @@
     "Seats Remaining": 80,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -196,11 +196,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 80,
-    "Seats Taken": 44,
-    "Seats Remaining": 36,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -236,8 +236,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 80,
-    "Seats Taken": 48,
-    "Seats Remaining": 32,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -260,7 +260,7 @@
     "Seats Remaining": 70,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -276,11 +276,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 70,
-    "Seats Taken": 38,
-    "Seats Remaining": 32,
+    "Seats Taken": 45,
+    "Seats Remaining": 25,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -316,8 +316,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 45,
-    "Seats Remaining": 15,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -340,7 +340,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -356,11 +356,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 36,
-    "Seats Remaining": 24,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -397,8 +397,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 33,
-    "Seats Remaining": 27,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -422,7 +422,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -438,11 +438,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 30,
-    "Seats Remaining": 30,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -504,7 +504,7 @@
     "Seats Remaining": 50,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -560,8 +560,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 40,
-    "Seats Taken": 16,
-    "Seats Remaining": 24,
+    "Seats Taken": 26,
+    "Seats Remaining": 14,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -587,7 +587,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 3,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
@@ -599,8 +599,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 2,
     "Total Seats": 240,
-    "Seats Taken": 162,
-    "Seats Remaining": 78,
+    "Seats Taken": 156,
+    "Seats Remaining": 84,
     "Availability": "Open",
     "Patterns Offered": [
       "Mon-Wed",
@@ -618,8 +618,8 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 120,
-    "Seats Taken": 72,
-    "Seats Remaining": 48,
+    "Seats Taken": 66,
+    "Seats Remaining": 54,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -643,7 +643,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS101"
     ],
@@ -657,8 +657,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 2,
     "Total Seats": 200,
-    "Seats Taken": 115,
-    "Seats Remaining": 85,
+    "Seats Taken": 130,
+    "Seats Remaining": 70,
     "Availability": "Open",
     "Patterns Offered": [
       "Mon-Wed",
@@ -678,11 +678,11 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 100,
-    "Seats Taken": 50,
-    "Seats Remaining": 50,
+    "Seats Taken": 55,
+    "Seats Remaining": 45,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -705,7 +705,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS102"
     ],
@@ -719,8 +719,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 80,
-    "Seats Taken": 60,
-    "Seats Remaining": 20,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -737,15 +737,16 @@
     "Department": "Computer Science",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 1,
-    "Total Seats": 80,
+    "Total Sections": 2,
+    "Total Seats": 160,
     "Seats Taken": 0,
-    "Seats Remaining": 80,
+    "Seats Remaining": 160,
     "Availability": "Open",
     "Patterns Offered": [
+      "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "MATH101"
     ],
@@ -759,11 +760,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 80,
-    "Seats Taken": 48,
-    "Seats Remaining": 32,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -786,7 +787,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS102"
     ],
@@ -827,7 +828,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 2,
+    "Number of Instructors": 1,
     "Prerequisites": [
       "CS201"
     ],
@@ -841,9 +842,9 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 55,
-    "Seats Remaining": 5,
-    "Availability": "Nearly Full",
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
+    "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
     ],
@@ -883,11 +884,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 42,
-    "Seats Remaining": 18,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -911,7 +912,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS201"
     ],
@@ -925,11 +926,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 33,
-    "Seats Remaining": 27,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -943,15 +944,16 @@
     "Department": "Computer Science",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 1,
-    "Total Seats": 60,
+    "Total Sections": 2,
+    "Total Seats": 120,
     "Seats Taken": 0,
-    "Seats Remaining": 60,
+    "Seats Remaining": 120,
     "Availability": "Open",
     "Patterns Offered": [
+      "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS201",
       "CS202"
@@ -966,8 +968,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 30,
-    "Seats Remaining": 30,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -994,7 +996,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS201"
     ],
@@ -1008,11 +1010,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 35,
-    "Seats Remaining": 15,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1028,8 +1030,8 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 35,
-    "Seats Remaining": 15,
+    "Seats Taken": 27,
+    "Seats Remaining": 23,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1052,7 +1054,7 @@
     "Seats Remaining": 50,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1096,7 +1098,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS301"
     ],
@@ -1139,7 +1141,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "CS201",
       "MATH201"
@@ -1175,8 +1177,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 42,
-    "Seats Remaining": 8,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1200,7 +1202,7 @@
     "Seats Remaining": 50,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1221,7 +1223,7 @@
     "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1263,7 +1265,7 @@
     "Seats Remaining": 40,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1286,7 +1288,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 2,
+    "Number of Instructors": 1,
     "Prerequisites": [
       "CS401"
     ],
@@ -1300,8 +1302,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 40,
-    "Seats Taken": 22,
-    "Seats Remaining": 18,
+    "Seats Taken": 26,
+    "Seats Remaining": 14,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1324,7 +1326,7 @@
     "Seats Remaining": 40,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1340,11 +1342,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 40,
-    "Seats Taken": 18,
-    "Seats Remaining": 22,
+    "Seats Taken": 26,
+    "Seats Remaining": 14,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1404,7 +1406,7 @@
     "Seats Remaining": 70,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1421,11 +1423,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 70,
-    "Seats Taken": 38,
-    "Seats Remaining": 32,
+    "Seats Taken": 45,
+    "Seats Remaining": 25,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1462,8 +1464,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 70,
-    "Seats Taken": 35,
-    "Seats Remaining": 35,
+    "Seats Taken": 45,
+    "Seats Remaining": 25,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1486,7 +1488,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1503,11 +1505,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 36,
-    "Seats Remaining": 24,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1545,8 +1547,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 30,
-    "Seats Remaining": 30,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1570,7 +1572,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1586,11 +1588,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 33,
-    "Seats Remaining": 27,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1626,8 +1628,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 25,
-    "Seats Remaining": 25,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1650,7 +1652,7 @@
     "Seats Remaining": 50,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1666,11 +1668,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 27,
-    "Seats Remaining": 23,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1706,8 +1708,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 30,
-    "Seats Taken": 10,
-    "Seats Remaining": 20,
+    "Seats Taken": 19,
+    "Seats Remaining": 11,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1733,7 +1735,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
@@ -1745,14 +1747,14 @@
     "Semester": "Spring 2026",
     "Total Sections": 2,
     "Total Seats": 400,
-    "Seats Taken": 330,
-    "Seats Remaining": 70,
+    "Seats Taken": 260,
+    "Seats Remaining": 140,
     "Availability": "Open",
     "Patterns Offered": [
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
@@ -1764,11 +1766,11 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 200,
-    "Seats Taken": 150,
-    "Seats Remaining": 50,
+    "Seats Taken": 110,
+    "Seats Remaining": 90,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [],
@@ -1780,15 +1782,16 @@
     "Department": "Languages",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 1,
-    "Total Seats": 100,
+    "Total Sections": 2,
+    "Total Seats": 200,
     "Seats Taken": 0,
-    "Seats Remaining": 100,
+    "Seats Remaining": 200,
     "Availability": "Open",
     "Patterns Offered": [
+      "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "ENG101"
     ],
@@ -1802,11 +1805,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 100,
-    "Seats Taken": 50,
-    "Seats Remaining": 50,
+    "Seats Taken": 65,
+    "Seats Remaining": 35,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1840,8 +1843,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 100,
-    "Seats Taken": 60,
-    "Seats Remaining": 40,
+    "Seats Taken": 65,
+    "Seats Remaining": 35,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1862,7 +1865,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1878,11 +1881,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 33,
-    "Seats Remaining": 27,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1918,8 +1921,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 30,
-    "Seats Remaining": 30,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -1942,7 +1945,7 @@
     "Seats Remaining": 50,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1958,11 +1961,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 22,
-    "Seats Remaining": 28,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -1998,8 +2001,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 20,
-    "Seats Remaining": 30,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2022,7 +2025,7 @@
     "Seats Remaining": 50,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2038,11 +2041,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 27,
-    "Seats Remaining": 23,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2078,8 +2081,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 50,
-    "Seats Taken": 25,
-    "Seats Remaining": 25,
+    "Seats Taken": 32,
+    "Seats Remaining": 18,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2102,7 +2105,7 @@
     "Seats Remaining": 40,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2138,11 +2141,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 30,
-    "Seats Taken": 9,
-    "Seats Remaining": 21,
+    "Seats Taken": 19,
+    "Seats Remaining": 11,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2177,8 +2180,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 200,
-    "Seats Taken": 160,
-    "Seats Remaining": 40,
+    "Seats Taken": 130,
+    "Seats Remaining": 70,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2195,11 +2198,11 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 200,
-    "Seats Taken": 130,
-    "Seats Remaining": 70,
+    "Seats Taken": 110,
+    "Seats Remaining": 90,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [],
@@ -2237,7 +2240,7 @@
     "Seats Remaining": 70,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2257,7 +2260,7 @@
     "Seats Remaining": 150,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2271,16 +2274,16 @@
     "Department": "Mathematics",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 2,
-    "Total Seats": 300,
+    "Total Sections": 3,
+    "Total Seats": 450,
     "Seats Taken": 0,
-    "Seats Remaining": 300,
+    "Seats Remaining": 450,
     "Availability": "Open",
     "Patterns Offered": [
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
@@ -2292,8 +2295,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 150,
-    "Seats Taken": 120,
-    "Seats Remaining": 30,
+    "Seats Taken": 97,
+    "Seats Remaining": 53,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2310,8 +2313,8 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 150,
-    "Seats Taken": 105,
-    "Seats Remaining": 45,
+    "Seats Taken": 82,
+    "Seats Remaining": 68,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2335,7 +2338,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "MATH101"
     ],
@@ -2349,8 +2352,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 120,
-    "Seats Taken": 94,
-    "Seats Remaining": 26,
+    "Seats Taken": 78,
+    "Seats Remaining": 42,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2369,11 +2372,11 @@
     "Semester": "Summer 2026",
     "Total Sections": 1,
     "Total Seats": 120,
-    "Seats Taken": 78,
-    "Seats Remaining": 42,
+    "Seats Taken": 66,
+    "Seats Remaining": 54,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2393,7 +2396,7 @@
     "Seats Remaining": 100,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2409,8 +2412,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 100,
-    "Seats Taken": 60,
-    "Seats Remaining": 40,
+    "Seats Taken": 65,
+    "Seats Remaining": 35,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2427,15 +2430,16 @@
     "Department": "Mathematics",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 1,
-    "Total Seats": 80,
+    "Total Sections": 2,
+    "Total Seats": 160,
     "Seats Taken": 0,
-    "Seats Remaining": 80,
+    "Seats Remaining": 160,
     "Availability": "Open",
     "Patterns Offered": [
+      "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "MATH201"
     ],
@@ -2449,8 +2453,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 80,
-    "Seats Taken": 62,
-    "Seats Remaining": 18,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2467,15 +2471,16 @@
     "Department": "Mathematics",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 1,
-    "Total Seats": 80,
+    "Total Sections": 2,
+    "Total Seats": 160,
     "Seats Taken": 0,
-    "Seats Remaining": 80,
+    "Seats Remaining": 160,
     "Availability": "Open",
     "Patterns Offered": [
+      "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "MATH201"
     ],
@@ -2489,11 +2494,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 80,
-    "Seats Taken": 44,
-    "Seats Remaining": 36,
+    "Seats Taken": 52,
+    "Seats Remaining": 28,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2549,7 +2554,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [],
@@ -2563,11 +2568,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 36,
-    "Seats Remaining": 24,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [],
@@ -2602,8 +2607,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 70,
-    "Seats Taken": 38,
-    "Seats Remaining": 32,
+    "Seats Taken": 45,
+    "Seats Remaining": 25,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2627,7 +2632,7 @@
     "Seats Remaining": 70,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2643,11 +2648,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 70,
-    "Seats Taken": 35,
-    "Seats Remaining": 35,
+    "Seats Taken": 45,
+    "Seats Remaining": 25,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2684,8 +2689,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 70,
-    "Seats Taken": 38,
-    "Seats Remaining": 32,
+    "Seats Taken": 45,
+    "Seats Remaining": 25,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2709,7 +2714,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2726,11 +2731,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 36,
-    "Seats Remaining": 24,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2768,8 +2773,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 30,
-    "Seats Remaining": 30,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2793,7 +2798,7 @@
     "Seats Remaining": 60,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2809,11 +2814,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 60,
-    "Seats Taken": 33,
-    "Seats Remaining": 27,
+    "Seats Taken": 39,
+    "Seats Remaining": 21,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2873,7 +2878,7 @@
     "Seats Remaining": 40,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [
@@ -2909,8 +2914,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 30,
-    "Seats Taken": 12,
-    "Seats Remaining": 18,
+    "Seats Taken": 19,
+    "Seats Remaining": 11,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"
@@ -2936,7 +2941,7 @@
       "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [],
     "Prerequisites Display": "None"
   },
@@ -2948,11 +2953,11 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 150,
-    "Seats Taken": 130,
-    "Seats Remaining": 20,
+    "Seats Taken": 97,
+    "Seats Remaining": 53,
     "Availability": "Open",
     "Patterns Offered": [
-      "Sun-Tue-Thu"
+      "Mon-Wed"
     ],
     "Number of Instructors": 1,
     "Prerequisites": [],
@@ -2982,15 +2987,16 @@
     "Department": "Physics",
     "Credits": 3,
     "Semester": "Fall 2026",
-    "Total Sections": 1,
-    "Total Seats": 100,
+    "Total Sections": 2,
+    "Total Seats": 200,
     "Seats Taken": 0,
-    "Seats Remaining": 100,
+    "Seats Remaining": 200,
     "Availability": "Open",
     "Patterns Offered": [
+      "Mon-Wed",
       "Sun-Tue-Thu"
     ],
-    "Number of Instructors": 1,
+    "Number of Instructors": 2,
     "Prerequisites": [
       "PHYS101"
     ],
@@ -3004,8 +3010,8 @@
     "Semester": "Spring 2026",
     "Total Sections": 1,
     "Total Seats": 100,
-    "Seats Taken": 70,
-    "Seats Remaining": 30,
+    "Seats Taken": 65,
+    "Seats Remaining": 35,
     "Availability": "Open",
     "Patterns Offered": [
       "Sun-Tue-Thu"

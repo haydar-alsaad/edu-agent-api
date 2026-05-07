@@ -386,11 +386,29 @@ def get_advisor_info(
     for adv in results:
         fac_id = adv.get("Faculty ID")
         fac_record = next((f for f in faculty if f.get("Faculty ID") == fac_id), None)
-        enriched.append({
+
+        record = {
             **adv,
-            "faculty_record": fac_record
-        })
- 
+            "faculty_record": fac_record,
+        }
+
+        # Routing hint: faculty Office Hours and advisor Available Hours can
+        # differ for the same person. Make the distinction explicit so the agent
+        # uses the correct field for academic advising appointments.
+        if fac_record and fac_record.get("Office Hours") and (
+            fac_record.get("Office Hours") != f"{adv.get('Available Days', '')} {adv.get('Available Hours', '')}"
+        ):
+            record["_routing_hint"] = (
+                f"For academic advising appointments, use the 'Available Days' and "
+                f"'Available Hours' fields on this advisor record "
+                f"({adv.get('Available Days')} {adv.get('Available Hours')}). The "
+                f"'Office Hours' field on faculty_record ({fac_record.get('Office Hours')}) "
+                f"is for course/drop-in questions, NOT advising — do not surface those "
+                f"hours when the student asked about an advising appointment."
+            )
+
+        enriched.append(record)
+
     return {"advisors": enriched, "count": len(enriched)}
  
  
@@ -474,8 +492,25 @@ def get_faculty(
                 "Schedule Pattern": s.get("Schedule Pattern"),
                 "Time": s.get("Time")
             })
-        enriched.append({**f, "sections_taught_by_semester": by_sem})
- 
+
+        # Routing hint: if this faculty member is also an academic advisor,
+        # surface the advisor record reference so the agent doesn't confuse
+        # faculty Office Hours (course drop-in) with advisor Available Hours
+        # (academic advising appointments).
+        record = {**f, "sections_taught_by_semester": by_sem}
+        if f.get("Is Advisor"):
+            adv_record = next((a for a in advisors if a.get("Faculty ID") == f.get("Faculty ID")), None)
+            if adv_record:
+                record["_routing_hint"] = (
+                    f"This faculty member is also an academic advisor "
+                    f"({adv_record.get('Advisor ID')}). The 'Office Hours' field above "
+                    f"is for course/drop-in questions only. For academic advising "
+                    f"appointments, use get_advisor_info — advising hours are "
+                    f"{adv_record.get('Available Days')} {adv_record.get('Available Hours')}, "
+                    f"which may differ from the office hours shown here."
+                )
+        enriched.append(record)
+
     return {"faculty": enriched, "count": len(enriched)}
  
  

@@ -342,16 +342,12 @@ async def get_student_data(
         request=request,
     )
 
-    # 3. Compute GPA from completed grades
+    # 3. Compute completed credits from grades; use stored gpa from students record
+    # (so agent and staff portal show the same number — portal reads students.gpa directly)
     completed = [g for g in grades if g.get("status") == "Completed"]
     in_progress = [g for g in grades if g.get("status") != "Completed"]
-    total_quality_pts = sum(
-        float(g.get("grade_points") or 0) * int(g.get("credits") or 0) for g in completed
-    )
     total_credits = sum(int(g.get("credits") or 0) for g in completed)
-    computed_gpa = (
-        round(total_quality_pts / total_credits, 2) if total_credits else None
-    )
+    computed_gpa = student.get("gpa")
 
     # 4. Hold flags — surface registration/transcript blockers up top
     active_holds = [h for h in holds if (h.get("status") or "").lower() == "active"]

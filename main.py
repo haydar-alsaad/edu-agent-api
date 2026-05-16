@@ -1246,7 +1246,7 @@ async def document_fetch(
     pretty_type = document_type.replace("_", " ").title()
     await log_agent_action(
         action_type="fetch_document",
-        description=f"Fetched pre-loaded {pretty_type} for {student_name}",
+        description=f"Shared {pretty_type} with {student_name}",
         student_id=student_id,
         payload={"document_type": document_type, "storage_path": storage_path},
         request=request,

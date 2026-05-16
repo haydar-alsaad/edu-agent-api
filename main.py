@@ -1153,6 +1153,128 @@ async def document_generate(req: DocumentGenerateRequest, request: Request):
 
 
 # ============================================================
+# GET /document/fetch — pre-loaded documents (fast path)
+# ============================================================
+
+# The pre-loaded transcripts live in Supabase Storage under the
+# `student-documents` bucket. Convention: <document_type>s/<student_id>.pdf
+# (e.g. "transcripts/STU-2024001.pdf"). Loveable creates and seeds this bucket.
+
+STORAGE_BUCKET = "student-documents"
+SIGNED_URL_EXPIRY_SECONDS = 600  # 10 minutes — long enough for the agent to send
+
+@app.get("/document/fetch")
+async def document_fetch(
+    request: Request,
+    student_id: str = Query(..., description="Student ID, e.g. STU-2024001"),
+    document_type: str = Query(
+        "transcript",
+        description="Document type — currently only 'transcript' is pre-loaded",
+    ),
+):
+    """Fetch a pre-loaded document for a student.
+
+    Returns a short-lived signed URL pointing at the PDF in Supabase Storage.
+    The agent passes this URL directly to send_whatsapp_media — no
+    python_repl / PDF generation needed. ~2-3 seconds end-to-end.
+
+    Falls back to a 404 with a helpful message if no pre-loaded document
+    exists for the requested type; the agent can then offer to generate
+    one on the fly via the existing generate_document path.
+    """
+    student = await sb_get_one(
+        "students", params={"student_id": f"eq.{student_id}"}, request=request
+    )
+    if not student:
+        raise HTTPException(404, f"Student {student_id} not found")
+    student_name = student.get("full_name_en", student_id)
+
+    # Build the storage path. Convention: <document_type>s/<student_id>.pdf
+    valid_preloaded = {"transcript"}  # extend in phase 2 with more types
+    if document_type not in valid_preloaded:
+        raise HTTPException(
+            404,
+            (
+                f"No pre-loaded {document_type} available. "
+                f"Use generate_document to create one on the fly."
+            ),
+        )
+
+    storage_path = f"{document_type}s/{student_id}.pdf"
+
+    # Generate a signed URL via Supabase Storage API
+    client: httpx.AsyncClient = request.app.state.http
+    sign_url = (
+        f"{SUPABASE_URL}/storage/v1/object/sign/{STORAGE_BUCKET}/{storage_path}"
+    )
+    try:
+        resp = await client.post(
+            sign_url,
+            json={"expiresIn": SIGNED_URL_EXPIRY_SECONDS},
+            headers={
+                "apikey": SUPABASE_SERVICE_KEY,
+                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+                "Content-Type": "application/json",
+            },
+        )
+    except Exception as e:
+        logger.exception("Failed to call Supabase Storage sign endpoint")
+        raise HTTPException(502, f"Storage sign failed: {e}")
+
+    if resp.status_code == 404:
+        raise HTTPException(
+            404,
+            (
+                f"No pre-loaded {document_type} found for {student_id}. "
+                f"Bucket '{STORAGE_BUCKET}' may not contain '{storage_path}'."
+            ),
+        )
+    if resp.status_code >= 400:
+        logger.error(f"Supabase Storage sign failed: {resp.status_code} {resp.text}")
+        raise HTTPException(
+            502, f"Storage sign failed: {resp.text[:200]}"
+        )
+
+    body = resp.json()
+    # Supabase returns {"signedURL": "/object/sign/..."} — needs the host prefix
+    signed_path = body.get("signedURL") or body.get("signedUrl")
+    if not signed_path:
+        raise HTTPException(502, f"Unexpected sign response: {body}")
+    full_url = f"{SUPABASE_URL}/storage/v1{signed_path}"
+
+    # Log it just like generate_document so the activity drawer fires
+    pretty_type = document_type.replace("_", " ").title()
+    await log_agent_action(
+        action_type="fetch_document",
+        description=f"Fetched pre-loaded {pretty_type} for {student_name}",
+        student_id=student_id,
+        payload={"document_type": document_type, "storage_path": storage_path},
+        request=request,
+    )
+
+    # Also insert a documents_generated row so the staff portal's Documents
+    # tab on the student page shows this as a generated document
+    await sb_insert(
+        "documents_generated",
+        {
+            "student_id": student_id,
+            "document_type": document_type,
+            "download_url": full_url,
+        },
+        request=request,
+    )
+
+    return {
+        "ok": True,
+        "student_id": student_id,
+        "document_type": document_type,
+        "download_url": full_url,
+        "expires_in_seconds": SIGNED_URL_EXPIRY_SECONDS,
+        "filename": f"{student_name.replace(' ', '_')}_{pretty_type.replace(' ', '_')}.pdf",
+    }
+
+
+# ============================================================
 # POST /hold/action
 # ============================================================
 

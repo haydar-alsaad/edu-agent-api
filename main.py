@@ -1117,6 +1117,11 @@ async def document_generate(req: DocumentGenerateRequest, request: Request):
     to Nebelus' artifact storage; this endpoint just records the metadata so the
     staff portal can show 'document generated' in the activity drawer and on the
     student detail page.
+
+    NOTE on transcripts: transcripts are static, pre-loaded PDFs served by
+    /document/fetch. They never need to be regenerated. This endpoint rejects
+    document_type='transcript' with a 400 so duplicate rows can't accumulate
+    in documents_generated. The agent should use fetch_document for transcripts.
     """
     student = await sb_get_one(
         "students", params={"student_id": f"eq.{req.student_id}"}, request=request
@@ -1125,11 +1130,22 @@ async def document_generate(req: DocumentGenerateRequest, request: Request):
         raise HTTPException(404, f"Student {req.student_id} not found")
     student_name = student.get("full_name_en", req.student_id)
 
-    valid_types = {"transcript", "fee_statement", "enrollment_letter", "schedule_summary"}
+    # Transcripts are static — always served via fetch_document, never generated
+    if req.document_type == "transcript":
+        raise HTTPException(
+            400,
+            (
+                "Transcripts are pre-loaded static documents. "
+                "Use fetch_document(student_id=..., document_type='transcript') "
+                "to serve a transcript — do not call generate_document for transcripts."
+            ),
+        )
+
+    valid_types = {"fee_statement", "enrollment_letter", "schedule_summary"}
     if req.document_type not in valid_types:
         raise HTTPException(
             400,
-            f"document_type must be one of {sorted(valid_types)}",
+            f"document_type must be one of {sorted(valid_types)} (transcripts use fetch_document)",
         )
 
     doc = await sb_insert(
@@ -1252,17 +1268,41 @@ async def document_fetch(
         request=request,
     )
 
-    # Also insert a documents_generated row so the staff portal's Documents
-    # tab on the student page shows this as a generated document
-    await sb_insert(
+    # Update the existing documents_generated row for this (student, doc_type)
+    # if one exists — so the Documents tab shows one transcript per student,
+    # not a growing list of delivery events. The agent_actions table above is
+    # the audit log; documents_generated is the registry of what's available.
+    existing_doc = await sb_get_one(
         "documents_generated",
-        {
-            "student_id": student_id,
-            "document_type": document_type,
-            "download_url": full_url,
+        params={
+            "student_id": f"eq.{student_id}",
+            "document_type": f"eq.{document_type}",
         },
         request=request,
     )
+    now_iso = datetime.now(timezone.utc).isoformat()
+    if existing_doc:
+        # Bump generated_at so the staff portal can show "just delivered" if it
+        # wants to. Leave download_url alone — if it's "preloaded:..." that's
+        # what flags it as a pre-loaded doc in the Documents tab.
+        await sb_update(
+            "documents_generated",
+            match={"id": str(existing_doc["id"])},
+            updates={"generated_at": now_iso},
+            request=request,
+        )
+    else:
+        # Fallback: no seed row exists for this student/doc_type (rare —
+        # the seed migration should populate one for every student × type)
+        await sb_insert(
+            "documents_generated",
+            {
+                "student_id": student_id,
+                "document_type": document_type,
+                "download_url": full_url,
+            },
+            request=request,
+        )
 
     return {
         "ok": True,

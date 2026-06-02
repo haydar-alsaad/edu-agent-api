@@ -1,107 +1,65 @@
 """
-Education Agent API v2 (Supabase-backed).
+Al-Noor Healthcare Agent API - v2.0
 
-Replaces the JSON-file backed API. Same GET endpoint paths and query params as v1
-so existing agent tool configurations continue to work without change. Response
-shapes updated to the new Loveable/Supabase schema (snake_case columns).
+Architecture: Supabase-backed via httpx REST + service role key.
+Endpoints:
+  Read:
+    GET /health                      - status + data load counts
+    GET /patient                     - workhorse: full patient package (parallelized)
+    GET /doctor                      - doctor info
+    GET /slots                       - available appointment slots
+    GET /clinic                      - clinic info
+    GET /medication                  - medication catalog lookup
+    GET /insurance                   - insurance plan lookup
 
-NEW in v2:
-  - 7 POST endpoints for write actions (enrollment, advising, documents, holds,
-    fees, profile, applicant status)
-  - Auto-logging middleware: every successful POST writes a row to agent_actions
-    so the staff portal's "live agent activity" drawer fires automatically without
-    each endpoint having to remember to log.
-  - All reads/writes go through Supabase REST (PostgREST) using the service role
-    key. The service role key MUST be set in the SUPABASE_SERVICE_ROLE_KEY env var.
+  Write:
+    POST /appointment/book           - book a slot, create appointment
+    POST /appointment/cancel         - cancel appointment, release slot
+    POST /appointment/reschedule     - cancel + book in one transaction
+    POST /prescription/refill        - create refill request, decrement refills
+    POST /invoice/payment            - record payment, mark invoice Paid
+    POST /profile/update             - update phone/email/address only
+    POST /preauth/request            - create pre-auth request
+    POST /lab-result/release         - flip Pending → Released (portal-side)
 
-Endpoints (paths preserved from v1):
-  GET  /                         API info
-  GET  /health                   Status + data load counts
-  GET  /student                  Workhorse student profile (the single call)
-  GET  /applicant                Applicant lookup
-  GET  /course                   Course catalog with sections
-  GET  /faculty                  Faculty lookup (with advisor routing hint)
-  GET  /advisor                  Advisor lookup (with faculty enrichment)
-  GET  /calendar                 Academic calendar events
-  GET  /degree-requirements      Program requirements
-  GET  /exam-schedule            Exam lookup
-
-NEW POST endpoints (write actions):
-  POST /enrollment/action        Drop / add / swap a course
-  POST /advising/appointment     Book / cancel an advising appointment
-  POST /document/generate        Generate a transcript / invoice / letter (logs intent)
-  POST /hold/action              Clear a hold (registrar action)
-  POST /fee/payment              Record a Sadad-style payment
-  POST /profile/update           Update student contact info
-  POST /application/action       Move applicant status / mark docs received
-
-Auth: this is a demo API. No authentication on the API itself. The Supabase
-service role key (server-side only) is the only credential.
+Lessons from Education applied:
+  - asyncio.gather in /patient for parallel Supabase fetches
+  - Every write inserts an agent_actions audit row
+  - Indexes assumed on filter columns
+  - Auto-warm cron-friendly: /patient?patient_id=PAT-002 is cheap & fast
 """
-
-import os
-import json
 import asyncio
-import logging
-from datetime import datetime, timezone
-from typing import Optional, Any, Dict, List
-from contextlib import asynccontextmanager
-
-from fastapi import FastAPI, HTTPException, Query, Request, status
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+import json
+import os
+import sys
+from datetime import date, datetime, timedelta
+from typing import Optional, Any
 import httpx
+from fastapi import FastAPI, HTTPException, Query, Body
+from fastapi.middleware.cors import CORSMiddleware
 
 # ============================================================
 # Config
 # ============================================================
-
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
-SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
-PLANNING_SEMESTER_DEFAULT = os.environ.get("PLANNING_SEMESTER_DEFAULT", "Fall 2026")
+SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+SEED_ON_BOOT = os.environ.get("SEED_ON_BOOT", "true").lower() == "true"
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
-if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
-    raise RuntimeError(
-        "Missing required env vars: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY"
-    )
+if not SUPABASE_URL or not SUPABASE_KEY:
+    print("WARNING: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set. API will fail.")
 
-REST_BASE = f"{SUPABASE_URL}/rest/v1"
-HEADERS_BASE = {
-    "apikey": SUPABASE_SERVICE_KEY,
-    "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+HEADERS = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": f"Bearer {SUPABASE_KEY}",
     "Content-Type": "application/json",
+    "Prefer": "return=representation",
 }
 
-logger = logging.getLogger("kfut_api")
-logger.setLevel(logging.INFO)
-
-
 # ============================================================
-# Lifespan + HTTP client
+# App
 # ============================================================
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Create a shared httpx client for the lifetime of the app."""
-    async with httpx.AsyncClient(
-        base_url=REST_BASE,
-        headers=HEADERS_BASE,
-        timeout=httpx.Timeout(15.0),
-    ) as client:
-        app.state.http = client
-        logger.info("HTTP client initialized; ready to serve.")
-        yield
-        logger.info("HTTP client shutting down.")
-
-
-app = FastAPI(
-    title="KFUT Student Support API",
-    version="2.0",
-    description="Supabase-backed API for the KFUT WhatsApp student support agent.",
-    lifespan=lifespan,
-)
-
+app = FastAPI(title="Al-Noor Health Agent API", version="2.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -109,1464 +67,1488 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Shared httpx client for connection pooling
+http_client: Optional[httpx.AsyncClient] = None
+
+
+@app.on_event("startup")
+async def startup():
+    global http_client
+    http_client = httpx.AsyncClient(
+        timeout=30.0,
+        limits=httpx.Limits(max_keepalive_connections=20, max_connections=50),
+    )
+    if SEED_ON_BOOT:
+        await seed_if_empty()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    global http_client
+    if http_client:
+        await http_client.aclose()
+
 
 # ============================================================
 # Supabase REST helpers
 # ============================================================
-
-async def sb_get(
-    table: str,
-    params: Optional[Dict[str, Any]] = None,
-    request: Optional[Request] = None,
-) -> List[Dict[str, Any]]:
-    """SELECT against a Supabase table via PostgREST. Returns a list of rows."""
-    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
-    resp = await client.get(f"/{table}", params=params or {})
-    if resp.status_code >= 400:
-        logger.error(f"Supabase GET /{table} failed: {resp.status_code} {resp.text}")
-        raise HTTPException(
-            status_code=502,
-            detail=f"Database read failed: {resp.text[:200]}",
-        )
-    return resp.json()
+async def sb_get(table: str, params: Optional[dict] = None) -> list:
+    """GET from Supabase REST. Returns list of rows."""
+    url = f"{SUPABASE_URL}/rest/v1/{table}"
+    try:
+        r = await http_client.get(url, headers=HEADERS, params=params or {})
+        r.raise_for_status()
+        return r.json()
+    except httpx.HTTPStatusError as e:
+        print(f"sb_get error {table}: {e.response.status_code} {e.response.text[:200]}")
+        return []
+    except Exception as e:
+        print(f"sb_get exception {table}: {e}")
+        return []
 
 
-async def sb_get_one(
-    table: str,
-    params: Optional[Dict[str, Any]] = None,
-    request: Optional[Request] = None,
-) -> Optional[Dict[str, Any]]:
-    """Convenience — fetch first matching row or None."""
-    rows = await sb_get(table, params=params, request=request)
+async def sb_get_one(table: str, params: Optional[dict] = None) -> Optional[dict]:
+    """GET single row from Supabase. Returns dict or None."""
+    rows = await sb_get(table, params)
     return rows[0] if rows else None
 
 
-async def _noop_none() -> None:
-    """No-op coroutine that returns None. Used as a placeholder in
-    asyncio.gather() when a conditional fetch shouldn't happen but
-    we still want a stable result position."""
-    return None
+# ============================================================
+# In-process cache for rarely-changing reference tables
+# ============================================================
+# doctors (21 rows) and clinics (3 rows) change very rarely — a doctor
+# is added every couple of months at most. Refetching the whole table on
+# every /patient call is wasted work that adds ~1 Supabase round-trip
+# to the critical path. Cache them in memory with a short TTL so the
+# first request after a deploy is normal, but subsequent requests skip
+# the network entirely.
+#
+# Per-replica cache (Railway may run multiple). Each replica warms on
+# its first request. Cache lives until process restart or TTL expires.
+from time import monotonic as _monotonic
+
+_REF_CACHE_TTL = 60.0  # seconds
+_reference_cache: dict[str, dict] = {
+    "doctors": {"data": None, "ts": 0.0},
+    "clinics": {"data": None, "ts": 0.0},
+}
 
 
-async def sb_insert(
-    table: str,
-    record: Dict[str, Any],
-    request: Optional[Request] = None,
-) -> Dict[str, Any]:
-    """INSERT a row, return the inserted representation."""
-    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
-    resp = await client.post(
-        f"/{table}",
-        json=record,
-        headers={"Prefer": "return=representation"},
-    )
-    if resp.status_code >= 400:
-        logger.error(f"Supabase INSERT /{table} failed: {resp.status_code} {resp.text}")
-        raise HTTPException(
-            status_code=502,
-            detail=f"Database write failed: {resp.text[:200]}",
-        )
-    data = resp.json()
-    return data[0] if isinstance(data, list) and data else data
+async def get_doctors_cached() -> list:
+    """Return the doctors table from cache or fetch+cache it."""
+    c = _reference_cache["doctors"]
+    if c["data"] is None or (_monotonic() - c["ts"]) > _REF_CACHE_TTL:
+        # Only the fields needed for enrichment + doctor info lookups.
+        c["data"] = await sb_get("doctors", {
+            "select": "doctor_id,full_name_en,full_name_ar,specialty_en,specialty_ar,sub_specialty_en,sub_specialty_ar,title_en,title_ar,primary_clinic_id,languages,years_of_experience,qualifications,consultation_fee_sar,followup_fee_sar,bio_en,bio_ar,status"
+        })
+        c["ts"] = _monotonic()
+    return c["data"]
 
 
-async def sb_update(
-    table: str,
-    match: Dict[str, str],
-    updates: Dict[str, Any],
-    request: Optional[Request] = None,
-) -> List[Dict[str, Any]]:
-    """UPDATE matching rows, return updated representations."""
-    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
-    params = {k: f"eq.{v}" for k, v in match.items()}
-    resp = await client.patch(
-        f"/{table}",
-        params=params,
-        json=updates,
-        headers={"Prefer": "return=representation"},
-    )
-    if resp.status_code >= 400:
-        logger.error(f"Supabase UPDATE /{table} failed: {resp.status_code} {resp.text}")
-        raise HTTPException(
-            status_code=502,
-            detail=f"Database update failed: {resp.text[:200]}",
-        )
-    return resp.json()
+async def get_clinics_cached() -> list:
+    """Return the clinics table from cache or fetch+cache it."""
+    c = _reference_cache["clinics"]
+    if c["data"] is None or (_monotonic() - c["ts"]) > _REF_CACHE_TTL:
+        c["data"] = await sb_get("clinics", {"select": "*"})
+        c["ts"] = _monotonic()
+    return c["data"]
 
 
-async def sb_delete(
-    table: str,
-    match: Dict[str, str],
-    request: Optional[Request] = None,
-) -> List[Dict[str, Any]]:
-    """DELETE matching rows, return deleted representations."""
-    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
-    params = {k: f"eq.{v}" for k, v in match.items()}
-    resp = await client.delete(
-        f"/{table}",
-        params=params,
-        headers={"Prefer": "return=representation"},
-    )
-    if resp.status_code >= 400:
-        logger.error(f"Supabase DELETE /{table} failed: {resp.status_code} {resp.text}")
-        raise HTTPException(
-            status_code=502,
-            detail=f"Database delete failed: {resp.text[:200]}",
-        )
-    return resp.json()
+async def sb_insert(table: str, payload: dict | list) -> Any:
+    """INSERT into Supabase. Returns inserted row(s)."""
+    url = f"{SUPABASE_URL}/rest/v1/{table}"
+    try:
+        r = await http_client.post(url, headers=HEADERS, json=payload)
+        r.raise_for_status()
+        return r.json()
+    except httpx.HTTPStatusError as e:
+        print(f"sb_insert error {table}: {e.response.status_code} {e.response.text[:300]}")
+        raise HTTPException(status_code=500, detail=f"Insert to {table} failed: {e.response.text[:200]}")
+
+
+async def sb_update(table: str, params: dict, payload: dict) -> Any:
+    """UPDATE rows in Supabase matching params (using PostgREST filter syntax)."""
+    url = f"{SUPABASE_URL}/rest/v1/{table}"
+    try:
+        r = await http_client.patch(url, headers=HEADERS, params=params, json=payload)
+        r.raise_for_status()
+        return r.json()
+    except httpx.HTTPStatusError as e:
+        print(f"sb_update error {table}: {e.response.status_code} {e.response.text[:300]}")
+        raise HTTPException(status_code=500, detail=f"Update {table} failed: {e.response.text[:200]}")
 
 
 async def log_agent_action(
+    patient_id: Optional[str],
     action_type: str,
     description: str,
-    student_id: Optional[str] = None,
-    payload: Optional[Dict[str, Any]] = None,
-    status_str: str = "success",
-    request: Optional[Request] = None,
-) -> None:
-    """Write a row to agent_actions. Used by every successful POST endpoint
-    so the staff-portal activity drawer fires in realtime via Supabase channels."""
+    metadata: Optional[dict] = None,
+    status: str = "Success",
+):
+    """Insert into agent_actions for the Live Activity Drawer."""
     try:
-        await sb_insert(
-            "agent_actions",
-            {
-                "action_type": action_type,
-                "description": description,
-                "student_id": student_id,
-                "payload": payload or {},
-                "status": status_str,
-            },
-            request=request,
-        )
+        await sb_insert("agent_actions", {
+            "patient_id": patient_id,
+            "action_type": action_type,
+            "description": description,
+            "metadata": metadata or {},
+            "status": status,
+        })
     except Exception as e:
-        # Log but don't fail the parent request just because logging failed
-        logger.warning(f"Failed to log agent_action: {e}")
+        # Audit log failures should not break the parent operation
+        print(f"agent_actions log failed: {e}")
 
 
 # ============================================================
-# Root / health
+# Data seeding (run once on boot if tables empty)
 # ============================================================
+SEED_FILES = [
+    # Order matters for foreign keys: independent tables first
+    ("insurance_providers", "insurance_providers.json"),
+    ("clinics", "clinics.json"),
+    ("pharmacies", "pharmacies.json"),
+    ("doctors", "doctors.json"),
+    ("patients", "patients.json"),
+    ("medications_catalog", "medications_catalog.json"),
+    ("appointments", "appointments.json"),
+    ("lab_results", "lab_results.json"),
+    ("prescriptions", "prescriptions.json"),
+    ("invoices", "invoices.json"),
+    ("medical_history", "medical_history.json"),
+    ("doctor_availability", "doctor_availability.json"),
+    ("preauth_requests", "preauth_requests.json"),
+    ("refill_requests", "refill_requests.json"),
+]
 
+
+def json_to_db_row(table: str, raw: dict) -> dict:
+    """Map raw JSON keys (e.g. 'Patient ID') to DB column names ('patient_id')."""
+    # Mapping rules based on schema in Lovable prompt
+    mappings = {
+        "insurance_providers": {
+            "Provider ID": "provider_id",
+            "Provider Name (EN)": "provider_name_en",
+            "Provider Name (AR)": "provider_name_ar",
+            "Plan Tier (EN)": "plan_tier_en",
+            "Plan Tier (AR)": "plan_tier_ar",
+            "Annual Premium Range SAR": "annual_premium_range_sar",
+            "Annual Limit SAR": "annual_limit_sar",
+            "GP Consultation Coverage": "gp_consultation_coverage",
+            "Specialist Consultation Coverage": "specialist_consultation_coverage",
+            "Lab Coverage": "lab_coverage",
+            "Imaging Coverage": "imaging_coverage",
+            "Medication Coverage": "medication_coverage",
+            "Pre-Authorization Required For": "pre_authorization_required_for",
+            "Network Hospitals": "network_hospitals",
+            "Co-pay Notes": "co_pay_notes",
+            "ER Coverage": "er_coverage",
+        },
+        "clinics": {
+            "Clinic ID": "clinic_id",
+            "Clinic Name (EN)": "clinic_name_en",
+            "Clinic Name (AR)": "clinic_name_ar",
+            "Type": "type",
+            "Address (EN)": "address_en",
+            "Address (AR)": "address_ar",
+            "Phone": "phone",
+            "City (EN)": "city_en",
+            "City (AR)": "city_ar",
+            "Operating Hours": "operating_hours",
+            "Specialties Available": "specialties_available",
+            "Pharmacy On Site": "pharmacy_on_site",
+            "Pharmacy ID": "pharmacy_id",
+            "Lab On Site": "lab_on_site",
+            "Imaging On Site": "imaging_on_site",
+            "Emergency Department": "emergency_department",
+            "Parking": "parking",
+            "Bed Capacity": "bed_capacity",
+        },
+        "pharmacies": {
+            "Pharmacy ID": "pharmacy_id",
+            "Pharmacy Name (EN)": "pharmacy_name_en",
+            "Pharmacy Name (AR)": "pharmacy_name_ar",
+            "Type": "type",
+            "Linked Clinic ID": "linked_clinic_id",
+            "Address (EN)": "address_en",
+            "Address (AR)": "address_ar",
+            "City": "city",
+            "Phone": "phone",
+            "Operating Hours": "operating_hours",
+            "Home Delivery Available": "home_delivery_available",
+            "Home Delivery Fee SAR": "home_delivery_fee_sar",
+            "Home Delivery Cities": "home_delivery_cities",
+            "Home Delivery Window": "home_delivery_window",
+        },
+        "doctors": {
+            "Doctor ID": "doctor_id",
+            "Full Name (EN)": "full_name_en",
+            "Full Name (AR)": "full_name_ar",
+            "Specialty (EN)": "specialty_en",
+            "Specialty (AR)": "specialty_ar",
+            "Sub-specialty (EN)": "sub_specialty_en",
+            "Sub-specialty (AR)": "sub_specialty_ar",
+            "Title (EN)": "title_en",
+            "Title (AR)": "title_ar",
+            "Languages": "languages",
+            "Years of Experience": "years_of_experience",
+            "Qualifications": "qualifications",
+            "Primary Clinic ID": "primary_clinic_id",
+            "Visiting Clinic IDs": "visiting_clinic_ids",
+            "Consultation Fee SAR": "consultation_fee_sar",
+            "Follow-up Fee SAR": "followup_fee_sar",
+            "Bio (EN)": "bio_en",
+            "Bio (AR)": "bio_ar",
+            "Status": "status",
+        },
+        "patients": {
+            "Patient ID": "patient_id",
+            "Full Name (EN)": "full_name_en",
+            "Full Name (AR)": "full_name_ar",
+            "Date of Birth": "date_of_birth",
+            "Age": "age",
+            "Gender": "gender",
+            "Phone": "phone",
+            "Email": "email",
+            "Preferred Language": "preferred_language",
+            "City (EN)": "city_en",
+            "City (AR)": "city_ar",
+            "Address (EN)": "address_en",
+            "Address (AR)": "address_ar",
+            "Insurance Provider ID": "insurance_provider_id",
+            "Insurance Policy Number": "insurance_policy_number",
+            "Primary Care Doctor ID": "primary_care_doctor_id",
+            "Allergies": "allergies",
+            "Active Conditions (EN)": "active_conditions_en",
+            "Active Conditions (AR)": "active_conditions_ar",
+            "Emergency Contact Name": "emergency_contact_name",
+            "Emergency Contact Phone": "emergency_contact_phone",
+            "Parent/Guardian": "parent_guardian",
+            "Patient Status": "patient_status",
+            "Registered Since": "registered_since",
+            "Demo Notes": "demo_notes",
+        },
+        "medications_catalog": {
+            "Medication ID": "medication_id",
+            "Name (EN)": "name_en",
+            "Name (AR)": "name_ar",
+            "Drug Class (EN)": "drug_class_en",
+            "Drug Class (AR)": "drug_class_ar",
+            "Indication (EN)": "indication_en",
+            "Indication (AR)": "indication_ar",
+            "Common Dosages": "common_dosages",
+            "Side Effects (EN)": "side_effects_en",
+            "Side Effects (AR)": "side_effects_ar",
+            "Interactions": "interactions",
+            "Requires Prescription": "requires_prescription",
+            "Controlled Substance": "controlled_substance",
+            "Coverage Tier": "coverage_tier",
+        },
+        "appointments": {
+            "Appointment ID": "appointment_id",
+            "Patient ID": "patient_id",
+            "Doctor ID": "doctor_id",
+            "Clinic ID": "clinic_id",
+            "Date": "date",
+            "Start Time": "start_time",
+            "Duration Minutes": "duration_minutes",
+            "Type": "type",
+            "Reason for Visit": "reason_for_visit",
+            "Status": "status",
+            "Notes": "notes",
+            "Follow-up Required": "followup_required",
+            "Created Date": "created_date",
+        },
+        "lab_results": {
+            "Lab Result ID": "lab_result_id",
+            "Patient ID": "patient_id",
+            "Ordering Doctor ID": "ordering_doctor_id",
+            "Clinic ID": "clinic_id",
+            "Test Type": "test_type",
+            "Test Name (EN)": "test_name_en",
+            "Test Name (AR)": "test_name_ar",
+            "Test Code": "test_code",
+            "Order Date": "order_date",
+            "Result Date": "result_date",
+            "Status": "status",
+            "Estimated Available": "estimated_available",
+            "Linked Appointment ID": "linked_appointment_id",
+            "Results": "results",
+            "Imaging Findings (EN)": "imaging_findings_en",
+            "Imaging Findings (AR)": "imaging_findings_ar",
+            "Radiologist": "radiologist",
+            "Lab Tech": "lab_tech",
+            "Notes (EN)": "notes_en",
+            "Notes (AR)": "notes_ar",
+        },
+        "prescriptions": {
+            "Prescription ID": "prescription_id",
+            "Patient ID": "patient_id",
+            "Prescribing Doctor ID": "prescribing_doctor_id",
+            "Clinic ID": "clinic_id",
+            "Issued Date": "issued_date",
+            "Expiration Date": "expiration_date",
+            "Status": "status",
+            "Medications": "medications",
+            "Last Filled Date": "last_filled_date",
+            "Last Filled Pharmacy ID": "last_filled_pharmacy_id",
+            "Linked Appointment ID": "linked_appointment_id",
+            "Linked Diagnosis (EN)": "linked_diagnosis_en",
+            "Linked Diagnosis (AR)": "linked_diagnosis_ar",
+        },
+        "invoices": {
+            "Invoice ID": "invoice_id",
+            "Patient ID": "patient_id",
+            "Linked Appointment ID": "linked_appointment_id",
+            "Linked Lab Result ID": "linked_lab_result_id",
+            "Issue Date": "issue_date",
+            "Due Date": "due_date",
+            "Items": "items",
+            "Subtotal SAR": "subtotal_sar",
+            "Insurance Provider (EN)": "insurance_provider_en",
+            "Insurance Provider (AR)": "insurance_provider_ar",
+            "Insurance Covered SAR": "insurance_covered_sar",
+            "Patient Due SAR": "patient_due_sar",
+            "Status": "status",
+            "Payment Method": "payment_method",
+            "Payment Date": "payment_date",
+            "Notes (EN)": "notes_en",
+            "Notes (AR)": "notes_ar",
+        },
+        "medical_history": {
+            "History ID": "history_id",
+            "Patient ID": "patient_id",
+            "Event Date": "event_date",
+            "Event Type": "event_type",
+            "Description (EN)": "description_en",
+            "Description (AR)": "description_ar",
+            "Doctor ID": "doctor_id",
+            "Linked Appointment ID": "linked_appointment_id",
+        },
+        "doctor_availability": {
+            "Slot ID": "slot_id",
+            "Doctor ID": "doctor_id",
+            "Clinic ID": "clinic_id",
+            "Date": "date",
+            "Day of Week": "day_of_week",
+            "Start Time": "start_time",
+            "End Time": "end_time",
+            "Slot Capacity": "slot_capacity",
+            "Booked Count": "booked_count",
+            "Status": "status",
+        },
+        "preauth_requests": {
+            "Preauth ID": "preauth_id",
+            "Patient ID": "patient_id",
+            "Doctor ID": "doctor_id",
+            "Procedure Name": "procedure_name",
+            "Insurance Provider ID": "insurance_provider_id",
+            "Status": "status",
+            "Requested At": "requested_at",
+            "Requested By": "requested_by",
+            "Reviewed At": "reviewed_at",
+            "Reviewer Notes": "reviewer_notes",
+        },
+        "refill_requests": {
+            "Prescription ID": "prescription_id",
+            "Patient ID": "patient_id",
+            "Medication ID": "medication_id",
+            "Medication Name (EN)": "medication_name_en",
+            "Pharmacy ID": "pharmacy_id",
+            "Delivery Method": "delivery_method",
+            "Status": "status",
+            "Requested At": "requested_at",
+            "Requested By": "requested_by",
+            "Processed At": "processed_at",
+        },
+    }
+    m = mappings.get(table, {})
+    return {m[k]: v for k, v in raw.items() if k in m}
+
+
+async def seed_if_empty():
+    """Check if patients table is empty; if so, seed all tables from JSON."""
+    try:
+        existing = await sb_get("patients", {"select": "patient_id", "limit": "1"})
+        if existing:
+            print(f"[seed] Database already has data ({len(existing)} patient(s) found). Skipping seed.")
+            return
+        print("[seed] Empty database detected. Seeding from JSON files...")
+        for table, filename in SEED_FILES:
+            path = os.path.join(DATA_DIR, filename)
+            if not os.path.exists(path):
+                print(f"[seed] {filename} not found, skipping")
+                continue
+            with open(path, "r", encoding="utf-8") as f:
+                rows = json.load(f)
+            if not rows:
+                continue
+            mapped = [json_to_db_row(table, r) for r in rows]
+            # Batch insert in chunks of 500 (Supabase REST limit safety)
+            for i in range(0, len(mapped), 500):
+                chunk = mapped[i:i+500]
+                try:
+                    await sb_insert(table, chunk)
+                except Exception as e:
+                    print(f"[seed] {table} batch {i} failed: {e}")
+            print(f"[seed] {table}: {len(mapped)} rows")
+        print("[seed] Done.")
+    except Exception as e:
+        print(f"[seed] failed: {e}")
+
+
+# ============================================================
+# Helper: enrich rows with related data
+# ============================================================
+async def enrich_appointment(apt: dict, doctors_by_id: dict, clinics_by_id: dict) -> dict:
+    """Add doctor + clinic names to an appointment row."""
+    d = doctors_by_id.get(apt.get("doctor_id"), {})
+    c = clinics_by_id.get(apt.get("clinic_id"), {})
+    return {
+        **apt,
+        "doctor_name_en": d.get("full_name_en"),
+        "doctor_name_ar": d.get("full_name_ar"),
+        "doctor_specialty_en": d.get("specialty_en"),
+        "doctor_specialty_ar": d.get("specialty_ar"),
+        "clinic_name_en": c.get("clinic_name_en"),
+        "clinic_name_ar": c.get("clinic_name_ar"),
+        "clinic_address_en": c.get("address_en"),
+        "clinic_address_ar": c.get("address_ar"),
+    }
+
+
+# ============================================================
+# Health check
+# ============================================================
 @app.get("/")
 async def root():
     return {
-        "name": "KFUT Student Support API",
+        "service": "Al-Noor Health Agent API",
         "version": "2.0",
-        "docs": "/docs",
-        "health": "/health",
-        "backend": "Supabase",
+        "supabase_configured": bool(SUPABASE_URL and SUPABASE_KEY),
     }
 
 
 @app.get("/health")
-async def health(request: Request):
-    """Health check including a basic Supabase reachability test."""
-    checks = {"api": "ok"}
+async def health():
+    """Quick health check (used by cron-job.org for warming)."""
+    if not (SUPABASE_URL and SUPABASE_KEY):
+        return {"status": "degraded", "reason": "Supabase env not configured"}
+    # Lightweight ping — just confirm Supabase is reachable on one table.
     try:
-        rows = await sb_get(
-            "students",
-            params={"select": "student_id", "limit": "1"},
-            request=request,
-        )
-        checks["supabase"] = "ok" if rows else "no_data"
+        await sb_get("patients", {"select": "patient_id", "limit": "1"})
+        return {"status": "ok"}
     except Exception as e:
-        checks["supabase"] = f"error: {e}"
-    return {"status": "healthy", "version": "2.0", "checks": checks}
+        return {"status": "degraded", "reason": str(e)[:200]}
 
 
 # ============================================================
-# GET /student — workhorse
+# READ: /patient (the workhorse — parallelized)
 # ============================================================
-
-@app.get("/student")
-async def get_student_data(
-    request: Request,
-    student_id: Optional[str] = Query(None),
-    name: Optional[str] = Query(None, description="Full name (English) — partial match"),
+@app.get("/patient")
+async def get_patient(
+    patient_id: Optional[str] = Query(None),
+    name: Optional[str] = Query(None),
     phone: Optional[str] = Query(None),
-    planning_semester: Optional[str] = Query(None, description="Default Fall 2026"),
 ):
-    """Workhorse endpoint — full student package in one call.
+    """Returns full patient package: profile, insurance, primary doctor,
+    appointments, prescriptions, lab results, invoices, medical history.
 
-    Returns: profile, scheduling preferences (from advisor record), advisor
-    contact, completed + in-progress grades with computed GPA, current schedule,
-    upcoming exams, fees, holds, remaining required courses, eligible courses
-    for the planning semester (prereqs validated, sections available).
-    """
-    if not any([student_id, name, phone]):
-        raise HTTPException(400, "Provide student_id, name, or phone")
-
-    # 1. Find the student
-    if student_id:
-        student = await sb_get_one(
-            "students", params={"student_id": f"eq.{student_id}"}, request=request
-        )
+    All sub-fetches run in parallel via asyncio.gather."""
+    # Step 1: find the patient
+    if patient_id:
+        patient = await sb_get_one("patients", {"patient_id": f"eq.{patient_id}"})
+    elif name:
+        # Case-insensitive partial match on EN or AR name
+        patient = await sb_get_one("patients", {
+            "or": f"(full_name_en.ilike.*{name}*,full_name_ar.ilike.*{name}*)"
+        })
     elif phone:
-        student = await sb_get_one(
-            "students", params={"phone": f"eq.{phone}"}, request=request
-        )
+        patient = await sb_get_one("patients", {"phone": f"eq.{phone}"})
     else:
-        student = await sb_get_one(
-            "students",
-            params={"full_name_en": f"ilike.*{name}*", "limit": "1"},
-            request=request,
-        )
-    if not student:
-        raise HTTPException(404, "Student not found")
+        raise HTTPException(status_code=400, detail="Provide patient_id, name, or phone")
 
-    sid = student["student_id"]
-    semester = planning_semester or PLANNING_SEMESTER_DEFAULT
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
 
-    # 2. Pull everything in parallel — these 6 calls have no dependencies on each other,
-    # so we batch them with asyncio.gather() to overlap network latency instead of stacking it.
-    # On warm Supabase this drops ~800ms-1s vs sequential calls.
-    advisor_coro = (
-        sb_get_one("advisors", params={"faculty_id": f"eq.{student['advisor']}"}, request=request)
-        if student.get("advisor") else _noop_none()
+    pid = patient["patient_id"]
+
+    # Step 2: fetch ALL related data in parallel. Doctors and clinics come from
+    # an in-process cache (refreshed every 60s) so we skip the Supabase round-trip
+    # on the vast majority of warm calls — the tables change rarely.
+    #
+    # Lessons from Education (main.py line 322): "These calls have no dependencies
+    # on each other, so we batch them with asyncio.gather() to overlap network latency
+    # instead of stacking it. On warm Supabase this drops ~800ms-1s vs sequential calls."
+    today = date.today().isoformat()
+    (
+        appointments,
+        prescriptions,
+        lab_results,
+        invoices,
+        history,
+        all_doctors,
+        all_clinics,
+        insurance,
+        primary_doctor,
+        refill_reqs,
+        preauth_reqs,
+    ) = await asyncio.gather(
+        sb_get("appointments", {
+            "patient_id": f"eq.{pid}",
+            "order": "date.asc,start_time.asc",
+        }),
+        sb_get("prescriptions", {
+            "patient_id": f"eq.{pid}",
+            "order": "issued_date.desc",
+        }),
+        sb_get("lab_results", {
+            "patient_id": f"eq.{pid}",
+            "order": "order_date.desc",
+        }),
+        sb_get("invoices", {
+            "patient_id": f"eq.{pid}",
+            "order": "issue_date.desc",
+        }),
+        sb_get("medical_history", {
+            "patient_id": f"eq.{pid}",
+            "order": "event_date.desc",
+        }),
+        get_doctors_cached(),
+        get_clinics_cached(),
+        sb_get_one("insurance_providers", {
+            "provider_id": f"eq.{patient.get('insurance_provider_id', '')}"
+        }) if patient.get("insurance_provider_id") else asyncio.sleep(0, result=None),
+        sb_get_one("doctors", {
+            "doctor_id": f"eq.{patient.get('primary_care_doctor_id', '')}"
+        }) if patient.get("primary_care_doctor_id") else asyncio.sleep(0, result=None),
+        sb_get("refill_requests", {
+            "patient_id": f"eq.{pid}",
+            "order": "requested_at.desc",
+        }),
+        sb_get("preauth_requests", {
+            "patient_id": f"eq.{pid}",
+            "order": "requested_at.desc",
+        }),
     )
-    advisor_faculty_coro = (
-        sb_get_one("faculty", params={"faculty_id": f"eq.{student['advisor']}"}, request=request)
-        if student.get("advisor") else _noop_none()
-    )
-    grades_coro = sb_get(
-        "grades",
-        params={"student_id": f"eq.{sid}", "order": "semester.desc"},
-        request=request,
-    )
-    schedule_coro = sb_get(
-        "class_schedules",
-        params={"student_id": f"eq.{sid}"},
-        request=request,
-    )
-    fees_coro = sb_get(
-        "fee_records",
-        params={"student_id": f"eq.{sid}", "order": "due_date.desc"},
-        request=request,
-    )
-    holds_coro = sb_get(
-        "holds",
-        params={"student_id": f"eq.{sid}"},
-        request=request,
-    )
 
-    advisor_record, advisor_faculty, grades, current_schedule, fees, holds = await asyncio.gather(
-        advisor_coro, advisor_faculty_coro, grades_coro, schedule_coro, fees_coro, holds_coro
-    )
+    doctors_by_id = {d["doctor_id"]: d for d in all_doctors}
+    clinics_by_id = {c["clinic_id"]: c for c in all_clinics}
 
-    # 3. Compute completed credits from grades; use stored gpa from students record
-    # (so agent and staff portal show the same number — portal reads students.gpa directly)
-    completed = [g for g in grades if g.get("status") == "Completed"]
-    in_progress = [g for g in grades if g.get("status") != "Completed"]
-    total_credits = sum(int(g.get("credits") or 0) for g in completed)
-    computed_gpa = student.get("gpa")
+    # Step 3: enrich + segment
+    upcoming = []
+    past = []
+    for apt in appointments:
+        enriched = await enrich_appointment(apt, doctors_by_id, clinics_by_id)
+        if apt["date"] >= today and apt.get("status") not in ("Cancelled", "Completed"):
+            upcoming.append(enriched)
+        else:
+            past.append(enriched)
+    # past sorted reverse-chrono; keep most recent 5
+    past = sorted(past, key=lambda x: x.get("date", ""), reverse=True)[:5]
 
-    # 4. Hold flags — surface registration/transcript blockers up top
-    active_holds = [h for h in holds if (h.get("status") or "").lower() == "active"]
-    holds_summary = {
-        "active_count": len(active_holds),
-        "blocks_registration": any(h.get("blocks_registration") for h in active_holds),
-        "blocks_transcript": any(h.get("blocks_transcript") for h in active_holds),
-        "active_holds": active_holds,
-        "all_holds": holds,
-    }
+    active_prescriptions = [p for p in prescriptions if p.get("status") == "Active"]
+    released_lab_results = [l for l in lab_results if l.get("status") == "Released"]
+    pending_lab_results = [l for l in lab_results if l.get("status") == "Pending"]
+    outstanding_invoices = [i for i in invoices if i.get("status") == "Outstanding"]
+    paid_invoices = [i for i in invoices if i.get("status") == "Paid"]
 
-    # 5. Finances summary
-    outstanding_total = sum(float(f.get("outstanding_sar") or 0) for f in fees)
-    finances = {
-        "outstanding_total_sar": round(outstanding_total, 2),
-        "has_outstanding": outstanding_total > 0,
-        "records": fees,
-    }
+    # Pending refill and preauth requests — these are in-flight workflows the agent
+    # should be aware of before submitting duplicates.
+    pending_refill_requests = [
+        r for r in (refill_reqs or [])
+        if r.get("status") in ("Submitted", "Approved", "In Progress")
+    ]
+    pending_preauth_requests = [
+        p for p in (preauth_reqs or [])
+        if p.get("status") in ("Submitted", "Under Review", "Approved")
+    ]
 
-    # 6. Upcoming exams — match the student's current course codes.
-    # Parallelize the per-course exam lookups instead of looping sequentially.
-    upcoming_exams: List[Dict[str, Any]] = []
-    enrolled_codes = list({s["course_code"] for s in current_schedule if s.get("course_code")})
-    if enrolled_codes:
-        exam_results = await asyncio.gather(*[
-            sb_get(
-                "exam_schedule",
-                params={"course_code": f"eq.{code}"},
-                request=request,
-            )
-            for code in enrolled_codes
-        ])
-        for ex in exam_results:
-            upcoming_exams.extend(ex)
+    # Compute allergies alert
+    allergies = patient.get("allergies") or []
+    allergies_alert = bool(allergies)
 
-    # 7. Degree progress — what's left for the program
-    remaining_required: List[Dict[str, Any]] = []
-    eligible_for_planning: List[Dict[str, Any]] = []
-    program_total_credits = 0
-
-    if student.get("program_code"):
-        # Parallelize: program metadata + all degree requirements (both keyed on program_code)
-        program, all_reqs = await asyncio.gather(
-            sb_get_one(
-                "degree_programs",
-                params={"program_code": f"eq.{student['program_code']}"},
-                request=request,
-            ),
-            sb_get(
-                "degree_requirement_courses",
-                params={"program_code": f"eq.{student['program_code']}"},
-                request=request,
-            ),
-        )
-        program_total_credits = (program or {}).get("total_credits", 0) or 0
-
-        completed_codes = {g["course_code"] for g in completed if g.get("course_code")}
-        in_progress_codes = {g["course_code"] for g in in_progress if g.get("course_code")}
-        scheduled_codes = {s["course_code"] for s in current_schedule if s.get("course_code")}
-
-        for r in all_reqs:
-            code = r.get("course_code")
-            if code and code not in completed_codes:
-                remaining_required.append(r)
-
-        # Eligible for planning semester: remaining courses that have at least
-        # one Open section in the requested semester AND aren't already enrolled.
-        # Parallelize: for each candidate course, fetch sections + course_meta concurrently.
-        # This was the worst sequential offender — N courses × 2 calls each = 20-30 round-trips.
-        candidates = [
-            r for r in remaining_required
-            if r.get("course_code")
-            and r["course_code"] not in scheduled_codes
-            and r["course_code"] not in in_progress_codes
-        ]
-
-        if candidates:
-            # Build the parallel batch: (sections, course_meta) for every candidate
-            section_coros = [
-                sb_get(
-                    "course_sections",
-                    params={
-                        "course_code": f"eq.{r['course_code']}",
-                        "semester": f"eq.{semester}",
-                    },
-                    request=request,
-                )
-                for r in candidates
-            ]
-            course_meta_coros = [
-                sb_get_one(
-                    "courses", params={"course_code": f"eq.{r['course_code']}"}, request=request
-                )
-                for r in candidates
-            ]
-            section_results, course_meta_results = await asyncio.gather(
-                asyncio.gather(*section_coros),
-                asyncio.gather(*course_meta_coros),
-            )
-
-            for r, sections, course_meta in zip(candidates, section_results, course_meta_results):
-                code = r["course_code"]
-                open_sections = [
-                    s for s in sections
-                    if (s.get("status") or "").lower() in ("open", "nearly full")
-                ]
-                if open_sections:
-                    eligible_for_planning.append({
-                        "course_code": code,
-                        "course_name": r.get("course_name"),
-                        "credits": r.get("credits"),
-                        "typical_year": r.get("typical_year"),
-                        "requirement_type": r.get("requirement_type"),
-                        "prerequisites_display": (course_meta or {}).get("prerequisites_display"),
-                        "open_sections_count": len(open_sections),
-                        "open_sections": open_sections,
-                    })
-
-    credits_remaining = max(0, program_total_credits - total_credits) if program_total_credits else None
+    # Payment history summary
+    total_paid = sum(float(i.get("patient_due_sar") or 0) for i in paid_invoices)
+    total_outstanding = sum(float(i.get("patient_due_sar") or 0) for i in outstanding_invoices)
 
     return {
-        "student": student,
-        "advisor": (
-            {**advisor_record, "faculty_record": advisor_faculty}
-            if advisor_record
-            else None
-        ),
-        "academics": {
-            "computed_gpa": computed_gpa,
-            "completed_credits": total_credits,
-            "program_total_credits": program_total_credits,
-            "credits_remaining_estimate": credits_remaining,
-            "completed_grades": completed,
-            "in_progress_grades": in_progress,
+        "patient": patient,
+        "insurance": insurance,
+        "primary_doctor": primary_doctor,
+        "allergies": allergies,
+        "allergies_alert": allergies_alert,
+        "active_conditions_en": patient.get("active_conditions_en") or [],
+        "active_conditions_ar": patient.get("active_conditions_ar") or [],
+        "upcoming_appointments": upcoming,
+        "recent_past_appointments": past,
+        "active_prescriptions": active_prescriptions,
+        "all_prescriptions": prescriptions,
+        "released_lab_results": released_lab_results,
+        "pending_lab_results": pending_lab_results,
+        "outstanding_invoices": outstanding_invoices,
+        "paid_invoices_recent": paid_invoices[:5],
+        "payment_history_summary": {
+            "total_paid_sar": total_paid,
+            "total_outstanding_sar": total_outstanding,
+            "paid_invoice_count": len(paid_invoices),
+            "outstanding_invoice_count": len(outstanding_invoices),
         },
-        "current_schedule": current_schedule,
-        "upcoming_exams": upcoming_exams,
-        "finances": finances,
-        "holds": holds_summary,
-        "degree_progress": {
-            "planning_semester": semester,
-            "remaining_required_courses": remaining_required,
-            "eligible_courses_for_planning_semester": eligible_for_planning,
-        },
+        "pending_refill_requests": pending_refill_requests,
+        "pending_preauth_requests": pending_preauth_requests,
+        "medical_history": history,
     }
 
 
 # ============================================================
-# GET /applicant
+# READ: /doctor
 # ============================================================
-
-@app.get("/applicant")
-async def get_applicant_status(
-    request: Request,
-    application_id: Optional[str] = Query(None),
-    national_id: Optional[str] = Query(None),
+@app.get("/doctor")
+async def get_doctor(
+    doctor_id: Optional[str] = Query(None),
+    name: Optional[str] = Query(None),
+    specialty: Optional[str] = Query(None),
+    clinic_id: Optional[str] = Query(None),
 ):
-    """Admissions application status for prospective students."""
-    if not application_id and not national_id:
-        raise HTTPException(400, "Provide application_id or national_id")
-    params = (
-        {"application_id": f"eq.{application_id}"}
-        if application_id
-        else {"national_id": f"eq.{national_id}"}
-    )
-    row = await sb_get_one("applicants", params=params, request=request)
-    if not row:
-        raise HTTPException(404, "Application not found")
-    return {"applicant": row}
-
-
-# ============================================================
-# GET /course
-# ============================================================
-
-@app.get("/course")
-async def get_course_info(
-    request: Request,
-    course_code: Optional[str] = Query(None),
-    department: Optional[str] = Query(None),
-    semester: Optional[str] = Query(None),
-    status_filter: Optional[str] = Query(None, alias="status"),
-):
-    """Course details + sections + offerings summary."""
-    if not course_code and not department:
-        raise HTTPException(400, "Provide course_code or department")
-
-    # Course meta
-    if course_code:
-        courses = await sb_get(
-            "courses", params={"course_code": f"eq.{course_code}"}, request=request
+    """
+    Look up doctor info. Robust to the agent passing multiple parameters
+    (e.g. doctor_id + name): if the primary filter returns nothing, falls
+    back through the remaining provided filters before giving up.
+    """
+    if not any([doctor_id, name, specialty, clinic_id]):
+        raise HTTPException(
+            status_code=400,
+            detail="Provide at least one of: doctor_id, name, specialty, clinic_id"
         )
+
+    # Try filters in priority order. If a filter returns results, return them.
+    # If empty, fall through to the next provided filter.
+    attempts = []
+
+    if doctor_id:
+        attempts.append(("doctor_id", {"doctor_id": f"eq.{doctor_id}", "order": "full_name_en.asc"}))
+    if name:
+        attempts.append(("name", {
+            "or": f"(full_name_en.ilike.*{name}*,full_name_ar.ilike.*{name}*)",
+            "order": "full_name_en.asc",
+        }))
+    if specialty:
+        attempts.append(("specialty", {"specialty_en": f"ilike.*{specialty}*", "order": "full_name_en.asc"}))
+    if clinic_id:
+        attempts.append(("clinic_id", {"primary_clinic_id": f"eq.{clinic_id}", "order": "full_name_en.asc"}))
+
+    last_filter = None
+    for filter_name, params in attempts:
+        last_filter = filter_name
+        doctors = await sb_get("doctors", params)
+        if doctors:
+            return {"doctors": doctors, "count": len(doctors), "matched_by": filter_name}
+
+    # All provided filters returned empty
+    return {"doctors": [], "count": 0, "matched_by": None,
+            "note": f"No doctor matched the provided filters (tried: {[a[0] for a in attempts]})"}
+
+
+# ============================================================
+# READ: /slots
+# ============================================================
+@app.get("/slots")
+async def get_slots(
+    doctor_id: Optional[str] = Query(None),
+    specialty: Optional[str] = Query(None),
+    clinic_id: Optional[str] = Query(None),
+    city: Optional[str] = Query(None),
+    from_date: Optional[str] = Query(None),
+    near_date: Optional[str] = Query(None),
+    near_window_days: int = Query(7),
+    limit: int = Query(5),
+):
+    """Available appointment slots, sorted by earliest first (or by proximity to near_date)."""
+    today = date.today().isoformat()
+
+    # If specialty or city given, first resolve to doctor_ids
+    doctor_filter_ids: Optional[list[str]] = None
+    if specialty or city:
+        d_params = {"select": "doctor_id,primary_clinic_id"}
+        if specialty:
+            d_params["specialty_en"] = f"ilike.*{specialty}*"
+        candidate_docs = await sb_get("doctors", d_params)
+        if city:
+            # Need clinic city — fetch clinics in that city
+            clinics_in_city = await sb_get("clinics", {
+                "city_en": f"ilike.*{city}*",
+                "select": "clinic_id",
+            })
+            city_clinic_ids = {c["clinic_id"] for c in clinics_in_city}
+            candidate_docs = [d for d in candidate_docs if d.get("primary_clinic_id") in city_clinic_ids]
+        doctor_filter_ids = [d["doctor_id"] for d in candidate_docs]
+        if not doctor_filter_ids:
+            return {"slots": [], "count": 0}
+
+    params = {
+        "status": "eq.Open",
+        "select": "*",
+        "order": "date.asc,start_time.asc",
+        "limit": str(limit),
+    }
+    if doctor_id:
+        params["doctor_id"] = f"eq.{doctor_id}"
+    elif doctor_filter_ids:
+        params["doctor_id"] = f"in.({','.join(doctor_filter_ids)})"
+    if clinic_id:
+        params["clinic_id"] = f"eq.{clinic_id}"
+
+    if from_date:
+        params["date"] = f"gte.{from_date}"
     else:
-        courses = await sb_get(
-            "courses", params={"department": f"eq.{department}"}, request=request
-        )
-    if not courses:
-        raise HTTPException(404, "No course found")
+        # default: today onward
+        params["date"] = f"gte.{today}"
 
-    results = []
-    for c in courses:
-        code = c["course_code"]
-        section_params = {"course_code": f"eq.{code}"}
-        if semester:
-            section_params["semester"] = f"eq.{semester}"
-        sections = await sb_get("course_sections", params=section_params, request=request)
-        if status_filter:
-            sections = [
-                s for s in sections
-                if (s.get("status") or "").lower() == status_filter.lower()
-            ]
+    # near_date overrides from_date for proximity sort
+    if near_date:
+        try:
+            target = datetime.strptime(near_date, "%Y-%m-%d").date()
+            window_start = (target - timedelta(days=near_window_days)).isoformat()
+            window_end = (target + timedelta(days=near_window_days)).isoformat()
+            params["date"] = f"gte.{window_start}"
+            params["and"] = f"(date.lte.{window_end})"
+        except ValueError:
+            pass  # ignore malformed date
 
-        offering_params = {"course_code": f"eq.{code}"}
-        if semester:
-            offering_params["semester"] = f"eq.{semester}"
-        summary = await sb_get(
-            "course_offerings_summary", params=offering_params, request=request
-        )
+    slots = await sb_get("doctor_availability", params)
 
-        results.append({
-            "course": c,
-            "sections": sections,
-            "offerings_summary": summary,
+    # Enrich with doctor + clinic names
+    all_doctors = await sb_get("doctors", {})
+    all_clinics = await sb_get("clinics", {})
+    doctors_by_id = {d["doctor_id"]: d for d in all_doctors}
+    clinics_by_id = {c["clinic_id"]: c for c in all_clinics}
+    enriched = []
+    for s in slots:
+        d = doctors_by_id.get(s["doctor_id"], {})
+        c = clinics_by_id.get(s["clinic_id"], {})
+        enriched.append({
+            **s,
+            "doctor_name_en": d.get("full_name_en"),
+            "doctor_name_ar": d.get("full_name_ar"),
+            "doctor_specialty_en": d.get("specialty_en"),
+            "doctor_consultation_fee_sar": d.get("consultation_fee_sar"),
+            "clinic_name_en": c.get("clinic_name_en"),
+            "clinic_name_ar": c.get("clinic_name_ar"),
+            "clinic_address_en": c.get("address_en"),
         })
 
-    if course_code:
-        return results[0]
-    return {"courses": results, "count": len(results)}
+    return {"slots": enriched, "count": len(enriched)}
 
 
 # ============================================================
-# GET /faculty (with advisor routing hint)
+# READ: /clinic
 # ============================================================
+@app.get("/clinic")
+async def get_clinic(
+    clinic_id: Optional[str] = Query(None),
+    city: Optional[str] = Query(None),
+):
+    params = {}
+    if clinic_id:
+        params["clinic_id"] = f"eq.{clinic_id}"
+    elif city:
+        params["city_en"] = f"ilike.*{city}*"
+    clinics = await sb_get("clinics", params)
+    return {"clinics": clinics, "count": len(clinics)}
 
-@app.get("/faculty")
-async def get_faculty_info(
-    request: Request,
-    faculty_id: Optional[str] = Query(None),
+
+# ============================================================
+# READ: /medication
+# ============================================================
+@app.get("/medication")
+async def get_medication(
+    medication_id: Optional[str] = Query(None),
     name: Optional[str] = Query(None),
-    department: Optional[str] = Query(None),
 ):
-    """Faculty lookup. If the faculty member is also an advisor, surface a
-    routing hint pointing the agent at /advisor for advising hours."""
-    if not any([faculty_id, name, department]):
-        raise HTTPException(400, "Provide faculty_id, name, or department")
-
-    if faculty_id:
-        rows = await sb_get(
-            "faculty", params={"faculty_id": f"eq.{faculty_id}"}, request=request
-        )
+    params = {}
+    if medication_id:
+        params["medication_id"] = f"eq.{medication_id}"
     elif name:
-        rows = await sb_get(
-            "faculty", params={"name_en": f"ilike.*{name}*"}, request=request
-        )
+        params["or"] = f"(name_en.ilike.*{name}*,name_ar.ilike.*{name}*)"
     else:
-        rows = await sb_get(
-            "faculty", params={"department": f"eq.{department}"}, request=request
-        )
-
-    enriched = []
-    for f in rows:
-        record = dict(f)
-        if f.get("is_advisor"):
-            adv = await sb_get_one(
-                "advisors",
-                params={"faculty_id": f"eq.{f['faculty_id']}"},
-                request=request,
-            )
-            if adv:
-                record["_routing_hint"] = (
-                    f"This faculty member is also an academic advisor "
-                    f"({adv.get('advisor_id')}). The 'office_hours' field above is "
-                    f"for course/drop-in questions only. For academic advising "
-                    f"appointments, use get_advisor_info — advising hours are "
-                    f"{adv.get('available_days')} {adv.get('available_hours')}, "
-                    f"which may differ from the office hours shown here."
-                )
-        enriched.append(record)
-
-    return {"faculty": enriched, "count": len(enriched)}
+        raise HTTPException(status_code=400, detail="Provide medication_id or name")
+    meds = await sb_get("medications_catalog", params)
+    return {"medications": meds, "count": len(meds)}
 
 
 # ============================================================
-# GET /advisor
+# READ: /insurance
 # ============================================================
-
-@app.get("/advisor")
-async def get_advisor_info(
-    request: Request,
-    advisor_id: Optional[str] = Query(None),
-    faculty_id: Optional[str] = Query(None),
-    department: Optional[str] = Query(None),
-):
-    """Advisor lookup, enriched with the underlying faculty record (office
-    hours, specialization, languages, years at university). Use for academic
-    advising appointments — Available Days/Hours are advising-specific."""
-    if not any([advisor_id, faculty_id, department]):
-        raise HTTPException(400, "Provide advisor_id, faculty_id, or department")
-
-    if advisor_id:
-        rows = await sb_get(
-            "advisors", params={"advisor_id": f"eq.{advisor_id}"}, request=request
-        )
-    elif faculty_id:
-        rows = await sb_get(
-            "advisors", params={"faculty_id": f"eq.{faculty_id}"}, request=request
-        )
-    else:
-        rows = await sb_get(
-            "advisors", params={"department": f"eq.{department}"}, request=request
-        )
-
-    enriched = []
-    for adv in rows:
-        fac = None
-        if adv.get("faculty_id"):
-            fac = await sb_get_one(
-                "faculty",
-                params={"faculty_id": f"eq.{adv['faculty_id']}"},
-                request=request,
-            )
-
-        record = {**adv, "faculty_record": fac}
-
-        # Routing hint when faculty office hours differ from advising hours
-        if fac:
-            office_hours = (fac.get("office_hours") or "").strip()
-            advising_hours = f"{adv.get('available_days', '')} {adv.get('available_hours', '')}".strip()
-            if office_hours and advising_hours and office_hours.lower() != advising_hours.lower():
-                record["_routing_hint"] = (
-                    f"For academic advising appointments, use this advisor record's "
-                    f"available_days and available_hours fields ({advising_hours}). "
-                    f"The faculty office_hours field ({office_hours}) is for "
-                    f"course/drop-in questions, NOT advising — do not surface those "
-                    f"hours when the student asked about an advising appointment."
-                )
-
-        enriched.append(record)
-
-    return {"advisors": enriched, "count": len(enriched)}
+@app.get("/insurance")
+async def get_insurance(provider_id: Optional[str] = Query(None)):
+    if not provider_id:
+        raise HTTPException(status_code=400, detail="Provide provider_id")
+    plan = await sb_get_one("insurance_providers", {"provider_id": f"eq.{provider_id}"})
+    if not plan:
+        raise HTTPException(status_code=404, detail="Insurance plan not found")
+    return plan
 
 
 # ============================================================
-# GET /calendar
+# READ: /lab-result/fetch
 # ============================================================
-
-@app.get("/calendar")
-async def get_academic_calendar(
-    request: Request,
-    semester: Optional[str] = Query(None),
-    event_type: Optional[str] = Query(None),
-    upcoming_only: bool = Query(False),
-):
-    """Academic calendar events: registration, exams, deadlines, holidays, etc."""
-    params: Dict[str, Any] = {"order": "start_date.asc"}
-    if semester:
-        params["semester"] = f"eq.{semester}"
-    if event_type:
-        params["event_type"] = f"eq.{event_type}"
-    if upcoming_only:
-        today = datetime.now(timezone.utc).date().isoformat()
-        params["start_date"] = f"gte.{today}"
-    events = await sb_get("academic_calendar", params=params, request=request)
-    return {"events": events, "count": len(events)}
-
-
-# ============================================================
-# GET /degree-requirements
-# ============================================================
-
-@app.get("/degree-requirements")
-async def get_degree_requirements(
-    request: Request,
-    program_code: Optional[str] = Query(None),
-    program_name: Optional[str] = Query(None),
-    requirement_type: Optional[str] = Query(None),
-):
-    """Program requirements with course list."""
-    if not program_code and not program_name:
-        raise HTTPException(400, "Provide program_code or program_name")
-
-    if program_code:
-        program = await sb_get_one(
-            "degree_programs",
-            params={"program_code": f"eq.{program_code}"},
-            request=request,
-        )
-    else:
-        program = await sb_get_one(
-            "degree_programs",
-            params={"program_name_en": f"ilike.*{program_name}*"},
-            request=request,
-        )
-    if not program:
-        raise HTTPException(404, "Program not found")
-
-    req_params = {"program_code": f"eq.{program['program_code']}"}
-    if requirement_type:
-        req_params["requirement_type"] = f"eq.{requirement_type}"
-    courses = await sb_get(
-        "degree_requirement_courses",
-        params=req_params,
-        request=request,
-    )
-    return {"program": program, "courses": courses}
-
-
-# ============================================================
-# GET /exam-schedule
-# ============================================================
-
-@app.get("/exam-schedule")
-async def get_exam_schedule(
-    request: Request,
-    course_code: Optional[str] = Query(None),
-    semester: Optional[str] = Query(None),
-    exam_type: Optional[str] = Query(None),
-):
-    """Exam schedule lookup. Use for 'when is my X exam?' questions."""
-    params: Dict[str, Any] = {"order": "exam_date.asc"}
-    if course_code:
-        params["course_code"] = f"eq.{course_code}"
-    if semester:
-        params["semester"] = f"eq.{semester}"
-    if exam_type:
-        params["exam_type"] = f"eq.{exam_type}"
-    exams = await sb_get("exam_schedule", params=params, request=request)
-    return {"exams": exams, "count": len(exams)}
-
-
-# ============================================================
-# Pydantic models for POST endpoints
-# ============================================================
-
-class EnrollmentActionRequest(BaseModel):
-    student_id: str
-    action: str = Field(..., description="add | drop | swap")
-    course_code: Optional[str] = None
-    section: Optional[str] = None
-    semester: Optional[str] = None
-    # For swap: the section to drop + the section to add
-    drop_course_code: Optional[str] = None
-    drop_section: Optional[str] = None
-    add_course_code: Optional[str] = None
-    add_section: Optional[str] = None
-
-
-class AdvisingAppointmentRequest(BaseModel):
-    student_id: str
-    advisor_id: str
-    action: str = Field("book", description="book | cancel")
-    scheduled_for: Optional[str] = Field(None, description="ISO timestamp")
-    duration_minutes: int = 30
-    notes: Optional[str] = None
-    appointment_id: Optional[str] = Field(None, description="Required for cancel")
-
-
-class DocumentGenerateRequest(BaseModel):
-    student_id: str
-    document_type: str = Field(..., description="transcript | fee_statement | enrollment_letter | schedule_summary")
-    download_url: Optional[str] = Field(None, description="Optional — defaults to # placeholder")
-
-
-class HoldActionRequest(BaseModel):
-    student_id: str
-    hold_id: int
-    action: str = Field("clear", description="clear")
-    resolution_note: Optional[str] = None
-
-
-class FeePaymentRequest(BaseModel):
-    student_id: str
-    fee_record_id: int
-    amount_sar: float
-    method: str = Field("Sadad", description="Payment method")
-    sadad_reference: Optional[str] = None
-
-
-class ProfileUpdateRequest(BaseModel):
-    student_id: str
-    updates: Dict[str, Any] = Field(..., description="Fields to update — phone, email, city")
-
-
-class ApplicationActionRequest(BaseModel):
-    application_id: str
-    action: str = Field(..., description="submit_documents | accept | reject | waitlist | request_documents")
-    next_step: Optional[str] = None
-    notes: Optional[str] = None
-
-
-# ============================================================
-# POST /enrollment/action  — drop / add / swap a course
-# ============================================================
-
-@app.post("/enrollment/action")
-async def enrollment_action(req: EnrollmentActionRequest, request: Request):
-    """Drop, add, or swap a course for a student.
-
-    Side effects:
-      - For drop/add: mutates class_schedules
-      - For swap: drops one section and adds another atomically (best-effort)
-      - Always: logs to agent_actions for staff portal real-time updates
+@app.get("/lab-result/fetch")
+async def fetch_lab_document(lab_result_id: str = Query(...)):
     """
-    student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
-    )
-    if not student:
-        raise HTTPException(404, f"Student {req.student_id} not found")
-
-    action = req.action.lower()
-    student_name = student.get("full_name_en", req.student_id)
-
-    if action == "drop":
-        if not req.course_code:
-            raise HTTPException(400, "course_code required for drop")
-        existing = await sb_get(
-            "class_schedules",
-            params={
-                "student_id": f"eq.{req.student_id}",
-                "course_code": f"eq.{req.course_code}",
-            },
-            request=request,
-        )
-        if not existing:
-            raise HTTPException(
-                404,
-                f"Student is not currently enrolled in {req.course_code}",
-            )
-        deleted = await sb_delete(
-            "class_schedules",
-            match={
-                "student_id": req.student_id,
-                "course_code": req.course_code,
-            },
-            request=request,
-        )
-        await log_agent_action(
-            action_type="drop_course",
-            description=f"Dropped {req.course_code} from {student_name}'s schedule",
-            student_id=req.student_id,
-            payload={"course_code": req.course_code, "removed_rows": deleted},
-            request=request,
-        )
-        return {
-            "ok": True,
-            "action": "drop",
-            "student_id": req.student_id,
-            "course_code": req.course_code,
-            "removed": deleted,
-        }
-
-    if action == "add":
-        if not req.course_code or not req.section or not req.semester:
-            raise HTTPException(
-                400, "course_code, section, and semester required for add"
-            )
-        # Verify section exists and is open
-        sec = await sb_get_one(
-            "course_sections",
-            params={
-                "course_code": f"eq.{req.course_code}",
-                "section": f"eq.{req.section}",
-                "semester": f"eq.{req.semester}",
-            },
-            request=request,
-        )
-        if not sec:
-            raise HTTPException(
-                404,
-                f"Section {req.course_code}-{req.section} not found in {req.semester}",
-            )
-        if (sec.get("status") or "").lower() == "full":
-            raise HTTPException(
-                409, f"Section {req.course_code}-{req.section} is full"
-            )
-
-        # Check for duplicate enrollment
-        existing = await sb_get(
-            "class_schedules",
-            params={
-                "student_id": f"eq.{req.student_id}",
-                "course_code": f"eq.{req.course_code}",
-            },
-            request=request,
-        )
-        if existing:
-            raise HTTPException(
-                409,
-                f"Student is already enrolled in {req.course_code}",
-            )
-
-        new_row = {
-            "student_id": req.student_id,
-            "semester": sec.get("semester"),
-            "course_code": sec.get("course_code"),
-            "course_name": sec.get("course_name"),
-            "section": sec.get("section"),
-            "schedule_pattern": sec.get("schedule_pattern"),
-            "day_1": sec.get("day_1"),
-            "day_2": sec.get("day_2"),
-            "day_3": sec.get("day_3"),
-            "time": sec.get("time"),
-            "duration": sec.get("duration"),
-            "room": sec.get("room"),
-            "instructor": sec.get("instructor"),
-        }
-        inserted = await sb_insert("class_schedules", new_row, request=request)
-        await log_agent_action(
-            action_type="add_course",
-            description=(
-                f"Added {req.course_code} Section {req.section} "
-                f"({sec.get('schedule_pattern')} {sec.get('time')}) to "
-                f"{student_name}'s schedule"
-            ),
-            student_id=req.student_id,
-            payload={
-                "course_code": req.course_code,
-                "section": req.section,
-                "semester": req.semester,
-                "added_row": inserted,
-            },
-            request=request,
-        )
-        return {
-            "ok": True,
-            "action": "add",
-            "student_id": req.student_id,
-            "added": inserted,
-        }
-
-    if action == "swap":
-        if not all([req.drop_course_code, req.add_course_code, req.add_section, req.semester]):
-            raise HTTPException(
-                400,
-                "drop_course_code, add_course_code, add_section, and semester required for swap",
-            )
-        # Drop first
-        deleted = await sb_delete(
-            "class_schedules",
-            match={
-                "student_id": req.student_id,
-                "course_code": req.drop_course_code,
-            },
-            request=request,
-        )
-        if not deleted:
-            raise HTTPException(
-                404,
-                f"Student is not currently enrolled in {req.drop_course_code} — nothing to drop",
-            )
-        # Then add the replacement
-        sec = await sb_get_one(
-            "course_sections",
-            params={
-                "course_code": f"eq.{req.add_course_code}",
-                "section": f"eq.{req.add_section}",
-                "semester": f"eq.{req.semester}",
-            },
-            request=request,
-        )
-        if not sec:
-            # Roll back the drop by re-inserting (best-effort)
-            for row in deleted:
-                row.pop("id", None)
-                await sb_insert("class_schedules", row, request=request)
-            raise HTTPException(
-                404,
-                f"Replacement section {req.add_course_code}-{req.add_section} not found "
-                f"in {req.semester} — drop rolled back",
-            )
-        new_row = {
-            "student_id": req.student_id,
-            "semester": sec.get("semester"),
-            "course_code": sec.get("course_code"),
-            "course_name": sec.get("course_name"),
-            "section": sec.get("section"),
-            "schedule_pattern": sec.get("schedule_pattern"),
-            "day_1": sec.get("day_1"),
-            "day_2": sec.get("day_2"),
-            "day_3": sec.get("day_3"),
-            "time": sec.get("time"),
-            "duration": sec.get("duration"),
-            "room": sec.get("room"),
-            "instructor": sec.get("instructor"),
-        }
-        inserted = await sb_insert("class_schedules", new_row, request=request)
-        await log_agent_action(
-            action_type="swap_course",
-            description=(
-                f"Swapped {req.drop_course_code} for {req.add_course_code} "
-                f"Section {req.add_section} in {student_name}'s schedule"
-            ),
-            student_id=req.student_id,
-            payload={
-                "dropped": deleted,
-                "added": inserted,
-            },
-            request=request,
-        )
-        return {
-            "ok": True,
-            "action": "swap",
-            "student_id": req.student_id,
-            "dropped": deleted,
-            "added": inserted,
-        }
-
-    raise HTTPException(400, f"Unknown action '{req.action}'. Use add, drop, or swap.")
-
-
-# ============================================================
-# POST /advising/appointment
-# ============================================================
-
-@app.post("/advising/appointment")
-async def advising_appointment(req: AdvisingAppointmentRequest, request: Request):
-    """Book or cancel an advising appointment with an academic advisor."""
-    student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
-    )
-    if not student:
-        raise HTTPException(404, f"Student {req.student_id} not found")
-    student_name = student.get("full_name_en", req.student_id)
-
-    action = req.action.lower()
-
-    if action == "book":
-        if not req.scheduled_for:
-            raise HTTPException(400, "scheduled_for required for booking")
-        advisor = await sb_get_one(
-            "advisors",
-            params={"advisor_id": f"eq.{req.advisor_id}"},
-            request=request,
-        )
-        if not advisor:
-            raise HTTPException(404, f"Advisor {req.advisor_id} not found")
-        appt = await sb_insert(
-            "advising_appointments",
-            {
-                "student_id": req.student_id,
-                "advisor_id": req.advisor_id,
-                "scheduled_for": req.scheduled_for,
-                "duration_minutes": req.duration_minutes,
-                "status": "scheduled",
-                "notes": req.notes,
-            },
-            request=request,
-        )
-        await log_agent_action(
-            action_type="book_advising",
-            description=(
-                f"Booked advising appointment for {student_name} with "
-                f"{advisor.get('name', req.advisor_id)} at {req.scheduled_for}"
-            ),
-            student_id=req.student_id,
-            payload={"appointment": appt},
-            request=request,
-        )
-        return {"ok": True, "action": "book", "appointment": appt}
-
-    if action == "cancel":
-        if not req.appointment_id:
-            raise HTTPException(400, "appointment_id required for cancel")
-        updated = await sb_update(
-            "advising_appointments",
-            match={"id": req.appointment_id},
-            updates={"status": "cancelled"},
-            request=request,
-        )
-        if not updated:
-            raise HTTPException(404, f"Appointment {req.appointment_id} not found")
-        await log_agent_action(
-            action_type="cancel_advising",
-            description=f"Cancelled advising appointment {req.appointment_id} for {student_name}",
-            student_id=req.student_id,
-            payload={"appointment": updated[0]},
-            request=request,
-        )
-        return {"ok": True, "action": "cancel", "appointment": updated[0]}
-
-    raise HTTPException(400, f"Unknown action '{req.action}'. Use book or cancel.")
-
-
-# ============================================================
-# POST /document/generate
-# ============================================================
-
-@app.post("/document/generate")
-async def document_generate(req: DocumentGenerateRequest, request: Request):
-    """Log a generated document.
-
-    The actual PDF content is generated agent-side (python_repl) and uploaded
-    to Nebelus' artifact storage; this endpoint just records the metadata so the
-    staff portal can show 'document generated' in the activity drawer and on the
-    student detail page.
-
-    NOTE on transcripts: transcripts are static, pre-loaded PDFs served by
-    /document/fetch. They never need to be regenerated. This endpoint rejects
-    document_type='transcript' with a 400 so duplicate rows can't accumulate
-    in documents_generated. The agent should use fetch_document for transcripts.
+    Fetch the pre-generated PDF document for a released lab result.
+    Returns the download URL and metadata. The agent sends this URL via
+    send_whatsapp_media to deliver the PDF to the patient.
     """
-    student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
-    )
-    if not student:
-        raise HTTPException(404, f"Student {req.student_id} not found")
-    student_name = student.get("full_name_en", req.student_id)
+    # 1) Verify the lab result exists and is Released
+    lab = await sb_get_one("lab_results", {"lab_result_id": f"eq.{lab_result_id}"})
+    if not lab:
+        raise HTTPException(status_code=404, detail="Lab result not found")
 
-    # Transcripts are static — always served via fetch_document, never generated
-    if req.document_type == "transcript":
+    if lab.get("status") != "Released":
         raise HTTPException(
-            400,
-            (
-                "Transcripts are pre-loaded static documents. "
-                "Use fetch_document(student_id=..., document_type='transcript') "
-                "to serve a transcript — do not call generate_document for transcripts."
-            ),
+            status_code=409,
+            detail=f"Lab result is {lab.get('status', 'not Released')} — no PDF available yet"
         )
 
-    valid_types = {"fee_statement", "enrollment_letter", "schedule_summary"}
-    if req.document_type not in valid_types:
+    # 2) Find the associated PDF document
+    doc = await sb_get_one("lab_documents", {"lab_result_id": f"eq.{lab_result_id}"})
+    if not doc:
         raise HTTPException(
-            400,
-            f"document_type must be one of {sorted(valid_types)} (transcripts use fetch_document)",
+            status_code=404,
+            detail="No PDF document found for this lab result"
         )
 
-    doc = await sb_insert(
-        "documents_generated",
-        {
-            "student_id": req.student_id,
-            "document_type": req.document_type,
-            "download_url": req.download_url or "#",
-        },
-        request=request,
-    )
-    pretty_type = req.document_type.replace("_", " ").title()
-    await log_agent_action(
-        action_type="generate_document",
-        description=f"Generated {pretty_type} for {student_name}",
-        student_id=req.student_id,
-        payload={"document": doc},
-        request=request,
-    )
-    return {"ok": True, "document": doc}
-
-
-# ============================================================
-# GET /document/fetch — pre-loaded documents (fast path)
-# ============================================================
-
-# The pre-loaded transcripts live in Supabase Storage under the
-# `student-documents` bucket. Convention: <document_type>s/<student_id>.pdf
-# (e.g. "transcripts/STU-2024001.pdf"). Loveable creates and seeds this bucket.
-
-STORAGE_BUCKET = "student-documents"
-SIGNED_URL_EXPIRY_SECONDS = 600  # 10 minutes — long enough for the agent to send
-
-@app.get("/document/fetch")
-async def document_fetch(
-    request: Request,
-    student_id: str = Query(..., description="Student ID, e.g. STU-2024001"),
-    document_type: str = Query(
-        "transcript",
-        description="Document type — currently only 'transcript' is pre-loaded",
-    ),
-):
-    """Fetch a pre-loaded document for a student.
-
-    Returns a short-lived signed URL pointing at the PDF in Supabase Storage.
-    The agent passes this URL directly to send_whatsapp_media — no
-    python_repl / PDF generation needed. ~2-3 seconds end-to-end.
-
-    Falls back to a 404 with a helpful message if no pre-loaded document
-    exists for the requested type; the agent can then offer to generate
-    one on the fly via the existing generate_document path.
-    """
-    student = await sb_get_one(
-        "students", params={"student_id": f"eq.{student_id}"}, request=request
-    )
-    if not student:
-        raise HTTPException(404, f"Student {student_id} not found")
-    student_name = student.get("full_name_en", student_id)
-
-    # Build the storage path. Convention: <document_type>s/<student_id>.pdf
-    valid_preloaded = {"transcript"}  # extend in phase 2 with more types
-    if document_type not in valid_preloaded:
-        raise HTTPException(
-            404,
-            (
-                f"No pre-loaded {document_type} available. "
-                f"Use generate_document to create one on the fly."
-            ),
-        )
-
-    storage_path = f"{document_type}s/{student_id}.pdf"
-
-    # Generate a signed URL via Supabase Storage API
-    client: httpx.AsyncClient = request.app.state.http
-    sign_url = (
-        f"{SUPABASE_URL}/storage/v1/object/sign/{STORAGE_BUCKET}/{storage_path}"
-    )
-    try:
-        resp = await client.post(
-            sign_url,
-            json={"expiresIn": SIGNED_URL_EXPIRY_SECONDS},
-            headers={
-                "apikey": SUPABASE_SERVICE_KEY,
-                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
-                "Content-Type": "application/json",
-            },
-        )
-    except Exception as e:
-        logger.exception("Failed to call Supabase Storage sign endpoint")
-        raise HTTPException(502, f"Storage sign failed: {e}")
-
-    if resp.status_code == 404:
-        raise HTTPException(
-            404,
-            (
-                f"No pre-loaded {document_type} found for {student_id}. "
-                f"Bucket '{STORAGE_BUCKET}' may not contain '{storage_path}'."
-            ),
-        )
-    if resp.status_code >= 400:
-        logger.error(f"Supabase Storage sign failed: {resp.status_code} {resp.text}")
-        raise HTTPException(
-            502, f"Storage sign failed: {resp.text[:200]}"
-        )
-
-    body = resp.json()
-    # Supabase returns {"signedURL": "/object/sign/..."} — needs the host prefix
-    signed_path = body.get("signedURL") or body.get("signedUrl")
-    if not signed_path:
-        raise HTTPException(502, f"Unexpected sign response: {body}")
-    full_url = f"{SUPABASE_URL}/storage/v1{signed_path}"
-
-    # Log it just like generate_document so the activity drawer fires
-    pretty_type = document_type.replace("_", " ").title()
-    await log_agent_action(
-        action_type="fetch_document",
-        description=f"Shared {pretty_type} with {student_name}",
-        student_id=student_id,
-        payload={"document_type": document_type, "storage_path": storage_path},
-        request=request,
-    )
-
-    # Update the existing documents_generated row for this (student, doc_type)
-    # if one exists — so the Documents tab shows one transcript per student,
-    # not a growing list of delivery events. The agent_actions table above is
-    # the audit log; documents_generated is the registry of what's available.
-    existing_doc = await sb_get_one(
-        "documents_generated",
-        params={
-            "student_id": f"eq.{student_id}",
-            "document_type": f"eq.{document_type}",
-        },
-        request=request,
-    )
-    now_iso = datetime.now(timezone.utc).isoformat()
-    if existing_doc:
-        # Bump generated_at so the staff portal can show "just delivered" if it
-        # wants to. Leave download_url alone — if it's "preloaded:..." that's
-        # what flags it as a pre-loaded doc in the Documents tab.
-        await sb_update(
-            "documents_generated",
-            match={"id": str(existing_doc["id"])},
-            updates={"generated_at": now_iso},
-            request=request,
-        )
-    else:
-        # Fallback: no seed row exists for this student/doc_type (rare —
-        # the seed migration should populate one for every student × type)
-        await sb_insert(
-            "documents_generated",
-            {
-                "student_id": student_id,
-                "document_type": document_type,
-                "download_url": full_url,
-            },
-            request=request,
-        )
-
+    # 3) Return the URL and metadata
     return {
         "ok": True,
-        "student_id": student_id,
-        "document_type": document_type,
-        "download_url": full_url,
-        "expires_in_seconds": SIGNED_URL_EXPIRY_SECONDS,
-        "filename": f"{student_name.replace(' ', '_')}_{pretty_type.replace(' ', '_')}.pdf",
+        "lab_result_id": lab_result_id,
+        "patient_id": lab.get("patient_id"),
+        "test_name_en": lab.get("test_name_en"),
+        "test_name_ar": lab.get("test_name_ar"),
+        "result_date": lab.get("result_date"),
+        "download_url": doc.get("download_url"),
+        "filename": doc.get("filename"),
+        "mime_type": doc.get("mime_type", "application/pdf"),
     }
 
 
 # ============================================================
-# POST /hold/action
+# WRITE: /appointment/book
 # ============================================================
+@app.post("/appointment/book")
+async def book_appointment(
+    patient_id: str = Body(...),
+    slot_id: str = Body(...),
+    reason: Optional[str] = Body(None),
+    type: str = Body("Initial Consultation"),
+):
+    """Book a slot, increment Booked Count, create appointment row."""
+    # 1. Validate patient + slot exist
+    patient = await sb_get_one("patients", {"patient_id": f"eq.{patient_id}"})
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
 
-@app.post("/hold/action")
-async def hold_action(req: HoldActionRequest, request: Request):
-    """Clear a registration/transcript/financial hold on a student.
+    slot = await sb_get_one("doctor_availability", {"slot_id": f"eq.{slot_id}"})
+    if not slot:
+        raise HTTPException(status_code=404, detail="Slot not found")
+    if slot.get("status") != "Open":
+        raise HTTPException(status_code=409, detail=f"Slot is {slot.get('status')}")
+    if slot.get("booked_count", 0) >= slot.get("slot_capacity", 1):
+        raise HTTPException(status_code=409, detail="Slot is full")
 
-    Note: this is a registrar action in the real world. In the demo, the agent
-    can call it (e.g., after the student confirms they've paid an outstanding
-    fee that was the basis of a financial hold).
-    """
-    student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
-    )
-    if not student:
-        raise HTTPException(404, f"Student {req.student_id} not found")
-    student_name = student.get("full_name_en", req.student_id)
+    # 2. Generate appointment ID
+    existing = await sb_get("appointments", {"select": "appointment_id", "order": "appointment_id.desc", "limit": "1"})
+    next_num = 1
+    if existing:
+        try:
+            last = existing[0]["appointment_id"]
+            next_num = int(last.replace("APT-H", "")) + 1
+        except (ValueError, KeyError):
+            next_num = 1000
+    apt_id = f"APT-H{next_num:03d}"
 
-    if req.action.lower() != "clear":
-        raise HTTPException(400, "Only 'clear' action supported for holds")
+    # 3. Mark slot Booked
+    new_booked = slot.get("booked_count", 0) + 1
+    new_status = "Booked" if new_booked >= slot.get("slot_capacity", 1) else "Open"
+    await sb_update("doctor_availability",
+                    {"slot_id": f"eq.{slot_id}"},
+                    {"booked_count": new_booked, "status": new_status})
 
-    hold = await sb_get_one(
-        "holds", params={"id": f"eq.{req.hold_id}"}, request=request
-    )
-    if not hold:
-        raise HTTPException(404, f"Hold {req.hold_id} not found")
-    if hold.get("student_id") != req.student_id:
-        raise HTTPException(403, "Hold does not belong to this student")
-
-    updated = await sb_update(
-        "holds",
-        match={"id": str(req.hold_id)},
-        updates={
-            "status": "Cleared",
-            "resolution": req.resolution_note or "Cleared via agent",
-        },
-        request=request,
-    )
-    await log_agent_action(
-        action_type="clear_hold",
-        description=(
-            f"Cleared {hold.get('hold_type')} hold for {student_name}"
-        ),
-        student_id=req.student_id,
-        payload={"hold": updated[0] if updated else None},
-        request=request,
-    )
-    return {"ok": True, "hold": updated[0] if updated else None}
-
-
-# ============================================================
-# POST /fee/payment
-# ============================================================
-
-@app.post("/fee/payment")
-async def fee_payment(req: FeePaymentRequest, request: Request):
-    """Record a Sadad-style payment against a fee record."""
-    student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
-    )
-    if not student:
-        raise HTTPException(404, f"Student {req.student_id} not found")
-    student_name = student.get("full_name_en", req.student_id)
-
-    fee = await sb_get_one(
-        "fee_records", params={"id": f"eq.{req.fee_record_id}"}, request=request
-    )
-    if not fee:
-        raise HTTPException(404, f"Fee record {req.fee_record_id} not found")
-    if fee.get("student_id") != req.student_id:
-        raise HTTPException(403, "Fee record does not belong to this student")
-
-    paid_so_far = float(fee.get("paid_sar") or 0)
-    total_due = float(fee.get("total_due_sar") or 0)
-    new_paid = paid_so_far + req.amount_sar
-    new_outstanding = max(0, total_due - new_paid)
-
-    updates = {
-        "paid_sar": round(new_paid, 2),
-        "outstanding_sar": round(new_outstanding, 2),
-        "payment_date": datetime.now(timezone.utc).date().isoformat(),
-        "method": req.method,
-        "status": "Paid" if new_outstanding == 0 else "Partial",
+    # 4. Insert appointment
+    apt_row = {
+        "appointment_id": apt_id,
+        "patient_id": patient_id,
+        "doctor_id": slot["doctor_id"],
+        "clinic_id": slot["clinic_id"],
+        "date": slot["date"],
+        "start_time": slot["start_time"],
+        "duration_minutes": 30,
+        "type": type,
+        "reason_for_visit": reason or "",
+        "status": "Scheduled",
+        "created_date": date.today().isoformat(),
     }
-    updated = await sb_update(
-        "fee_records",
-        match={"id": str(req.fee_record_id)},
-        updates=updates,
-        request=request,
+    await sb_insert("appointments", apt_row)
+
+    # 5. Log agent action
+    doctor = await sb_get_one("doctors", {"doctor_id": f"eq.{slot['doctor_id']}"})
+    clinic = await sb_get_one("clinics", {"clinic_id": f"eq.{slot['clinic_id']}"})
+    desc = (
+        f"Booked {slot['date']} {slot['start_time']} with "
+        f"{doctor.get('full_name_en') if doctor else slot['doctor_id']} "
+        f"at {clinic.get('clinic_name_en') if clinic else slot['clinic_id']}"
+    )
+    await log_agent_action(patient_id, "Book Appointment", desc, {
+        "appointment_id": apt_id,
+        "slot_id": slot_id,
+        "doctor_id": slot["doctor_id"],
+        "clinic_id": slot["clinic_id"],
+    })
+
+    return {"ok": True, "appointment_id": apt_id, "appointment": apt_row}
+
+
+# ============================================================
+# WRITE: /appointment/cancel
+# ============================================================
+@app.post("/appointment/cancel")
+async def cancel_appointment(
+    appointment_id: str = Body(...),
+    reason: Optional[str] = Body(None),
+):
+    apt = await sb_get_one("appointments", {"appointment_id": f"eq.{appointment_id}"})
+    if not apt:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    if apt.get("status") in ("Cancelled", "Completed"):
+        raise HTTPException(status_code=409, detail=f"Cannot cancel — status is {apt['status']}")
+
+    # Mark cancelled
+    await sb_update("appointments",
+                    {"appointment_id": f"eq.{appointment_id}"},
+                    {"status": "Cancelled",
+                     "notes": f"{apt.get('notes') or ''}\nCancelled: {reason or 'No reason given'}"})
+
+    # Try to release the slot (find by doctor+date+time)
+    slot = await sb_get_one("doctor_availability", {
+        "doctor_id": f"eq.{apt['doctor_id']}",
+        "date": f"eq.{apt['date']}",
+        "start_time": f"eq.{apt['start_time']}",
+    })
+    if slot:
+        new_booked = max(0, slot.get("booked_count", 1) - 1)
+        new_status = "Open" if new_booked < slot.get("slot_capacity", 1) else slot.get("status")
+        await sb_update("doctor_availability",
+                        {"slot_id": f"eq.{slot['slot_id']}"},
+                        {"booked_count": new_booked, "status": new_status})
+
+    await log_agent_action(apt["patient_id"], "Cancel Appointment",
+                           f"Cancelled appointment {appointment_id} on {apt['date']} at {apt['start_time']}",
+                           {"appointment_id": appointment_id, "reason": reason})
+
+    return {"ok": True, "appointment_id": appointment_id, "status": "Cancelled"}
+
+
+# ============================================================
+# WRITE: /appointment/reschedule
+# ============================================================
+@app.post("/appointment/reschedule")
+async def reschedule_appointment(
+    appointment_id: str = Body(...),
+    new_slot_id: str = Body(...),
+    reason: Optional[str] = Body(None),
+):
+    # 1. cancel old
+    apt = await sb_get_one("appointments", {"appointment_id": f"eq.{appointment_id}"})
+    if not apt:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    patient_id = apt["patient_id"]
+    apt_type = apt.get("type", "Follow-up")
+
+    # 2. book new
+    book_result = await book_appointment(
+        patient_id=patient_id,
+        slot_id=new_slot_id,
+        reason=apt.get("reason_for_visit"),
+        type=apt_type,
     )
 
-    sadad_ref = req.sadad_reference or f"SDD-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}"
-    await log_agent_action(
-        action_type="record_payment",
-        description=(
-            f"Recorded SAR {req.amount_sar:.2f} payment for {student_name} "
-            f"(ref: {sadad_ref})"
-        ),
-        student_id=req.student_id,
-        payload={
-            "fee_record": updated[0] if updated else None,
-            "amount_sar": req.amount_sar,
-            "sadad_reference": sadad_ref,
-        },
-        request=request,
-    )
-    return {
-        "ok": True,
-        "fee_record": updated[0] if updated else None,
-        "sadad_reference": sadad_ref,
+    # 3. cancel old (only after new is booked successfully)
+    await cancel_appointment(appointment_id=appointment_id, reason=f"Rescheduled to {book_result['appointment_id']}")
+
+    return {"ok": True, "old_appointment_id": appointment_id, "new_appointment_id": book_result["appointment_id"]}
+
+
+# ============================================================
+# WRITE: /prescription/refill
+# ============================================================
+@app.post("/prescription/refill")
+async def refill_prescription(
+    prescription_id: str = Body(...),
+    medication_id: str = Body(...),
+    pharmacy_id: str = Body(...),
+    delivery_method: str = Body("Pickup"),  # "Pickup" | "Home Delivery"
+):
+    rx = await sb_get_one("prescriptions", {"prescription_id": f"eq.{prescription_id}"})
+    if not rx:
+        raise HTTPException(status_code=404, detail="Prescription not found")
+    if rx.get("status") != "Active":
+        raise HTTPException(status_code=409, detail=f"Prescription is {rx.get('status')}")
+
+    # Find the specific medication in the JSON array, decrement refills
+    # Lovable normalized JSONB keys from "Medication ID" → "medication_id", etc.
+    # We tolerate both formats for safety.
+    meds = rx.get("medications", [])
+    med_name = None
+    found = False
+    for m in meds:
+        m_id = m.get("medication_id") or m.get("Medication ID")
+        if m_id == medication_id:
+            refills_remaining = m.get("refills_remaining")
+            if refills_remaining is None:
+                refills_remaining = m.get("Refills Remaining", 0)
+            if refills_remaining <= 0:
+                raise HTTPException(status_code=409, detail="No refills remaining")
+            # Decrement in whichever key the data uses
+            if "refills_remaining" in m:
+                m["refills_remaining"] = refills_remaining - 1
+            else:
+                m["Refills Remaining"] = refills_remaining - 1
+            med_name = m.get("name_en") or m.get("Name (EN)")
+            found = True
+            break
+    if not found:
+        raise HTTPException(status_code=404, detail=f"Medication {medication_id} not in this prescription")
+
+    await sb_update("prescriptions",
+                    {"prescription_id": f"eq.{prescription_id}"},
+                    {"medications": meds, "last_filled_date": date.today().isoformat(), "last_filled_pharmacy_id": pharmacy_id})
+
+    # Create refill request
+    refill_row = {
+        "prescription_id": prescription_id,
+        "patient_id": rx["patient_id"],
+        "medication_id": medication_id,
+        "medication_name_en": med_name,
+        "pharmacy_id": pharmacy_id,
+        "delivery_method": delivery_method,
+        "status": "Submitted",
+        "requested_by": "Agent",
     }
+    await sb_insert("refill_requests", refill_row)
+
+    pharmacy = await sb_get_one("pharmacies", {"pharmacy_id": f"eq.{pharmacy_id}"})
+    pharmacy_name = pharmacy.get("pharmacy_name_en") if pharmacy else pharmacy_id
+
+    await log_agent_action(rx["patient_id"], "Refill Request",
+                           f"Refill requested for {med_name} → {pharmacy_name} ({delivery_method})",
+                           {"prescription_id": prescription_id, "medication_id": medication_id,
+                            "pharmacy_id": pharmacy_id, "delivery_method": delivery_method})
+
+    return {"ok": True, "medication_name": med_name, "pharmacy": pharmacy_name, "delivery_method": delivery_method}
 
 
 # ============================================================
-# POST /profile/update
+# WRITE: /invoice/payment
 # ============================================================
+@app.post("/invoice/payment")
+async def record_payment(
+    invoice_id: str = Body(...),
+    amount_sar: float = Body(...),
+    payment_method: str = Body("Credit Card"),
+):
+    inv = await sb_get_one("invoices", {"invoice_id": f"eq.{invoice_id}"})
+    if not inv:
+        raise HTTPException(status_code=404, detail="Invoice not found")
+    if inv.get("status") == "Paid":
+        raise HTTPException(status_code=409, detail="Invoice already paid")
+
+    due = float(inv.get("patient_due_sar") or 0)
+    if amount_sar < due:
+        new_status = "Partially Paid"
+        # Track partial via notes
+        note_extra = f"\nPartial payment {amount_sar} SAR on {date.today().isoformat()} ({payment_method})"
+    else:
+        new_status = "Paid"
+        note_extra = f"\nPaid in full {amount_sar} SAR on {date.today().isoformat()} ({payment_method})"
+
+    await sb_update("invoices",
+                    {"invoice_id": f"eq.{invoice_id}"},
+                    {"status": new_status,
+                     "payment_method": payment_method,
+                     "payment_date": date.today().isoformat(),
+                     "notes_en": (inv.get("notes_en") or "") + note_extra})
+
+    await log_agent_action(inv["patient_id"], "Payment Recorded",
+                           f"Payment of SAR {amount_sar} via {payment_method} for invoice {invoice_id}",
+                           {"invoice_id": invoice_id, "amount_sar": amount_sar, "method": payment_method})
+
+    return {"ok": True, "invoice_id": invoice_id, "status": new_status, "amount_paid_sar": amount_sar}
+
+
+# ============================================================
+# WRITE: /profile/update
+# ============================================================
+ALLOWED_PROFILE_FIELDS = {"phone", "email", "address_en", "address_ar", "city_en", "city_ar"}
+
 
 @app.post("/profile/update")
-async def profile_update(req: ProfileUpdateRequest, request: Request):
-    """Update a student's contact info (phone, email, city). Other fields are
-    blocked to prevent accidental academic data overwrites."""
-    student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
-    )
-    if not student:
-        raise HTTPException(404, f"Student {req.student_id} not found")
-    student_name = student.get("full_name_en", req.student_id)
+async def update_profile(
+    patient_id: str = Body(...),
+    field: str = Body(...),
+    new_value: str = Body(...),
+):
+    if field not in ALLOWED_PROFILE_FIELDS:
+        raise HTTPException(status_code=400, detail=f"Field {field} not updatable. Allowed: {ALLOWED_PROFILE_FIELDS}")
 
-    allowed_fields = {"phone", "email", "city"}
-    safe_updates = {k: v for k, v in req.updates.items() if k in allowed_fields}
-    if not safe_updates:
-        raise HTTPException(
-            400,
-            f"No updatable fields provided. Allowed: {sorted(allowed_fields)}",
-        )
+    patient = await sb_get_one("patients", {"patient_id": f"eq.{patient_id}"})
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
 
-    updated = await sb_update(
-        "students",
-        match={"student_id": req.student_id},
-        updates=safe_updates,
-        request=request,
-    )
-    changed_fields = ", ".join(safe_updates.keys())
-    await log_agent_action(
-        action_type="update_profile",
-        description=f"Updated {student_name}'s contact info ({changed_fields})",
-        student_id=req.student_id,
-        payload={"updates": safe_updates},
-        request=request,
-    )
-    return {"ok": True, "student": updated[0] if updated else None}
+    old_value = patient.get(field)
+    await sb_update("patients", {"patient_id": f"eq.{patient_id}"}, {field: new_value})
+
+    await log_agent_action(patient_id, "Profile Updated",
+                           f"{field}: {old_value} → {new_value}",
+                           {"field": field, "old_value": old_value, "new_value": new_value})
+
+    return {"ok": True, "patient_id": patient_id, "field": field, "new_value": new_value}
 
 
 # ============================================================
-# POST /application/action
+# WRITE: /preauth/request
 # ============================================================
+@app.post("/preauth/request")
+async def request_preauth(
+    patient_id: str = Body(...),
+    procedure_name: str = Body(...),
+    doctor_id: Optional[str] = Body(None),
+):
+    patient = await sb_get_one("patients", {"patient_id": f"eq.{patient_id}"})
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
 
-@app.post("/application/action")
-async def application_action(req: ApplicationActionRequest, request: Request):
-    """Move an applicant through the admissions pipeline."""
-    applicant = await sb_get_one(
-        "applicants",
-        params={"application_id": f"eq.{req.application_id}"},
-        request=request,
-    )
-    if not applicant:
-        raise HTTPException(404, f"Application {req.application_id} not found")
-    name = applicant.get("full_name_en", req.application_id)
-
-    action_to_status = {
-        "submit_documents": "Under Review",
-        "accept": "Accepted",
-        "reject": "Rejected",
-        "waitlist": "Waitlisted",
-        "request_documents": "Pending Documents",
+    row = {
+        "patient_id": patient_id,
+        "doctor_id": doctor_id,
+        "procedure_name": procedure_name,
+        "insurance_provider_id": patient.get("insurance_provider_id"),
+        "status": "Submitted",
+        "requested_by": "Agent",
     }
-    new_status = action_to_status.get(req.action.lower())
-    if not new_status:
+    result = await sb_insert("preauth_requests", row)
+
+    await log_agent_action(patient_id, "Pre-Auth Requested",
+                           f"Pre-authorization request submitted for {procedure_name}",
+                           {"procedure": procedure_name, "doctor_id": doctor_id})
+
+    return {"ok": True, "procedure": procedure_name, "status": "Submitted",
+            "estimated_response_days": "1-5 business days"}
+
+
+# ============================================================
+# WRITE: /lab-result/release (portal-side, but agent can also trigger)
+# ============================================================
+@app.post("/lab-result/release")
+async def release_lab_result(
+    lab_result_id: str = Body(...),
+    released_by: str = Body("Doctor"),
+):
+    lab = await sb_get_one("lab_results", {"lab_result_id": f"eq.{lab_result_id}"})
+    if not lab:
+        raise HTTPException(status_code=404, detail="Lab result not found")
+    if lab.get("status") == "Released":
+        raise HTTPException(status_code=409, detail="Already released")
+
+    await sb_update("lab_results",
+                    {"lab_result_id": f"eq.{lab_result_id}"},
+                    {"status": "Released",
+                     "result_date": date.today().isoformat(),
+                     "released_at": datetime.utcnow().isoformat(),
+                     "released_by": released_by})
+
+    await log_agent_action(lab["patient_id"], "Lab Result Released",
+                           f"Released {lab.get('test_name_en')} to patient",
+                           {"lab_result_id": lab_result_id, "released_by": released_by})
+
+    return {"ok": True, "lab_result_id": lab_result_id, "status": "Released"}
+
+
+# ============================================================
+# WRITE: /patient/register
+# ============================================================
+
+# Allowed enum values for the intake fields
+_REGISTRATION_REASONS = {
+    "current_concern",
+    "new_primary",
+    "follow_up",
+    "wellness",
+    "other",
+}
+_INSURANCE_STATUSES = {
+    "has_provider",
+    "has_insurance_unknown_provider",
+    "self_pay",
+    "unknown",
+}
+
+
+def _compose_intake_notes(
+    registration_date: str,
+    reason: Optional[str],
+    concern_note: Optional[str],
+    insurance_status: Optional[str],
+    insurance_provider: Optional[str],
+) -> str:
+    """
+    Build a clean, human-readable staff-facing summary of the registration.
+    The staff portal renders this prominently on Pending Verification patients
+    so the staff member calling for verification has full context.
+    """
+    parts = [f"Patient self-registered via WhatsApp on {registration_date}."]
+
+    # Reason + concern
+    concern_clean = (concern_note or "").strip()
+    if reason == "current_concern":
+        if concern_clean:
+            parts.append(f"Reports: {concern_clean}.")
+        else:
+            parts.append("Reports a current health concern (details to confirm at intake).")
+    elif reason == "follow_up":
+        if concern_clean:
+            parts.append(f"Follow-up care needed: {concern_clean}.")
+        else:
+            parts.append("Follow-up care needed (details to confirm at intake).")
+    elif reason == "new_primary":
+        parts.append("Looking for a new primary clinic — switching providers.")
+    elif reason == "wellness":
+        parts.append("Reached out for routine wellness/checkup.")
+    elif reason == "other":
+        if concern_clean:
+            parts.append(f"Other reason: {concern_clean}.")
+        else:
+            parts.append("Reached out for an unspecified reason.")
+
+    # Insurance
+    provider_clean = (insurance_provider or "").strip()
+    if insurance_status == "has_provider" and provider_clean:
+        parts.append(f"Has {provider_clean} insurance.")
+    elif insurance_status == "has_insurance_unknown_provider":
+        parts.append("Has insurance but doesn't know plan details — needs verification.")
+    elif insurance_status == "self_pay":
+        parts.append("Self-pay (no insurance on file).")
+    # If unknown or missing, no insurance line
+
+    # Closer recommendation tailored to context
+    if reason in ("current_concern", "follow_up"):
+        parts.append("Recommend prompt GP follow-up to assess.")
+    elif reason == "new_primary":
+        parts.append("Recommend GP intro visit once insurance is verified.")
+    elif reason == "wellness":
+        parts.append("Recommend routine wellness visit at patient's convenience.")
+
+    return " ".join(parts)
+
+
+@app.post("/patient/register")
+async def register_new_patient(
+    national_id: str = Body(...),
+    email: str = Body(...),
+    phone: str = Body(...),
+    full_name_en: Optional[str] = Body(None),
+    full_name_ar: Optional[str] = Body(None),
+    registration_reason: Optional[str] = Body(None),
+    registration_concern_note: Optional[str] = Body(None),
+    registration_insurance_provider: Optional[str] = Body(None),
+    registration_insurance_status: Optional[str] = Body(None),
+):
+    """
+    Register a new patient via the WhatsApp agent.
+    Creates a patient row with status 'Pending Verification' and composes a
+    staff-facing intake_notes summary from the registration context. A staff
+    member follows up within 1 business day to verify and finalize.
+
+    Required: national_id (10 digits, starts with 1=Saudi or 2=Iqama),
+              email, phone, and at least one of full_name_en / full_name_ar.
+
+    Optional (recommended for richer intake): registration_reason,
+              registration_concern_note, registration_insurance_provider,
+              registration_insurance_status.
+    """
+
+    # === Validation ===
+
+    # National ID: exactly 10 digits, all numeric
+    nid = (national_id or "").strip()
+    if not nid.isdigit() or len(nid) != 10:
         raise HTTPException(
-            400,
-            f"action must be one of {sorted(action_to_status.keys())}",
+            status_code=400,
+            detail="National ID must be exactly 10 digits"
         )
 
-    updates: Dict[str, Any] = {"status": new_status}
-    if req.next_step is not None:
-        updates["next_step"] = req.next_step
-    if req.notes is not None:
-        updates["notes"] = req.notes
+    # First digit determines id_type
+    first_digit = nid[0]
+    if first_digit == "1":
+        id_type = "Saudi"
+    elif first_digit == "2":
+        id_type = "Iqama"
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail="National ID must start with 1 (Saudi National ID) or 2 (Iqama)"
+        )
 
-    updated = await sb_update(
-        "applicants",
-        match={"application_id": req.application_id},
-        updates=updates,
-        request=request,
+    # At least one name
+    name_en = (full_name_en or "").strip()
+    name_ar = (full_name_ar or "").strip()
+    if not name_en and not name_ar:
+        raise HTTPException(
+            status_code=400,
+            detail="At least one of full_name_en or full_name_ar is required"
+        )
+
+    # Basic email format
+    em = (email or "").strip()
+    if "@" not in em or "." not in em.split("@")[-1]:
+        raise HTTPException(
+            status_code=400,
+            detail="A valid email address is required"
+        )
+
+    # Phone
+    ph = (phone or "").strip()
+    if not ph:
+        raise HTTPException(
+            status_code=400,
+            detail="Phone number is required"
+        )
+
+    # Optional enum validation
+    reason = (registration_reason or "").strip().lower() or None
+    if reason and reason not in _REGISTRATION_REASONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"registration_reason must be one of: {sorted(_REGISTRATION_REASONS)}"
+        )
+
+    insurance_status = (registration_insurance_status or "").strip().lower() or None
+    if insurance_status and insurance_status not in _INSURANCE_STATUSES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"registration_insurance_status must be one of: {sorted(_INSURANCE_STATUSES)}"
+        )
+
+    concern_note = (registration_concern_note or "").strip() or None
+    insurance_provider = (registration_insurance_provider or "").strip() or None
+
+    # === Duplicate check by national_id ===
+
+    existing = await sb_get_one("patients", {"national_id": f"eq.{nid}"})
+    if existing:
+        raise HTTPException(
+            status_code=409,
+            detail=f"A patient with this National ID is already registered (Patient ID: {existing.get('patient_id')})"
+        )
+
+    # === Generate next sequential patient_id ===
+
+    all_patients = await sb_get("patients", {"select": "patient_id"})
+    max_num = 0
+    for p in all_patients:
+        pid = p.get("patient_id", "")
+        if pid.startswith("PAT-"):
+            try:
+                n = int(pid.split("-")[1])
+                if n > max_num:
+                    max_num = n
+            except (ValueError, IndexError):
+                pass
+    new_patient_id = f"PAT-{max_num + 1:03d}"
+
+    # === Preferred language: prefer AR if AR name was given, else EN ===
+    preferred_language = "Arabic" if name_ar else "English"
+
+    # === Compose intake_notes ===
+    today_iso = date.today().isoformat()
+    # Friendly date format for the notes (e.g. "June 2, 2026")
+    try:
+        date_display = date.today().strftime("%B %-d, %Y")
+    except ValueError:
+        # Windows fallback (just in case)
+        date_display = date.today().strftime("%B %d, %Y").replace(" 0", " ")
+
+    intake_notes = _compose_intake_notes(
+        registration_date=date_display,
+        reason=reason,
+        concern_note=concern_note,
+        insurance_status=insurance_status,
+        insurance_provider=insurance_provider,
     )
+
+    # === Insert ===
+
+    row = {
+        "patient_id": new_patient_id,
+        "national_id": nid,
+        "id_type": id_type,
+        "full_name_en": name_en or None,
+        "full_name_ar": name_ar or None,
+        "email": em,
+        "phone": ph,
+        "preferred_language": preferred_language,
+        "patient_status": "Pending Verification",
+        "registered_since": today_iso,
+        "allergies": [],
+        "active_conditions_en": [],
+        "active_conditions_ar": [],
+        "registration_reason": reason,
+        "registration_concern_note": concern_note,
+        "registration_insurance_provider": insurance_provider,
+        "registration_insurance_status": insurance_status,
+        "intake_notes": intake_notes,
+        "demo_notes": "Self-registered via WhatsApp agent",
+    }
+
+    result = await sb_insert("patients", row)
+    if not result:
+        raise HTTPException(status_code=500, detail="Failed to register patient")
+
+    # === Log to agent_actions ===
+
+    display_name = name_en or name_ar
+    reason_label = (reason or "unspecified").replace("_", " ")
     await log_agent_action(
-        action_type="applicant_action",
-        description=f"Application {req.application_id} ({name}) moved to {new_status}",
-        student_id=None,  # applicants are not students yet
-        payload={"applicant": updated[0] if updated else None, "action": req.action},
-        request=request,
+        new_patient_id,
+        "New Patient Registration",
+        f"New patient registered via WhatsApp: {display_name} ({id_type} ID, reason: {reason_label})",
+        {
+            "national_id_last4": nid[-4:],
+            "id_type": id_type,
+            "email": em,
+            "phone": ph,
+            "registration_reason": reason,
+            "registration_insurance_status": insurance_status,
+        },
     )
-    return {"ok": True, "applicant": updated[0] if updated else None}
+
+    return {
+        "ok": True,
+        "patient_id": new_patient_id,
+        "patient_status": "Pending Verification",
+        "id_type": id_type,
+        "full_name_en": name_en or None,
+        "full_name_ar": name_ar or None,
+        "registration_reason": reason,
+        "registration_insurance_status": insurance_status,
+        "intake_notes": intake_notes,
+        "message": f"Registered as {new_patient_id}. A team member will reach out within 1 business day to verify and finalize.",
+    }
+
 
 
 # ============================================================
-# Global error handler
+# Dev entrypoint
 # ============================================================
-
-@app.exception_handler(Exception)
-async def all_exception_handler(request: Request, exc: Exception):
-    if isinstance(exc, HTTPException):
-        raise exc
-    logger.exception("Unhandled exception")
-    return JSONResponse(
-        status_code=500,
-        content={"error": "Internal server error", "detail": str(exc)[:200]},
-    )
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 8000)), reload=True)

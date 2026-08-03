@@ -1,5 +1,13 @@
 """
-Education Agent API v3.0 (Supabase-backed, multi-tenant).
+Education Agent API v3.0.1 (Supabase-backed, multi-tenant).
+
+CHANGES IN v3.0.1:
+  - /health now DERIVES `status` from its checks instead of hardcoding
+    "healthy". The previous version reported healthy while checks.supabase
+    held a 500, hiding a fully broken deployment. It also short-circuits with
+    an explicit reason when DEFAULT_OWNER_ID is unset, which was the actual
+    failure it was masking.
+  - No other changes. Endpoints, tenancy scoping, and tool contracts identical.
 
 CHANGES FROM v2.1 — MULTI-TENANCY:
   - Every endpoint accepts `caller_phone` (the WhatsApp sender's number from the
@@ -160,7 +168,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="KFUT Student Support API",
-    version="3.0",
+    version="3.0.1",
     description="Supabase-backed, multi-tenant API for the KFUT WhatsApp student support agent.",
     lifespan=lifespan,
 )
@@ -501,7 +509,7 @@ def _cache_stats() -> Dict[str, Any]:
 async def root():
     return {
         "name": "KFUT Student Support API",
-        "version": "3.0",
+        "version": "3.0.1",
         "multi_tenant": True,
         "docs": "/docs",
         "health": "/health",
@@ -512,7 +520,25 @@ async def root():
 
 @app.get("/health")
 async def health(request: Request):
-    """Health check including a basic Supabase reachability test and cache stats."""
+    """Health check including a Supabase reachability test and cache stats.
+
+    IMPORTANT: `status` is DERIVED from the checks, never hardcoded. An earlier
+    version always returned "healthy" while checks.supabase contained a 500,
+    which hid a completely broken deployment behind a green status for the
+    better part of an hour. If you add a check here, fold it into `healthy`.
+    """
+    if not DEFAULT_OWNER_ID:
+        return {
+            "status": "degraded",
+            "version": "3.0.1",
+            "multi_tenant": True,
+            "default_owner_configured": False,
+            "reason": "DEFAULT_OWNER_ID not set — unregistered callers will fail",
+            "checks": {"api": "ok", "supabase": "not_checked"},
+            "reference_cache": _cache_stats(),
+            "tenant_cache": _tenant_cache_stats(),
+        }
+
     checks = {"api": "ok"}
     try:
         rows = await sb_get(
@@ -523,12 +549,15 @@ async def health(request: Request):
         )
         checks["supabase"] = "ok" if rows else "no_data"
     except Exception as e:
-        checks["supabase"] = f"error: {e}"
+        checks["supabase"] = f"error: {str(e)[:200]}"
+
+    healthy = checks["supabase"] in ("ok", "no_data")
+
     return {
-        "status": "healthy",
-        "version": "3.0",
+        "status": "ok" if healthy else "degraded",
+        "version": "3.0.1",
         "multi_tenant": True,
-        "default_owner_configured": bool(DEFAULT_OWNER_ID),
+        "default_owner_configured": True,
         "checks": checks,
         "reference_cache": _cache_stats(),
         "tenant_cache": _tenant_cache_stats(),

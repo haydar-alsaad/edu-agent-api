@@ -1,25 +1,47 @@
 """
-Education Agent API v2.1 (Supabase-backed).
+Education Agent API v3.0 (Supabase-backed, multi-tenant).
 
-CHANGES FROM v2.0:
-  - HTTP/2 enabled on the httpx client (`http2=True` + `httpx[http2]` requirement).
-    Removes the HTTP/1.1 ~6-concurrent-request cap that was queueing the 9-11
-    parallel /student queries. Saves ~200-350ms per warm call.
-  - In-process cache with 60s TTL for slow-changing reference tables:
-    advisors, faculty, degree_programs, degree_requirement_courses, courses.
-    On warm requests these skip Supabase entirely. Course-meta lookups in the
-    planning-semester loop are now O(1) dict access instead of one query per
-    candidate course (was the worst offender — ~15-30 sequential-ish queries
-    for a mid-semester student became zero).
-  - No API surface changes. All existing tool configs continue to work unchanged.
+CHANGES FROM v2.1 — MULTI-TENANCY:
+  - Every endpoint accepts `caller_phone` (the WhatsApp sender's number from the
+    agent's [User WhatsApp:] metadata). Railway resolves it to an `owner_id` via
+    the `demo_users` table and scopes every per-tenant Supabase query by it.
+  - Falls back to DEFAULT_OWNER_ID when caller_phone is missing or unresolvable,
+    so agents that haven't been updated yet keep working against the shared
+    default demo tenant. Zero-downtime rollout.
+  - sb_get / sb_get_one / sb_insert / sb_update / sb_delete take an explicit
+    `owner` argument. If the table is per-tenant and `owner` is None they raise —
+    failing loudly beats silently returning another tenant's rows.
+  - Phone normalization tolerates a missing "+" and strips spaces/dashes.
 
-Replaces the JSON-file backed API. Same GET endpoint paths and query params as v1
-so existing agent tool configurations continue to work without change. Response
-shapes updated to the new Loveable/Supabase schema (snake_case columns).
+CARRIED FORWARD FROM v2.1:
+  - HTTP/2 on the httpx client
+  - In-process reference cache (60s TTL) for SHARED catalogs: advisors, faculty,
+    degree_programs, degree_requirement_courses, courses. These have no owner_id,
+    so the cache stays global and is NOT per-tenant.
 
-Endpoints (paths preserved from v1):
+TENANCY MODEL:
+  Per-tenant tables (scoped by owner_id):
+    students, grades, class_schedules, fee_records, holds,
+    advising_appointments, documents_generated, applicants, agent_actions,
+    course_sections, course_offerings_summary, exam_schedule
+  Shared tables (no owner_id, one copy for everyone):
+    advisors, faculty, courses, degree_programs, degree_requirement_courses,
+    academic_calendar
+
+  NOTE on course_sections: moved to per-tenant so two sales people demoing
+  enrollment into the same section don't collide on seat counts.
+  course_offerings_summary follows it — it summarizes section availability, so
+  a shared summary next to per-tenant sections would contradict itself.
+
+ENV VARS:
+  SUPABASE_URL                 (required)
+  SUPABASE_SERVICE_ROLE_KEY    (required)
+  DEFAULT_OWNER_ID             (required) UUID of the fallback demo tenant
+  PLANNING_SEMESTER_DEFAULT    (optional, default "Fall 2026")
+
+Endpoints (paths preserved):
   GET  /                         API info
-  GET  /health                   Status + data load counts + cache stats
+  GET  /health                   Status + cache stats
   GET  /student                  Workhorse student profile (the single call)
   GET  /applicant                Applicant lookup
   GET  /course                   Course catalog with sections
@@ -28,25 +50,26 @@ Endpoints (paths preserved from v1):
   GET  /calendar                 Academic calendar events
   GET  /degree-requirements      Program requirements
   GET  /exam-schedule            Exam lookup
-
-POST endpoints (write actions):
+  GET  /document/fetch           Fetch a pre-loaded document (transcript)
   POST /enrollment/action        Drop / add / swap a course
   POST /advising/appointment     Book / cancel an advising appointment
-  POST /document/generate        Generate a transcript / invoice / letter (logs intent)
-  GET  /document/fetch           Fetch a pre-loaded document (transcript)
-  POST /hold/action              Clear a hold (registrar action)
+  POST /document/generate        Log a generated document
+  POST /hold/action              Clear a hold
   POST /fee/payment              Record a Sadad-style payment
   POST /profile/update           Update student contact info
   POST /application/action       Move applicant status / mark docs received
 
 Auth: this is a demo API. No authentication on the API itself. The Supabase
-service role key (server-side only) is the only credential.
+service role key (server-side only) is the only credential. Tenant isolation is
+enforced in application code via owner_id scoping, not RLS (Railway uses the
+service role, which bypasses RLS by design).
 """
 
 import os
 import json
 import asyncio
 import logging
+import re
 from datetime import datetime, timezone
 from time import monotonic as _monotonic
 from typing import Optional, Any, Dict, List
@@ -65,6 +88,7 @@ import httpx
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
 SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+DEFAULT_OWNER_ID = os.environ.get("DEFAULT_OWNER_ID", "")
 PLANNING_SEMESTER_DEFAULT = os.environ.get("PLANNING_SEMESTER_DEFAULT", "Fall 2026")
 
 if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
@@ -81,6 +105,32 @@ HEADERS_BASE = {
 
 logger = logging.getLogger("kfut_api")
 logger.setLevel(logging.INFO)
+
+if not DEFAULT_OWNER_ID:
+    logger.warning(
+        "DEFAULT_OWNER_ID not set. Requests without a resolvable caller_phone "
+        "will fail. Set this to the UUID of the fallback demo tenant."
+    )
+
+
+# ============================================================
+# Tenancy: which tables carry owner_id
+# ============================================================
+
+TENANT_TABLES = {
+    "students",
+    "grades",
+    "class_schedules",
+    "fee_records",
+    "holds",
+    "advising_appointments",
+    "documents_generated",
+    "applicants",
+    "agent_actions",
+    "course_sections",
+    "course_offerings_summary",
+    "exam_schedule",
+}
 
 
 # ============================================================
@@ -110,8 +160,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="KFUT Student Support API",
-    version="2.1",
-    description="Supabase-backed API for the KFUT WhatsApp student support agent.",
+    version="3.0",
+    description="Supabase-backed, multi-tenant API for the KFUT WhatsApp student support agent.",
     lifespan=lifespan,
 )
 
@@ -124,15 +174,97 @@ app.add_middleware(
 
 
 # ============================================================
-# Supabase REST helpers
+# Phone normalization + tenant resolution
 # ============================================================
 
-async def sb_get(
+def normalize_phone(raw: Optional[str]) -> Optional[str]:
+    """Canonicalize a phone number to E.164 with a leading '+'.
+
+    Tolerates: missing '+', spaces, dashes, parentheses, leading '00'.
+    Returns None for empty/unusable input.
+
+    This exists because URL query strings sometimes drop or mangle the '+'
+    (it URL-encodes to a space), and agents occasionally strip it. Normalizing
+    on both write and read sides means the lookup matches regardless.
+    """
+    if not raw:
+        return None
+    s = re.sub(r"[\s\-()]", "", str(raw).strip())
+    if not s:
+        return None
+    if s.startswith("00"):
+        s = "+" + s[2:]
+    elif not s.startswith("+"):
+        s = "+" + s
+    if not re.fullmatch(r"\+\d{6,20}", s):
+        return None
+    return s
+
+
+# Tenant resolution cache. Bindings change rarely (a sales person sets their
+# demo number once), so a longer TTL than the reference cache is fine.
+_TENANT_CACHE_TTL = 300.0  # 5 minutes
+_tenant_cache: Dict[str, Dict[str, Any]] = {}  # normalized_phone -> {owner_id, ts}
+
+
+async def resolve_owner(
+    caller_phone: Optional[str],
+    request: Optional[Request] = None,
+) -> str:
+    """Resolve a WhatsApp phone number to the owning demo tenant's owner_id.
+
+    Falls back to DEFAULT_OWNER_ID when:
+      - caller_phone is missing (agent not yet updated with the parameter)
+      - caller_phone doesn't match any demo_users row (sales person hasn't
+        registered their demo number yet)
+
+    The fallback is deliberate: a demo that silently lands in the shared
+    default tenant is recoverable; a hard 400 mid-demo in front of a prospect
+    is not.
+    """
+    normalized = normalize_phone(caller_phone)
+    if not normalized:
+        return DEFAULT_OWNER_ID
+
+    cached = _tenant_cache.get(normalized)
+    if cached and (_monotonic() - cached["ts"]) <= _TENANT_CACHE_TTL:
+        return cached["owner_id"]
+
+    # demo_users is NOT a per-tenant table — it's the tenant registry itself.
+    rows = await _sb_raw_get(
+        "demo_users",
+        {"whatsapp_number": f"eq.{normalized}", "select": "owner_id", "limit": "1"},
+        request=request,
+    )
+    owner = rows[0]["owner_id"] if rows else DEFAULT_OWNER_ID
+
+    _tenant_cache[normalized] = {"owner_id": owner, "ts": _monotonic()}
+    return owner
+
+
+def _tenant_cache_stats() -> Dict[str, Any]:
+    """Diagnostic: how many phone→tenant bindings are currently cached."""
+    now = _monotonic()
+    return {
+        "entries": len(_tenant_cache),
+        "oldest_age_seconds": (
+            round(now - min(v["ts"] for v in _tenant_cache.values()), 1)
+            if _tenant_cache else None
+        ),
+    }
+
+
+# ============================================================
+# Supabase REST helpers (tenant-aware)
+# ============================================================
+
+async def _sb_raw_get(
     table: str,
     params: Optional[Dict[str, Any]] = None,
     request: Optional[Request] = None,
 ) -> List[Dict[str, Any]]:
-    """SELECT against a Supabase table via PostgREST. Returns a list of rows."""
+    """Unscoped GET. ONLY for non-tenant tables like demo_users.
+    Do not use for anything in TENANT_TABLES."""
     client: httpx.AsyncClient = request.app.state.http if request else app.state.http
     resp = await client.get(f"/{table}", params=params or {})
     if resp.status_code >= 400:
@@ -144,29 +276,67 @@ async def sb_get(
     return resp.json()
 
 
+def _scope_params(
+    table: str,
+    params: Optional[Dict[str, Any]],
+    owner: Optional[str],
+) -> Dict[str, Any]:
+    """Inject owner_id filter for per-tenant tables.
+
+    Raises loudly if a per-tenant table is queried without an owner. Silent
+    cross-tenant reads are the worst possible failure mode here — better to
+    500 and see it in the logs than to serve another sales person's demo data.
+    """
+    p = dict(params or {})
+    if table in TENANT_TABLES:
+        if not owner:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Internal error: query on per-tenant table '{table}' missing owner scope",
+            )
+        p["owner_id"] = f"eq.{owner}"
+    return p
+
+
+async def sb_get(
+    table: str,
+    params: Optional[Dict[str, Any]] = None,
+    request: Optional[Request] = None,
+    owner: Optional[str] = None,
+) -> List[Dict[str, Any]]:
+    """SELECT against a Supabase table, scoped to the tenant for per-tenant tables."""
+    return await _sb_raw_get(table, _scope_params(table, params, owner), request=request)
+
+
 async def sb_get_one(
     table: str,
     params: Optional[Dict[str, Any]] = None,
     request: Optional[Request] = None,
+    owner: Optional[str] = None,
 ) -> Optional[Dict[str, Any]]:
     """Convenience — fetch first matching row or None."""
-    rows = await sb_get(table, params=params, request=request)
+    rows = await sb_get(table, params=params, request=request, owner=owner)
     return rows[0] if rows else None
-
-
-async def _noop_none() -> None:
-    """No-op coroutine that returns None. Used as a placeholder in
-    asyncio.gather() when a conditional fetch shouldn't happen but
-    we still want a stable result position."""
-    return None
 
 
 async def sb_insert(
     table: str,
-    record: Dict[str, Any],
+    record: Any,
     request: Optional[Request] = None,
-) -> Dict[str, Any]:
-    """INSERT a row, return the inserted representation."""
+    owner: Optional[str] = None,
+) -> Any:
+    """INSERT a row (or list of rows), injecting owner_id for per-tenant tables."""
+    if table in TENANT_TABLES:
+        if not owner:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Internal error: insert into per-tenant table '{table}' missing owner scope",
+            )
+        if isinstance(record, list):
+            record = [{**row, "owner_id": owner} for row in record]
+        else:
+            record = {**record, "owner_id": owner}
+
     client: httpx.AsyncClient = request.app.state.http if request else app.state.http
     resp = await client.post(
         f"/{table}",
@@ -188,10 +358,13 @@ async def sb_update(
     match: Dict[str, str],
     updates: Dict[str, Any],
     request: Optional[Request] = None,
+    owner: Optional[str] = None,
 ) -> List[Dict[str, Any]]:
-    """UPDATE matching rows, return updated representations."""
-    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
+    """UPDATE matching rows, scoped to the tenant for per-tenant tables."""
     params = {k: f"eq.{v}" for k, v in match.items()}
+    params = _scope_params(table, params, owner)
+
+    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
     resp = await client.patch(
         f"/{table}",
         params=params,
@@ -211,10 +384,13 @@ async def sb_delete(
     table: str,
     match: Dict[str, str],
     request: Optional[Request] = None,
+    owner: Optional[str] = None,
 ) -> List[Dict[str, Any]]:
-    """DELETE matching rows, return deleted representations."""
-    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
+    """DELETE matching rows, scoped to the tenant for per-tenant tables."""
     params = {k: f"eq.{v}" for k, v in match.items()}
+    params = _scope_params(table, params, owner)
+
+    client: httpx.AsyncClient = request.app.state.http if request else app.state.http
     resp = await client.delete(
         f"/{table}",
         params=params,
@@ -236,9 +412,10 @@ async def log_agent_action(
     payload: Optional[Dict[str, Any]] = None,
     status_str: str = "success",
     request: Optional[Request] = None,
+    owner: Optional[str] = None,
 ) -> None:
-    """Write a row to agent_actions. Used by every successful POST endpoint
-    so the staff-portal activity drawer fires in realtime via Supabase channels."""
+    """Write a row to agent_actions. Scoped to the tenant so each sales person
+    sees only their own activity feed in the staff portal drawer."""
     try:
         await sb_insert(
             "agent_actions",
@@ -250,6 +427,7 @@ async def log_agent_action(
                 "status": status_str,
             },
             request=request,
+            owner=owner,
         )
     except Exception as e:
         # Log but don't fail the parent request just because logging failed
@@ -257,21 +435,17 @@ async def log_agent_action(
 
 
 # ============================================================
-# In-process cache for slow-changing reference tables (60s TTL)
+# In-process cache for SHARED reference tables (60s TTL)
 # ============================================================
 #
-# These tables change rarely (a new advisor added once every few weeks, a
-# course catalog updated once per semester, etc.), but they were being fetched
-# on every /student call. Now cached in-process per Railway replica.
+# These tables are SHARED across all tenants — one copy of the catalog, no
+# owner_id. So this cache stays global; it is NOT per-tenant and does not need
+# invalidating when a tenant resets their demo.
 #
-# What's NOT cached (still hit Supabase every call):
-#   - students, class_schedules, grades, fee_records, holds, advising_appointments,
-#     course_sections — anything transactional or per-student that changes
-#     as the agent takes actions in real time.
-#
-# On cold cache: identical behavior to pre-cache — one fetch per reference
-# table, no regression. On warm cache (subsequent requests within 60s): those
-# fetches skip Supabase entirely. Per-replica caches; each warms independently.
+# What's NOT cached (hits Supabase every call, tenant-scoped):
+#   students, class_schedules, grades, fee_records, holds,
+#   advising_appointments, course_sections, exam_schedule — anything
+#   transactional or per-student that changes as the agent takes actions.
 
 _REF_CACHE_TTL = 60.0  # seconds
 _reference_cache: Dict[str, Dict[str, Any]] = {
@@ -287,13 +461,18 @@ async def _get_ref_cached(
     table: str,
     request: Optional[Request] = None,
 ) -> List[Dict[str, Any]]:
-    """Return the full table from cache or fetch+cache it. TTL 60s.
+    """Return a full SHARED reference table from cache or fetch+cache it. TTL 60s.
 
-    Only for reference tables registered in _reference_cache above. Callers
-    filter in memory. NOT for transactional tables.
+    Only for tables registered in _reference_cache above — all of which are
+    shared catalogs with no owner_id. Callers filter in memory.
     """
     if table not in _reference_cache:
         raise ValueError(f"_get_ref_cached called for non-cached table: {table}")
+    if table in TENANT_TABLES:
+        raise ValueError(
+            f"_get_ref_cached called for per-tenant table '{table}' — "
+            "this cache is global and would leak data across tenants"
+        )
     c = _reference_cache[table]
     if c["data"] is None or (_monotonic() - c["ts"]) > _REF_CACHE_TTL:
         c["data"] = await sb_get(table, params=None, request=request)
@@ -302,7 +481,7 @@ async def _get_ref_cached(
 
 
 def _cache_stats() -> Dict[str, Any]:
-    """Diagnostic: current cache warmth per table."""
+    """Diagnostic: current cache warmth per shared reference table."""
     now = _monotonic()
     return {
         table: {
@@ -322,10 +501,12 @@ def _cache_stats() -> Dict[str, Any]:
 async def root():
     return {
         "name": "KFUT Student Support API",
-        "version": "2.1",
+        "version": "3.0",
+        "multi_tenant": True,
         "docs": "/docs",
         "health": "/health",
         "backend": "Supabase",
+        "default_owner_configured": bool(DEFAULT_OWNER_ID),
     }
 
 
@@ -338,15 +519,19 @@ async def health(request: Request):
             "students",
             params={"select": "student_id", "limit": "1"},
             request=request,
+            owner=DEFAULT_OWNER_ID,
         )
         checks["supabase"] = "ok" if rows else "no_data"
     except Exception as e:
         checks["supabase"] = f"error: {e}"
     return {
         "status": "healthy",
-        "version": "2.1",
+        "version": "3.0",
+        "multi_tenant": True,
+        "default_owner_configured": bool(DEFAULT_OWNER_ID),
         "checks": checks,
         "reference_cache": _cache_stats(),
+        "tenant_cache": _tenant_cache_stats(),
     }
 
 
@@ -361,31 +546,46 @@ async def get_student_data(
     name: Optional[str] = Query(None, description="Full name (English) — partial match"),
     phone: Optional[str] = Query(None),
     planning_semester: Optional[str] = Query(None, description="Default Fall 2026"),
+    caller_phone: Optional[str] = Query(None, description="Demo tenant routing — WhatsApp sender number"),
 ):
-    """Workhorse endpoint — full student package in one call.
+    """Workhorse endpoint — full student package in one call, scoped to the tenant.
 
-    Returns: profile, scheduling preferences (from advisor record), advisor
-    contact, completed + in-progress grades with computed GPA, current schedule,
-    upcoming exams, fees, holds, remaining required courses, eligible courses
-    for the planning semester (prereqs validated, sections available).
+    Returns: profile, advisor contact, completed + in-progress grades with GPA,
+    current schedule, upcoming exams, fees, holds, remaining required courses,
+    eligible courses for the planning semester (prereqs validated, sections
+    available).
     """
+    owner = await resolve_owner(caller_phone, request=request)
+
     if not any([student_id, name, phone]):
         raise HTTPException(400, "Provide student_id, name, or phone")
 
-    # 1. Find the student
+    # 1. Find the student (within this tenant)
     if student_id:
         student = await sb_get_one(
-            "students", params={"student_id": f"eq.{student_id}"}, request=request
+            "students", params={"student_id": f"eq.{student_id}"},
+            request=request, owner=owner,
         )
     elif phone:
-        student = await sb_get_one(
-            "students", params={"phone": f"eq.{phone}"}, request=request
-        )
+        # Normalize so a missing '+' still matches; fall back to the raw value
+        # for legacy rows stored without canonical formatting.
+        normalized = normalize_phone(phone)
+        student = None
+        if normalized:
+            student = await sb_get_one(
+                "students", params={"phone": f"eq.{normalized}"},
+                request=request, owner=owner,
+            )
+        if not student:
+            student = await sb_get_one(
+                "students", params={"phone": f"eq.{phone}"},
+                request=request, owner=owner,
+            )
     else:
         student = await sb_get_one(
             "students",
             params={"full_name_en": f"ilike.*{name}*", "limit": "1"},
-            request=request,
+            request=request, owner=owner,
         )
 
     if not student:
@@ -394,10 +594,8 @@ async def get_student_data(
     sid = student["student_id"]
     semester = planning_semester or PLANNING_SEMESTER_DEFAULT
 
-    # 2. Prefetch ALL reference tables + student-specific transactional data
-    # in parallel. Reference tables come from the 60s in-process cache on warm
-    # calls, so they're near-free. Student-specific tables hit Supabase every
-    # time. HTTP/2 multiplexes all parallel requests over one connection.
+    # 2. Prefetch SHARED reference tables (global cache) + tenant-scoped
+    # transactional data in parallel. HTTP/2 multiplexes all of it.
     (
         advisors_all,
         faculty_all,
@@ -417,33 +615,34 @@ async def get_student_data(
         sb_get(
             "grades",
             params={"student_id": f"eq.{sid}", "order": "semester.desc"},
-            request=request,
+            request=request, owner=owner,
         ),
         sb_get(
             "class_schedules",
             params={"student_id": f"eq.{sid}"},
-            request=request,
+            request=request, owner=owner,
         ),
         sb_get(
             "fee_records",
             params={"student_id": f"eq.{sid}", "order": "due_date.desc"},
-            request=request,
+            request=request, owner=owner,
         ),
         sb_get(
             "holds",
             params={"student_id": f"eq.{sid}"},
-            request=request,
+            request=request, owner=owner,
         ),
     )
 
-    # Build in-memory lookup dicts for reference data
+    # Build in-memory lookup dicts for shared reference data
     advisors_by_faculty_id = {a["faculty_id"]: a for a in advisors_all if a.get("faculty_id")}
     faculty_by_id = {f["faculty_id"]: f for f in faculty_all if f.get("faculty_id")}
     programs_by_code = {p["program_code"]: p for p in programs_all if p.get("program_code")}
     courses_by_code = {c["course_code"]: c for c in courses_all if c.get("course_code")}
 
-    # 3. Resolve advisor + advisor's faculty record from the cached tables
-    advisor_faculty_id = student.get("advisor")  # this is a faculty_id, not advisor_id
+    # 3. Resolve advisor + advisor's faculty record from the cached tables.
+    # NOTE: student.advisor holds a FACULTY_ID, not an advisor_id.
+    advisor_faculty_id = student.get("advisor")
     advisor_record = advisors_by_faculty_id.get(advisor_faculty_id) if advisor_faculty_id else None
     advisor_faculty = faculty_by_id.get(advisor_faculty_id) if advisor_faculty_id else None
 
@@ -472,8 +671,7 @@ async def get_student_data(
     }
 
     # 7. Upcoming exams — match the student's current course codes.
-    # These aren't cached (per-semester and can change), so still fetched
-    # in parallel per course. HTTP/2 keeps this cheap.
+    # exam_schedule is per-tenant (cloned per demo), so scope it.
     upcoming_exams: List[Dict[str, Any]] = []
     enrolled_codes = list({s["course_code"] for s in current_schedule if s.get("course_code")})
     if enrolled_codes:
@@ -481,7 +679,7 @@ async def get_student_data(
             sb_get(
                 "exam_schedule",
                 params={"course_code": f"eq.{code}"},
-                request=request,
+                request=request, owner=owner,
             )
             for code in enrolled_codes
         ])
@@ -495,7 +693,6 @@ async def get_student_data(
 
     if student.get("program_code"):
         program = programs_by_code.get(student["program_code"])
-        # Filter cached degree_requirement_courses by this student's program
         all_reqs = [r for r in reqs_all if r.get("program_code") == student["program_code"]]
 
         program_total_credits = (program or {}).get("total_credits", 0) or 0
@@ -509,10 +706,10 @@ async def get_student_data(
             if code and code not in completed_codes:
                 remaining_required.append(r)
 
-        # Eligible for planning semester: remaining courses that have at least
-        # one Open section in the requested semester AND aren't already enrolled.
-        # Course metadata (prereqs, name) comes from the cached `courses` dict.
-        # Sections still fetched per-course (not cached; changes with enrollments).
+        # Eligible for planning semester: remaining courses with at least one
+        # Open section in the requested semester, not already enrolled.
+        # Course metadata comes from the shared cached `courses` dict.
+        # Sections are per-tenant and change with enrollments — fetched live.
         candidates = [
             r for r in remaining_required
             if r.get("course_code")
@@ -528,7 +725,7 @@ async def get_student_data(
                         "course_code": f"eq.{r['course_code']}",
                         "semester": f"eq.{semester}",
                     },
-                    request=request,
+                    request=request, owner=owner,
                 )
                 for r in candidates
             ])
@@ -590,8 +787,11 @@ async def get_applicant_status(
     request: Request,
     application_id: Optional[str] = Query(None),
     national_id: Optional[str] = Query(None),
+    caller_phone: Optional[str] = Query(None, description="Demo tenant routing — WhatsApp sender number"),
 ):
     """Admissions application status for prospective students."""
+    owner = await resolve_owner(caller_phone, request=request)
+
     if not application_id and not national_id:
         raise HTTPException(400, "Provide application_id or national_id")
 
@@ -600,7 +800,7 @@ async def get_applicant_status(
         if application_id
         else {"national_id": f"eq.{national_id}"}
     )
-    row = await sb_get_one("applicants", params=params, request=request)
+    row = await sb_get_one("applicants", params=params, request=request, owner=owner)
     if not row:
         raise HTTPException(404, "Application not found")
     return {"applicant": row}
@@ -617,12 +817,15 @@ async def get_course_info(
     department: Optional[str] = Query(None),
     semester: Optional[str] = Query(None),
     status_filter: Optional[str] = Query(None, alias="status"),
+    caller_phone: Optional[str] = Query(None, description="Demo tenant routing — WhatsApp sender number"),
 ):
-    """Course details + sections + offerings summary."""
+    """Course details (shared catalog) + sections and offerings summary (per-tenant)."""
+    owner = await resolve_owner(caller_phone, request=request)
+
     if not course_code and not department:
         raise HTTPException(400, "Provide course_code or department")
 
-    # Course meta
+    # Course meta — SHARED catalog, no tenant scoping
     if course_code:
         courses = await sb_get(
             "courses", params={"course_code": f"eq.{course_code}"}, request=request
@@ -634,27 +837,28 @@ async def get_course_info(
     if not courses:
         raise HTTPException(404, "No course found")
 
-    results = []
-    for c in courses:
-        code = c["course_code"]
-
+    # Sections + offerings summary are PER-TENANT (seat counts change per demo).
+    # Fetch them in parallel across all matched courses instead of sequentially.
+    async def _sections_and_summary(code: str):
         section_params = {"course_code": f"eq.{code}"}
+        offering_params = {"course_code": f"eq.{code}"}
         if semester:
             section_params["semester"] = f"eq.{semester}"
-        sections = await sb_get("course_sections", params=section_params, request=request)
+            offering_params["semester"] = f"eq.{semester}"
+        return await asyncio.gather(
+            sb_get("course_sections", params=section_params, request=request, owner=owner),
+            sb_get("course_offerings_summary", params=offering_params, request=request, owner=owner),
+        )
+
+    fetched = await asyncio.gather(*[_sections_and_summary(c["course_code"]) for c in courses])
+
+    results = []
+    for c, (sections, summary) in zip(courses, fetched):
         if status_filter:
             sections = [
                 s for s in sections
                 if (s.get("status") or "").lower() == status_filter.lower()
             ]
-
-        offering_params = {"course_code": f"eq.{code}"}
-        if semester:
-            offering_params["semester"] = f"eq.{semester}"
-        summary = await sb_get(
-            "course_offerings_summary", params=offering_params, request=request
-        )
-
         results.append({
             "course": c,
             "sections": sections,
@@ -667,7 +871,7 @@ async def get_course_info(
 
 
 # ============================================================
-# GET /faculty (with advisor routing hint)
+# GET /faculty (shared catalog, with advisor routing hint)
 # ============================================================
 
 @app.get("/faculty")
@@ -676,6 +880,7 @@ async def get_faculty_info(
     faculty_id: Optional[str] = Query(None),
     name: Optional[str] = Query(None),
     department: Optional[str] = Query(None),
+    caller_phone: Optional[str] = Query(None, description="Accepted for consistency; faculty is a shared catalog"),
 ):
     """Faculty lookup. If the faculty member is also an advisor, surface a
     routing hint pointing the agent at /advisor for advising hours."""
@@ -695,15 +900,16 @@ async def get_faculty_info(
             "faculty", params={"department": f"eq.{department}"}, request=request
         )
 
+    # advisors is also a shared catalog — pull it from cache instead of one
+    # query per advisor-flagged faculty member.
+    advisors_all = await _get_ref_cached("advisors", request=request)
+    advisors_by_faculty_id = {a["faculty_id"]: a for a in advisors_all if a.get("faculty_id")}
+
     enriched = []
     for f in rows:
         record = dict(f)
         if f.get("is_advisor"):
-            adv = await sb_get_one(
-                "advisors",
-                params={"faculty_id": f"eq.{f['faculty_id']}"},
-                request=request,
-            )
+            adv = advisors_by_faculty_id.get(f["faculty_id"])
             if adv:
                 record["_routing_hint"] = (
                     f"This faculty member is also an academic advisor "
@@ -719,7 +925,7 @@ async def get_faculty_info(
 
 
 # ============================================================
-# GET /advisor
+# GET /advisor (shared catalog)
 # ============================================================
 
 @app.get("/advisor")
@@ -728,10 +934,15 @@ async def get_advisor_info(
     advisor_id: Optional[str] = Query(None),
     faculty_id: Optional[str] = Query(None),
     department: Optional[str] = Query(None),
+    caller_phone: Optional[str] = Query(None, description="Accepted for consistency; advisors is a shared catalog"),
 ):
     """Advisor lookup, enriched with the underlying faculty record (office
-    hours, specialization, languages, years at university). Use for academic
-    advising appointments — Available Days/Hours are advising-specific."""
+    hours, specialization, languages). Use for academic advising appointments —
+    available_days/available_hours are advising-specific.
+
+    IMPORTANT: student.advisor from /student is a FACULTY_ID. Call this with
+    faculty_id=<student.advisor> to get the actual advisor_id needed for booking.
+    """
     if not any([advisor_id, faculty_id, department]):
         raise HTTPException(400, "Provide advisor_id, faculty_id, or department")
 
@@ -748,15 +959,13 @@ async def get_advisor_info(
             "advisors", params={"department": f"eq.{department}"}, request=request
         )
 
+    # faculty is a shared catalog — resolve enrichment from cache
+    faculty_all = await _get_ref_cached("faculty", request=request)
+    faculty_by_id = {f["faculty_id"]: f for f in faculty_all if f.get("faculty_id")}
+
     enriched = []
     for adv in rows:
-        fac = None
-        if adv.get("faculty_id"):
-            fac = await sb_get_one(
-                "faculty",
-                params={"faculty_id": f"eq.{adv['faculty_id']}"},
-                request=request,
-            )
+        fac = faculty_by_id.get(adv.get("faculty_id")) if adv.get("faculty_id") else None
         record = {**adv, "faculty_record": fac}
 
         # Routing hint when faculty office hours differ from advising hours
@@ -778,7 +987,7 @@ async def get_advisor_info(
 
 
 # ============================================================
-# GET /calendar
+# GET /calendar (shared catalog)
 # ============================================================
 
 @app.get("/calendar")
@@ -787,6 +996,7 @@ async def get_academic_calendar(
     semester: Optional[str] = Query(None),
     event_type: Optional[str] = Query(None),
     upcoming_only: bool = Query(False),
+    caller_phone: Optional[str] = Query(None, description="Accepted for consistency; calendar is a shared catalog"),
 ):
     """Academic calendar events: registration, exams, deadlines, holidays, etc."""
     params: Dict[str, Any] = {"order": "start_date.asc"}
@@ -803,7 +1013,7 @@ async def get_academic_calendar(
 
 
 # ============================================================
-# GET /degree-requirements
+# GET /degree-requirements (shared catalog)
 # ============================================================
 
 @app.get("/degree-requirements")
@@ -812,6 +1022,7 @@ async def get_degree_requirements(
     program_code: Optional[str] = Query(None),
     program_name: Optional[str] = Query(None),
     requirement_type: Optional[str] = Query(None),
+    caller_phone: Optional[str] = Query(None, description="Accepted for consistency; programs is a shared catalog"),
 ):
     """Program requirements with course list."""
     if not program_code and not program_name:
@@ -847,7 +1058,7 @@ async def get_degree_requirements(
 
 
 # ============================================================
-# GET /exam-schedule
+# GET /exam-schedule (per-tenant)
 # ============================================================
 
 @app.get("/exam-schedule")
@@ -856,10 +1067,13 @@ async def get_exam_schedule(
     course_code: Optional[str] = Query(None),
     semester: Optional[str] = Query(None),
     exam_type: Optional[str] = Query(None),
+    caller_phone: Optional[str] = Query(None, description="Demo tenant routing — WhatsApp sender number"),
 ):
     """Exam schedule lookup. Use for 'when is my X exam?' questions.
     NOTE: does not accept student_id. Student-specific exams come from
     /student.upcoming_exams (already resolved server-side)."""
+    owner = await resolve_owner(caller_phone, request=request)
+
     params: Dict[str, Any] = {"order": "exam_date.asc"}
     if course_code:
         params["course_code"] = f"eq.{course_code}"
@@ -868,7 +1082,7 @@ async def get_exam_schedule(
     if exam_type:
         params["exam_type"] = f"eq.{exam_type}"
 
-    exams = await sb_get("exam_schedule", params=params, request=request)
+    exams = await sb_get("exam_schedule", params=params, request=request, owner=owner)
     return {"exams": exams, "count": len(exams)}
 
 
@@ -884,11 +1098,13 @@ class EnrollmentActionRequest(BaseModel):
     section: Optional[str] = None
     semester: Optional[str] = None
 
-    # For swap: the section to drop + the section to add
+    # For swap: the course to drop + the section to add
     drop_course_code: Optional[str] = None
     drop_section: Optional[str] = None
     add_course_code: Optional[str] = None
     add_section: Optional[str] = None
+
+    caller_phone: Optional[str] = Field(None, description="Demo tenant routing")
 
 
 class AdvisingAppointmentRequest(BaseModel):
@@ -900,11 +1116,15 @@ class AdvisingAppointmentRequest(BaseModel):
     notes: Optional[str] = None
     appointment_id: Optional[str] = Field(None, description="Required for cancel")
 
+    caller_phone: Optional[str] = Field(None, description="Demo tenant routing")
+
 
 class DocumentGenerateRequest(BaseModel):
     student_id: str
-    document_type: str = Field(..., description="transcript | fee_statement | enrollment_letter | schedule_summary")
+    document_type: str = Field(..., description="fee_statement | enrollment_letter | schedule_summary")
     download_url: Optional[str] = Field(None, description="Optional — defaults to # placeholder")
+
+    caller_phone: Optional[str] = Field(None, description="Demo tenant routing")
 
 
 class HoldActionRequest(BaseModel):
@@ -912,6 +1132,8 @@ class HoldActionRequest(BaseModel):
     hold_id: int
     action: str = Field("clear", description="clear")
     resolution_note: Optional[str] = None
+
+    caller_phone: Optional[str] = Field(None, description="Demo tenant routing")
 
 
 class FeePaymentRequest(BaseModel):
@@ -921,10 +1143,14 @@ class FeePaymentRequest(BaseModel):
     method: str = Field("Sadad", description="Payment method")
     sadad_reference: Optional[str] = None
 
+    caller_phone: Optional[str] = Field(None, description="Demo tenant routing")
+
 
 class ProfileUpdateRequest(BaseModel):
     student_id: str
     updates: Dict[str, Any] = Field(..., description="Fields to update — phone, email, city")
+
+    caller_phone: Optional[str] = Field(None, description="Demo tenant routing")
 
 
 class ApplicationActionRequest(BaseModel):
@@ -933,6 +1159,8 @@ class ApplicationActionRequest(BaseModel):
     next_step: Optional[str] = None
     notes: Optional[str] = None
 
+    caller_phone: Optional[str] = Field(None, description="Demo tenant routing")
+
 
 # ============================================================
 # POST /enrollment/action  — drop / add / swap a course
@@ -940,15 +1168,18 @@ class ApplicationActionRequest(BaseModel):
 
 @app.post("/enrollment/action")
 async def enrollment_action(req: EnrollmentActionRequest, request: Request):
-    """Drop, add, or swap a course for a student.
+    """Drop, add, or swap a course for a student, within the caller's tenant.
 
     Side effects:
-      - For drop/add: mutates class_schedules
-      - For swap: drops one section and adds another atomically (best-effort)
-      - Always: logs to agent_actions for staff portal real-time updates
+      - drop/add: mutates class_schedules
+      - swap: drops one course and adds another (best-effort atomic, with rollback)
+      - always: logs to agent_actions for staff portal real-time updates
     """
+    owner = await resolve_owner(req.caller_phone, request=request)
+
     student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
+        "students", params={"student_id": f"eq.{req.student_id}"},
+        request=request, owner=owner,
     )
     if not student:
         raise HTTPException(404, f"Student {req.student_id} not found")
@@ -966,7 +1197,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "student_id": f"eq.{req.student_id}",
                 "course_code": f"eq.{req.course_code}",
             },
-            request=request,
+            request=request, owner=owner,
         )
         if not existing:
             raise HTTPException(
@@ -980,7 +1211,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "student_id": req.student_id,
                 "course_code": req.course_code,
             },
-            request=request,
+            request=request, owner=owner,
         )
 
         await log_agent_action(
@@ -988,7 +1219,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             description=f"Dropped {req.course_code} from {student_name}'s schedule",
             student_id=req.student_id,
             payload={"course_code": req.course_code, "removed_rows": deleted},
-            request=request,
+            request=request, owner=owner,
         )
 
         return {
@@ -1005,7 +1236,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 400, "course_code, section, and semester required for add"
             )
 
-        # Verify section exists and is open
+        # Verify section exists and is open (per-tenant section grid)
         sec = await sb_get_one(
             "course_sections",
             params={
@@ -1013,7 +1244,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "section": f"eq.{req.section}",
                 "semester": f"eq.{req.semester}",
             },
-            request=request,
+            request=request, owner=owner,
         )
         if not sec:
             raise HTTPException(
@@ -1032,7 +1263,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "student_id": f"eq.{req.student_id}",
                 "course_code": f"eq.{req.course_code}",
             },
-            request=request,
+            request=request, owner=owner,
         )
         if existing:
             raise HTTPException(
@@ -1055,7 +1286,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             "room": sec.get("room"),
             "instructor": sec.get("instructor"),
         }
-        inserted = await sb_insert("class_schedules", new_row, request=request)
+        inserted = await sb_insert("class_schedules", new_row, request=request, owner=owner)
 
         await log_agent_action(
             action_type="add_course",
@@ -1071,7 +1302,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "semester": req.semester,
                 "added_row": inserted,
             },
-            request=request,
+            request=request, owner=owner,
         )
 
         return {
@@ -1095,7 +1326,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "student_id": req.student_id,
                 "course_code": req.drop_course_code,
             },
-            request=request,
+            request=request, owner=owner,
         )
         if not deleted:
             raise HTTPException(
@@ -1111,13 +1342,14 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "section": f"eq.{req.add_section}",
                 "semester": f"eq.{req.semester}",
             },
-            request=request,
+            request=request, owner=owner,
         )
         if not sec:
             # Roll back the drop by re-inserting (best-effort)
             for row in deleted:
                 row.pop("id", None)
-                await sb_insert("class_schedules", row, request=request)
+                row.pop("owner_id", None)  # re-injected by sb_insert
+                await sb_insert("class_schedules", row, request=request, owner=owner)
             raise HTTPException(
                 404,
                 f"Replacement section {req.add_course_code}-{req.add_section} not found "
@@ -1139,7 +1371,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             "room": sec.get("room"),
             "instructor": sec.get("instructor"),
         }
-        inserted = await sb_insert("class_schedules", new_row, request=request)
+        inserted = await sb_insert("class_schedules", new_row, request=request, owner=owner)
 
         await log_agent_action(
             action_type="swap_course",
@@ -1152,7 +1384,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "dropped": deleted,
                 "added": inserted,
             },
-            request=request,
+            request=request, owner=owner,
         )
 
         return {
@@ -1173,8 +1405,11 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
 @app.post("/advising/appointment")
 async def advising_appointment(req: AdvisingAppointmentRequest, request: Request):
     """Book or cancel an advising appointment with an academic advisor."""
+    owner = await resolve_owner(req.caller_phone, request=request)
+
     student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
+        "students", params={"student_id": f"eq.{req.student_id}"},
+        request=request, owner=owner,
     )
     if not student:
         raise HTTPException(404, f"Student {req.student_id} not found")
@@ -1186,6 +1421,7 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
         if not req.scheduled_for:
             raise HTTPException(400, "scheduled_for required for booking")
 
+        # advisors is a SHARED catalog — no tenant scoping
         advisor = await sb_get_one(
             "advisors",
             params={"advisor_id": f"eq.{req.advisor_id}"},
@@ -1204,7 +1440,7 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
                 "status": "scheduled",
                 "notes": req.notes,
             },
-            request=request,
+            request=request, owner=owner,
         )
 
         await log_agent_action(
@@ -1215,7 +1451,7 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
             ),
             student_id=req.student_id,
             payload={"appointment": appt},
-            request=request,
+            request=request, owner=owner,
         )
 
         return {"ok": True, "action": "book", "appointment": appt}
@@ -1228,7 +1464,7 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
             "advising_appointments",
             match={"id": req.appointment_id},
             updates={"status": "cancelled"},
-            request=request,
+            request=request, owner=owner,
         )
         if not updated:
             raise HTTPException(404, f"Appointment {req.appointment_id} not found")
@@ -1238,7 +1474,7 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
             description=f"Cancelled advising appointment {req.appointment_id} for {student_name}",
             student_id=req.student_id,
             payload={"appointment": updated[0]},
-            request=request,
+            request=request, owner=owner,
         )
 
         return {"ok": True, "action": "cancel", "appointment": updated[0]}
@@ -1254,24 +1490,24 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
 async def document_generate(req: DocumentGenerateRequest, request: Request):
     """Log a generated document.
 
-    The actual PDF content is generated agent-side (python_repl) and uploaded
-    to Nebelus' artifact storage; this endpoint just records the metadata so the
-    staff portal can show 'document generated' in the activity drawer and on the
-    student detail page.
+    The actual PDF is generated agent-side (python_repl) and uploaded to
+    Nebelus' artifact storage; this endpoint records the metadata so the staff
+    portal shows 'document generated' in the activity drawer.
 
-    NOTE on transcripts: transcripts are static, pre-loaded PDFs served by
-    /document/fetch. They never need to be regenerated. This endpoint rejects
-    document_type='transcript' with a 400 so duplicate rows can't accumulate
-    in documents_generated. The agent should use fetch_document for transcripts.
+    Transcripts are static, pre-loaded PDFs served by /document/fetch. This
+    endpoint rejects document_type='transcript' with a 400 so duplicate rows
+    can't accumulate in documents_generated.
     """
+    owner = await resolve_owner(req.caller_phone, request=request)
+
     student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
+        "students", params={"student_id": f"eq.{req.student_id}"},
+        request=request, owner=owner,
     )
     if not student:
         raise HTTPException(404, f"Student {req.student_id} not found")
     student_name = student.get("full_name_en", req.student_id)
 
-    # Transcripts are static — always served via fetch_document, never generated
     if req.document_type == "transcript":
         raise HTTPException(
             400,
@@ -1296,7 +1532,7 @@ async def document_generate(req: DocumentGenerateRequest, request: Request):
             "document_type": req.document_type,
             "download_url": req.download_url or "#",
         },
-        request=request,
+        request=request, owner=owner,
     )
 
     pretty_type = req.document_type.replace("_", " ").title()
@@ -1305,7 +1541,7 @@ async def document_generate(req: DocumentGenerateRequest, request: Request):
         description=f"Generated {pretty_type} for {student_name}",
         student_id=req.student_id,
         payload={"document": doc},
-        request=request,
+        request=request, owner=owner,
     )
 
     return {"ok": True, "document": doc}
@@ -1314,9 +1550,13 @@ async def document_generate(req: DocumentGenerateRequest, request: Request):
 # ============================================================
 # GET /document/fetch — pre-loaded documents (fast path)
 # ============================================================
-# The pre-loaded transcripts live in Supabase Storage under the
-# `student-documents` bucket. Convention: <document_type>s/<student_id>.pdf
-# (e.g. "transcripts/STU-2024001.pdf"). Loveable creates and seeds this bucket.
+# Pre-loaded transcripts live in Supabase Storage under the `student-documents`
+# bucket. Convention: <document_type>s/<student_id>.pdf
+#
+# NOTE on multi-tenancy: the storage bucket is SHARED — every tenant's baseline
+# has the same student IDs, so transcripts/STU-2024001.pdf serves all tenants.
+# That's correct: the baseline transcript content is identical across demos.
+# Only the documents_generated registry row is tenant-scoped.
 
 STORAGE_BUCKET = "student-documents"
 SIGNED_URL_EXPIRY_SECONDS = 600  # 10 minutes — long enough for the agent to send
@@ -1330,26 +1570,25 @@ async def document_fetch(
         "transcript",
         description="Document type — currently only 'transcript' is pre-loaded",
     ),
+    caller_phone: Optional[str] = Query(None, description="Demo tenant routing — WhatsApp sender number"),
 ):
     """Fetch a pre-loaded document for a student.
 
     Returns a short-lived signed URL pointing at the PDF in Supabase Storage.
-    The agent passes this URL directly to send_whatsapp_media — no
-    python_repl / PDF generation needed. ~2-3 seconds end-to-end.
-
-    Falls back to a 404 with a helpful message if no pre-loaded document
-    exists for the requested type; the agent can then offer to generate
-    one on the fly via the existing generate_document path.
+    The agent passes this URL directly to send_whatsapp_media — no python_repl
+    / PDF generation needed. ~2-3 seconds end-to-end.
     """
+    owner = await resolve_owner(caller_phone, request=request)
+
     student = await sb_get_one(
-        "students", params={"student_id": f"eq.{student_id}"}, request=request
+        "students", params={"student_id": f"eq.{student_id}"},
+        request=request, owner=owner,
     )
     if not student:
         raise HTTPException(404, f"Student {student_id} not found")
     student_name = student.get("full_name_en", student_id)
 
-    # Build the storage path. Convention: <document_type>s/<student_id>.pdf
-    valid_preloaded = {"transcript"}  # extend in phase 2 with more types
+    valid_preloaded = {"transcript"}
     if document_type not in valid_preloaded:
         raise HTTPException(
             404,
@@ -1361,7 +1600,6 @@ async def document_fetch(
 
     storage_path = f"{document_type}s/{student_id}.pdf"
 
-    # Generate a signed URL via Supabase Storage API
     client: httpx.AsyncClient = request.app.state.http
     sign_url = (
         f"{SUPABASE_URL}/storage/v1/object/sign/{STORAGE_BUCKET}/{storage_path}"
@@ -1390,54 +1628,45 @@ async def document_fetch(
         )
     if resp.status_code >= 400:
         logger.error(f"Supabase Storage sign failed: {resp.status_code} {resp.text}")
-        raise HTTPException(
-            502, f"Storage sign failed: {resp.text[:200]}"
-        )
+        raise HTTPException(502, f"Storage sign failed: {resp.text[:200]}")
 
     body = resp.json()
-    # Supabase returns {"signedURL": "/object/sign/..."} — needs the host prefix
     signed_path = body.get("signedURL") or body.get("signedUrl")
     if not signed_path:
         raise HTTPException(502, f"Unexpected sign response: {body}")
 
     full_url = f"{SUPABASE_URL}/storage/v1{signed_path}"
 
-    # Log it just like generate_document so the activity drawer fires
     pretty_type = document_type.replace("_", " ").title()
     await log_agent_action(
         action_type="fetch_document",
         description=f"Shared {pretty_type} with {student_name}",
         student_id=student_id,
         payload={"document_type": document_type, "storage_path": storage_path},
-        request=request,
+        request=request, owner=owner,
     )
 
-    # Update the existing documents_generated row for this (student, doc_type)
-    # if one exists — so the Documents tab shows one transcript per student,
-    # not a growing list of delivery events. The agent_actions table above is
-    # the audit log; documents_generated is the registry of what's available.
+    # Update this tenant's documents_generated row if one exists — so the
+    # Documents tab shows one transcript per student, not a growing list of
+    # delivery events. agent_actions above is the audit log; documents_generated
+    # is the registry of what's available.
     existing_doc = await sb_get_one(
         "documents_generated",
         params={
             "student_id": f"eq.{student_id}",
             "document_type": f"eq.{document_type}",
         },
-        request=request,
+        request=request, owner=owner,
     )
     now_iso = datetime.now(timezone.utc).isoformat()
     if existing_doc:
-        # Bump generated_at so the staff portal can show "just delivered" if it
-        # wants to. Leave download_url alone — if it's "preloaded:..." that's
-        # what flags it as a pre-loaded doc in the Documents tab.
         await sb_update(
             "documents_generated",
             match={"id": str(existing_doc["id"])},
             updates={"generated_at": now_iso},
-            request=request,
+            request=request, owner=owner,
         )
     else:
-        # Fallback: no seed row exists for this student/doc_type (rare —
-        # the seed migration should populate one for every student × type)
         await sb_insert(
             "documents_generated",
             {
@@ -1445,7 +1674,7 @@ async def document_fetch(
                 "document_type": document_type,
                 "download_url": full_url,
             },
-            request=request,
+            request=request, owner=owner,
         )
 
     return {
@@ -1466,12 +1695,15 @@ async def document_fetch(
 async def hold_action(req: HoldActionRequest, request: Request):
     """Clear a registration/transcript/financial hold on a student.
 
-    Note: this is a registrar action in the real world. In the demo, the agent
-    can call it (e.g., after the student confirms they've paid an outstanding
-    fee that was the basis of a financial hold).
+    Registrar action in the real world. In the demo the agent can call it —
+    e.g. after the student pays an outstanding fee that was the basis of a
+    financial hold.
     """
+    owner = await resolve_owner(req.caller_phone, request=request)
+
     student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
+        "students", params={"student_id": f"eq.{req.student_id}"},
+        request=request, owner=owner,
     )
     if not student:
         raise HTTPException(404, f"Student {req.student_id} not found")
@@ -1481,7 +1713,8 @@ async def hold_action(req: HoldActionRequest, request: Request):
         raise HTTPException(400, "Only 'clear' action supported for holds")
 
     hold = await sb_get_one(
-        "holds", params={"id": f"eq.{req.hold_id}"}, request=request
+        "holds", params={"id": f"eq.{req.hold_id}"},
+        request=request, owner=owner,
     )
     if not hold:
         raise HTTPException(404, f"Hold {req.hold_id} not found")
@@ -1495,17 +1728,15 @@ async def hold_action(req: HoldActionRequest, request: Request):
             "status": "Cleared",
             "resolution": req.resolution_note or "Cleared via agent",
         },
-        request=request,
+        request=request, owner=owner,
     )
 
     await log_agent_action(
         action_type="clear_hold",
-        description=(
-            f"Cleared {hold.get('hold_type')} hold for {student_name}"
-        ),
+        description=f"Cleared {hold.get('hold_type')} hold for {student_name}",
         student_id=req.student_id,
         payload={"hold": updated[0] if updated else None},
-        request=request,
+        request=request, owner=owner,
     )
 
     return {"ok": True, "hold": updated[0] if updated else None}
@@ -1518,15 +1749,19 @@ async def hold_action(req: HoldActionRequest, request: Request):
 @app.post("/fee/payment")
 async def fee_payment(req: FeePaymentRequest, request: Request):
     """Record a Sadad-style payment against a fee record."""
+    owner = await resolve_owner(req.caller_phone, request=request)
+
     student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
+        "students", params={"student_id": f"eq.{req.student_id}"},
+        request=request, owner=owner,
     )
     if not student:
         raise HTTPException(404, f"Student {req.student_id} not found")
     student_name = student.get("full_name_en", req.student_id)
 
     fee = await sb_get_one(
-        "fee_records", params={"id": f"eq.{req.fee_record_id}"}, request=request
+        "fee_records", params={"id": f"eq.{req.fee_record_id}"},
+        request=request, owner=owner,
     )
     if not fee:
         raise HTTPException(404, f"Fee record {req.fee_record_id} not found")
@@ -1549,7 +1784,7 @@ async def fee_payment(req: FeePaymentRequest, request: Request):
         "fee_records",
         match={"id": str(req.fee_record_id)},
         updates=updates,
-        request=request,
+        request=request, owner=owner,
     )
 
     sadad_ref = req.sadad_reference or f"SDD-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}"
@@ -1566,7 +1801,7 @@ async def fee_payment(req: FeePaymentRequest, request: Request):
             "amount_sar": req.amount_sar,
             "sadad_reference": sadad_ref,
         },
-        request=request,
+        request=request, owner=owner,
     )
 
     return {
@@ -1584,8 +1819,11 @@ async def fee_payment(req: FeePaymentRequest, request: Request):
 async def profile_update(req: ProfileUpdateRequest, request: Request):
     """Update a student's contact info (phone, email, city). Other fields are
     blocked to prevent accidental academic data overwrites."""
+    owner = await resolve_owner(req.caller_phone, request=request)
+
     student = await sb_get_one(
-        "students", params={"student_id": f"eq.{req.student_id}"}, request=request
+        "students", params={"student_id": f"eq.{req.student_id}"},
+        request=request, owner=owner,
     )
     if not student:
         raise HTTPException(404, f"Student {req.student_id} not found")
@@ -1599,11 +1837,17 @@ async def profile_update(req: ProfileUpdateRequest, request: Request):
             f"No updatable fields provided. Allowed: {sorted(allowed_fields)}",
         )
 
+    # Canonicalize phone so later get_student_data(phone=...) lookups match
+    if "phone" in safe_updates:
+        normalized = normalize_phone(safe_updates["phone"])
+        if normalized:
+            safe_updates["phone"] = normalized
+
     updated = await sb_update(
         "students",
         match={"student_id": req.student_id},
         updates=safe_updates,
-        request=request,
+        request=request, owner=owner,
     )
 
     changed_fields = ", ".join(safe_updates.keys())
@@ -1612,7 +1856,7 @@ async def profile_update(req: ProfileUpdateRequest, request: Request):
         description=f"Updated {student_name}'s contact info ({changed_fields})",
         student_id=req.student_id,
         payload={"updates": safe_updates},
-        request=request,
+        request=request, owner=owner,
     )
 
     return {"ok": True, "student": updated[0] if updated else None}
@@ -1625,10 +1869,12 @@ async def profile_update(req: ProfileUpdateRequest, request: Request):
 @app.post("/application/action")
 async def application_action(req: ApplicationActionRequest, request: Request):
     """Move an applicant through the admissions pipeline."""
+    owner = await resolve_owner(req.caller_phone, request=request)
+
     applicant = await sb_get_one(
         "applicants",
         params={"application_id": f"eq.{req.application_id}"},
-        request=request,
+        request=request, owner=owner,
     )
     if not applicant:
         raise HTTPException(404, f"Application {req.application_id} not found")
@@ -1658,7 +1904,7 @@ async def application_action(req: ApplicationActionRequest, request: Request):
         "applicants",
         match={"application_id": req.application_id},
         updates=updates,
-        request=request,
+        request=request, owner=owner,
     )
 
     await log_agent_action(
@@ -1666,7 +1912,7 @@ async def application_action(req: ApplicationActionRequest, request: Request):
         description=f"Application {req.application_id} ({name}) moved to {new_status}",
         student_id=None,  # applicants are not students yet
         payload={"applicant": updated[0] if updated else None, "action": req.action},
-        request=request,
+        request=request, owner=owner,
     )
 
     return {"ok": True, "applicant": updated[0] if updated else None}

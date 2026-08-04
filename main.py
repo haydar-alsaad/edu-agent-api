@@ -1,5 +1,12 @@
 """
-Education Agent API v3.0.2 (Supabase-backed, multi-tenant).
+Education Agent API v3.0.3 (Supabase-backed, multi-tenant).
+
+CHANGES IN v3.0.3:
+  - Added GET /whoami — a tenant-routing diagnostic. Resolves a caller_phone
+    to its owner_id and reports whether it matched or fell back, plus how many
+    tenants the API can currently see. Parity with the Healthcare agent, which
+    added it after a routing failure that was invisible to /health and to a
+    data-isolation audit.
 
 CHANGES IN v3.0.2:
   - Enrollment actions now keep `class_schedules` and `grades` CONSISTENT.
@@ -186,7 +193,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="KFUT Student Support API",
-    version="3.0.2",
+    version="3.0.3",
     description="Supabase-backed, multi-tenant API for the KFUT WhatsApp student support agent.",
     lifespan=lifespan,
 )
@@ -527,7 +534,7 @@ def _cache_stats() -> Dict[str, Any]:
 async def root():
     return {
         "name": "KFUT Student Support API",
-        "version": "3.0.2",
+        "version": "3.0.3",
         "multi_tenant": True,
         "docs": "/docs",
         "health": "/health",
@@ -548,7 +555,7 @@ async def health(request: Request):
     if not DEFAULT_OWNER_ID:
         return {
             "status": "degraded",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "multi_tenant": True,
             "default_owner_configured": False,
             "reason": "DEFAULT_OWNER_ID not set — unregistered callers will fail",
@@ -573,13 +580,94 @@ async def health(request: Request):
 
     return {
         "status": "ok" if healthy else "degraded",
-        "version": "3.0.2",
+        "version": "3.0.3",
         "multi_tenant": True,
         "default_owner_configured": True,
         "checks": checks,
         "reference_cache": _cache_stats(),
         "tenant_cache": _tenant_cache_stats(),
     }
+
+
+# ============================================================
+# GET /whoami — tenant routing diagnostic
+# ============================================================
+# Answers "which demo tenant does this phone number resolve to, and why?"
+# without needing a Supabase audit.
+#
+# A broken phone->tenant lookup is INVISIBLE from outside: every request
+# silently falls back to DEFAULT_OWNER_ID, /health still passes (it queries
+# with DEFAULT_OWNER_ID directly), and the data still looks correctly isolated
+# because nothing leaks — everything just lands in one tenant. The Healthcare
+# agent hit exactly this and it took a full multi-tenant data audit to find.
+#
+# Deliberately bypasses _tenant_cache while REPORTING its state, so a stale
+# cache entry can be told apart from a genuinely failing lookup.
+
+@app.get("/whoami")
+async def whoami(
+    request: Request,
+    caller_phone: Optional[str] = Query(
+        None, description="Phone number to resolve, with or without the leading '+'"
+    ),
+):
+    """Resolve a caller_phone to its demo tenant and explain the result."""
+    normalized = normalize_phone(caller_phone)
+
+    result: Dict[str, Any] = {
+        "caller_phone_received": caller_phone,
+        "normalized_phone": normalized,
+        "default_owner_id": DEFAULT_OWNER_ID or None,
+    }
+
+    # Report the cached value WITHOUT using it, so a stale cache is visible.
+    cached = _tenant_cache.get(normalized) if normalized else None
+    result["cache"] = {
+        "present": bool(cached),
+        "owner_id": cached["owner_id"] if cached else None,
+        "age_seconds": round(_monotonic() - cached["ts"], 1) if cached else None,
+    }
+
+    if not normalized:
+        result.update({
+            "matched": False,
+            "fell_back": True,
+            "resolved_owner_id": DEFAULT_OWNER_ID or None,
+            "reason": "caller_phone missing or not a valid phone number",
+        })
+        return result
+
+    rows = await _sb_raw_get("demo_users", {
+        "whatsapp_number": f"eq.{normalized}",
+        "select": "owner_id,email",
+        "limit": "1",
+    }, request=request)
+
+    if rows:
+        result.update({
+            "matched": True,
+            "fell_back": False,
+            "resolved_owner_id": rows[0]["owner_id"],
+            "tenant_email": rows[0].get("email"),
+        })
+    else:
+        # How many tenants CAN we see? If this is 0 while the portal shows
+        # registered users, the API cannot read demo_users at all (credentials
+        # or RLS) rather than the number simply not being registered.
+        all_rows = await _sb_raw_get("demo_users", {"select": "owner_id"}, request=request)
+        result.update({
+            "matched": False,
+            "fell_back": True,
+            "resolved_owner_id": DEFAULT_OWNER_ID or None,
+            "visible_tenant_count": len(all_rows),
+            "reason": (
+                f"no demo_users row with whatsapp_number = '{normalized}' "
+                f"({len(all_rows)} tenants visible to the API) — "
+                "writes for this caller will land in the fallback tenant"
+            ),
+        })
+
+    return result
 
 
 # ============================================================

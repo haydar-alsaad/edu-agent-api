@@ -1,5 +1,23 @@
 """
-Education Agent API v3.0.1 (Supabase-backed, multi-tenant).
+Education Agent API v3.0.2 (Supabase-backed, multi-tenant).
+
+CHANGES IN v3.0.2:
+  - Enrollment actions now keep `class_schedules` and `grades` CONSISTENT.
+    Previously drop/add/swap mutated only class_schedules, so a dropped course
+    stayed "In Progress" in grades (surfacing in in_progress_grades) and an
+    added course had no grades row at all. The agent reads both fields, so the
+    data itself was contradictory and no SI rule could fix it.
+  - Credits for a new in-progress grade resolve from the shared `courses`
+    catalog rather than defaulting to a constant — academics.completed_credits
+    sums this field, so a wrong default silently corrupts the credit total.
+  - Dropping never deletes a Completed grade. If a Completed and an In Progress
+    row share a course code (a retake), the delete targets the specific row id.
+  - Adding an in-progress grade is idempotent — it reuses an existing orphan
+    rather than creating a duplicate. This matters for tenants that already
+    drifted before this fix.
+  - `swap` now validates all preconditions BEFORE mutating anything. Rollback
+    is a last resort rather than the expected path for a bad section code, and
+    it restores both tables.
 
 CHANGES IN v3.0.1:
   - /health now DERIVES `status` from its checks instead of hardcoding
@@ -168,7 +186,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="KFUT Student Support API",
-    version="3.0.1",
+    version="3.0.2",
     description="Supabase-backed, multi-tenant API for the KFUT WhatsApp student support agent.",
     lifespan=lifespan,
 )
@@ -509,7 +527,7 @@ def _cache_stats() -> Dict[str, Any]:
 async def root():
     return {
         "name": "KFUT Student Support API",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "multi_tenant": True,
         "docs": "/docs",
         "health": "/health",
@@ -530,7 +548,7 @@ async def health(request: Request):
     if not DEFAULT_OWNER_ID:
         return {
             "status": "degraded",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "multi_tenant": True,
             "default_owner_configured": False,
             "reason": "DEFAULT_OWNER_ID not set — unregistered callers will fail",
@@ -555,7 +573,7 @@ async def health(request: Request):
 
     return {
         "status": "ok" if healthy else "degraded",
-        "version": "3.0.1",
+        "version": "3.0.2",
         "multi_tenant": True,
         "default_owner_configured": True,
         "checks": checks,
@@ -1192,6 +1210,170 @@ class ApplicationActionRequest(BaseModel):
 
 
 # ============================================================
+# Enrollment <-> grades consistency helpers
+# ============================================================
+# A student's enrolled courses surface through TWO tables:
+#   current_schedule     <- class_schedules  (the class slot)
+#   in_progress_grades   <- grades WHERE status != "Completed"
+#
+# Before v3.0.2 the enrollment actions mutated only class_schedules, so the
+# two drifted: a dropped course vanished from the schedule but stayed
+# "In Progress" in grades, and an added course appeared in the schedule with
+# no grades row. The agent reads both fields and had no way to reconcile them.
+#
+# Every enrollment mutation now updates BOTH tables. The helpers below are the
+# single implementation, used by drop, add, and swap.
+
+
+async def _resolve_credits(
+    course_code: str,
+    sec: Optional[Dict[str, Any]],
+    request: Optional[Request] = None,
+) -> int:
+    """Best available credit value for a course.
+
+    course_sections does not reliably carry `credits`, and academics.
+    completed_credits sums this field — so defaulting to a constant would
+    quietly corrupt the credit total. Resolution order:
+      1. the section row, if it happens to have it
+      2. the shared `courses` catalog (cached, free on warm calls)
+      3. 3, the KFUT standard, as a last resort
+    """
+    if sec and sec.get("credits"):
+        try:
+            return int(sec["credits"])
+        except (TypeError, ValueError):
+            pass
+
+    try:
+        courses_all = await _get_ref_cached("courses", request=request)
+        for row in courses_all:
+            if row.get("course_code") == course_code and row.get("credits"):
+                return int(row["credits"])
+    except Exception as e:
+        logger.warning(f"credit lookup failed for {course_code}: {e}")
+
+    return 3
+
+
+async def _drop_in_progress_grade(
+    student_id: str,
+    course_code: str,
+    request: Optional[Request] = None,
+    owner: Optional[str] = None,
+) -> List[Dict[str, Any]]:
+    """Delete the non-Completed grades row for a dropped course.
+
+    Returns the deleted rows so a caller can restore them on rollback.
+
+    GUARD: only deletes when NO Completed grade exists for this course code.
+    A Completed grade is the student's permanent academic record — dropping a
+    current course must never erase a past grade for a same-coded course
+    (retakes make this a real case, not a hypothetical).
+    """
+    grade_rows = await sb_get(
+        "grades",
+        params={
+            "student_id": f"eq.{student_id}",
+            "course_code": f"eq.{course_code}",
+        },
+        request=request, owner=owner,
+    ) or []
+
+    has_completed = any((g.get("status") or "") == "Completed" for g in grade_rows)
+    in_progress = [g for g in grade_rows if (g.get("status") or "") != "Completed"]
+
+    if not in_progress:
+        return []
+
+    if has_completed:
+        # Both a Completed and an In Progress row exist for this code (retake).
+        # A blanket delete would destroy the permanent record, so delete by row
+        # id instead of by course_code.
+        deleted: List[Dict[str, Any]] = []
+        for g in in_progress:
+            if g.get("id") is None:
+                logger.warning(
+                    f"cannot safely delete in-progress grade for {student_id}/{course_code}: "
+                    "row has no id and a Completed grade exists — skipping"
+                )
+                continue
+            rows = await sb_delete(
+                "grades", match={"id": str(g["id"])}, request=request, owner=owner
+            )
+            deleted.extend(rows or [])
+        return deleted
+
+    return await sb_delete(
+        "grades",
+        match={"student_id": student_id, "course_code": course_code},
+        request=request, owner=owner,
+    ) or []
+
+
+async def _add_in_progress_grade(
+    student_id: str,
+    sec: Dict[str, Any],
+    request: Optional[Request] = None,
+    owner: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
+    """Create the "In Progress" grades row for a newly added course.
+
+    Idempotent: if a non-Completed grades row already exists for this course
+    (e.g. an orphan left by a pre-v3.0.2 drop), it is reused rather than
+    duplicated.
+    """
+    course_code = sec.get("course_code")
+
+    existing = await sb_get(
+        "grades",
+        params={
+            "student_id": f"eq.{student_id}",
+            "course_code": f"eq.{course_code}",
+        },
+        request=request, owner=owner,
+    ) or []
+    if any((g.get("status") or "") != "Completed" for g in existing):
+        logger.info(
+            f"in-progress grade already present for {student_id}/{course_code} — not duplicating"
+        )
+        return None
+
+    credits = await _resolve_credits(course_code, sec, request=request)
+
+    return await sb_insert(
+        "grades",
+        {
+            "student_id": student_id,
+            "semester": sec.get("semester"),
+            "course_code": course_code,
+            "course_name": sec.get("course_name"),
+            "credits": credits,
+            "grade": None,
+            "grade_points": None,
+            "status": "In Progress",
+        },
+        request=request, owner=owner,
+    )
+
+
+async def _restore_grade_rows(
+    rows: List[Dict[str, Any]],
+    request: Optional[Request] = None,
+    owner: Optional[str] = None,
+) -> None:
+    """Re-insert grades rows removed during an operation that later failed."""
+    for row in rows or []:
+        r = dict(row)
+        r.pop("id", None)
+        r.pop("owner_id", None)  # re-injected by sb_insert
+        try:
+            await sb_insert("grades", r, request=request, owner=owner)
+        except Exception as e:
+            logger.error(f"failed to restore grades row on rollback: {e}")
+
+
+# ============================================================
 # POST /enrollment/action  — drop / add / swap a course
 # ============================================================
 
@@ -1243,11 +1425,22 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             request=request, owner=owner,
         )
 
+        # Keep grades in sync — a dropped course must leave BOTH tables,
+        # otherwise it lingers in in_progress_grades and the student appears
+        # enrolled in a course that's gone from their schedule.
+        dropped_grades = await _drop_in_progress_grade(
+            req.student_id, req.course_code, request=request, owner=owner
+        )
+
         await log_agent_action(
             action_type="drop_course",
             description=f"Dropped {req.course_code} from {student_name}'s schedule",
             student_id=req.student_id,
-            payload={"course_code": req.course_code, "removed_rows": deleted},
+            payload={
+                "course_code": req.course_code,
+                "removed_rows": deleted,
+                "removed_grade_rows": dropped_grades,
+            },
             request=request, owner=owner,
         )
 
@@ -1257,6 +1450,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             "student_id": req.student_id,
             "course_code": req.course_code,
             "removed": deleted,
+            "removed_grades": dropped_grades,
         }
 
     if action == "add":
@@ -1317,6 +1511,11 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
         }
         inserted = await sb_insert("class_schedules", new_row, request=request, owner=owner)
 
+        # Keep grades in sync — an added course must appear in BOTH tables.
+        added_grade = await _add_in_progress_grade(
+            req.student_id, sec, request=request, owner=owner
+        )
+
         await log_agent_action(
             action_type="add_course",
             description=(
@@ -1330,6 +1529,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "section": req.section,
                 "semester": req.semester,
                 "added_row": inserted,
+                "added_grade_row": added_grade,
             },
             request=request, owner=owner,
         )
@@ -1339,6 +1539,7 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             "action": "add",
             "student_id": req.student_id,
             "added": inserted,
+            "added_grade": added_grade,
         }
 
     if action == "swap":
@@ -1348,22 +1549,15 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
                 "drop_course_code, add_course_code, add_section, and semester required for swap",
             )
 
-        # Drop first
-        deleted = await sb_delete(
-            "class_schedules",
-            match={
-                "student_id": req.student_id,
-                "course_code": req.drop_course_code,
-            },
-            request=request, owner=owner,
-        )
-        if not deleted:
-            raise HTTPException(
-                404,
-                f"Student is not currently enrolled in {req.drop_course_code} — nothing to drop",
-            )
+        # VALIDATE BEFORE MUTATING.
+        # The previous version dropped first and rolled back if the replacement
+        # section turned out not to exist. Now that a swap touches two tables,
+        # that rollback has twice the surface to get wrong — so check every
+        # precondition first and only mutate once the swap is guaranteed to
+        # complete. The rollback below is now a genuine last resort rather
+        # than the expected path for a bad section code.
 
-        # Then add the replacement
+        # 1. Replacement section must exist and have room
         sec = await sb_get_one(
             "course_sections",
             params={
@@ -1374,16 +1568,60 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             request=request, owner=owner,
         )
         if not sec:
-            # Roll back the drop by re-inserting (best-effort)
-            for row in deleted:
-                row.pop("id", None)
-                row.pop("owner_id", None)  # re-injected by sb_insert
-                await sb_insert("class_schedules", row, request=request, owner=owner)
             raise HTTPException(
                 404,
                 f"Replacement section {req.add_course_code}-{req.add_section} not found "
-                f"in {req.semester} — drop rolled back",
+                f"in {req.semester} — nothing was changed",
             )
+        if (sec.get("status") or "").lower() == "full":
+            raise HTTPException(
+                409,
+                f"Section {req.add_course_code}-{req.add_section} is full — nothing was changed",
+            )
+
+        # 2. Student must actually be enrolled in the course being dropped
+        currently_enrolled = await sb_get(
+            "class_schedules",
+            params={
+                "student_id": f"eq.{req.student_id}",
+                "course_code": f"eq.{req.drop_course_code}",
+            },
+            request=request, owner=owner,
+        )
+        if not currently_enrolled:
+            raise HTTPException(
+                404,
+                f"Student is not currently enrolled in {req.drop_course_code} — nothing was changed",
+            )
+
+        # 3. Student must not already be enrolled in the incoming course
+        already_has_target = await sb_get(
+            "class_schedules",
+            params={
+                "student_id": f"eq.{req.student_id}",
+                "course_code": f"eq.{req.add_course_code}",
+            },
+            request=request, owner=owner,
+        )
+        if already_has_target and req.add_course_code != req.drop_course_code:
+            raise HTTPException(
+                409,
+                f"Student is already enrolled in {req.add_course_code} — nothing was changed",
+            )
+
+        # --- All checks passed. Mutate both tables. ---
+
+        deleted = await sb_delete(
+            "class_schedules",
+            match={
+                "student_id": req.student_id,
+                "course_code": req.drop_course_code,
+            },
+            request=request, owner=owner,
+        )
+        dropped_grades = await _drop_in_progress_grade(
+            req.student_id, req.drop_course_code, request=request, owner=owner
+        )
 
         new_row = {
             "student_id": req.student_id,
@@ -1400,7 +1638,29 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             "room": sec.get("room"),
             "instructor": sec.get("instructor"),
         }
-        inserted = await sb_insert("class_schedules", new_row, request=request, owner=owner)
+
+        try:
+            inserted = await sb_insert("class_schedules", new_row, request=request, owner=owner)
+            added_grade = await _add_in_progress_grade(
+                req.student_id, sec, request=request, owner=owner
+            )
+        except Exception:
+            # Last-resort rollback: restore BOTH tables so the student is left
+            # exactly as they started rather than short one course.
+            for row in deleted:
+                r = dict(row)
+                r.pop("id", None)
+                r.pop("owner_id", None)  # re-injected by sb_insert
+                try:
+                    await sb_insert("class_schedules", r, request=request, owner=owner)
+                except Exception as e:
+                    logger.error(f"failed to restore class_schedules row on rollback: {e}")
+            await _restore_grade_rows(dropped_grades, request=request, owner=owner)
+            raise HTTPException(
+                502,
+                f"Swap failed while adding {req.add_course_code}-{req.add_section} — "
+                f"{req.drop_course_code} has been restored, nothing was changed",
+            )
 
         await log_agent_action(
             action_type="swap_course",
@@ -1412,6 +1672,8 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             payload={
                 "dropped": deleted,
                 "added": inserted,
+                "removed_grade_rows": dropped_grades,
+                "added_grade_row": added_grade,
             },
             request=request, owner=owner,
         )
@@ -1422,6 +1684,8 @@ async def enrollment_action(req: EnrollmentActionRequest, request: Request):
             "student_id": req.student_id,
             "dropped": deleted,
             "added": inserted,
+            "removed_grades": dropped_grades,
+            "added_grade": added_grade,
         }
 
     raise HTTPException(400, f"Unknown action '{req.action}'. Use add, drop, or swap.")

@@ -1,5 +1,26 @@
 """
-Education Agent API v3.0.4 (Supabase-backed, multi-tenant).
+Education Agent API v3.0.5 (Supabase-backed, multi-tenant).
+
+CHANGES IN v3.0.5 — RESPONSE PRUNING (no query changes):
+  /student shipped ~30KB and is re-sent to the model on every tool-loop
+  iteration, so a three-call turn paid for it three times. Removed, from the
+  RESPONSE only:
+    - `open_sections` nested inside eligible_courses_for_planning_semester.
+      This was ~10KB on its own: ~18 candidate courses each carrying full
+      section rows. At that point in the flow the agent is choosing a COURSE —
+      sections come next, from get_course_info. open_sections_count is all
+      that is needed to say "this is available". THE BIG ONE.
+    - owner_id / created_at / updated_at across ~45 rows (tenancy plumbing and
+      audit columns the agent must never use; owner_id alone is a 36-char UUID
+      per row)
+    - advisor.faculty_record trimmed to identity + specialism. office_hours is
+      now deliberately excluded: those are DROP-IN hours for course questions,
+      not advising hours, and shipping them beside available_days/hours is the
+      exact mix-up the agent instructions spend a section preventing.
+  Same noise pruning applied to /course, /faculty, /advisor, /calendar,
+  /degree-requirements, /exam-schedule, /applicant.
+  ~30KB -> ~18KB. No endpoint signature changed, no query changed, and no
+  field the agent instructions reference was removed.
 
 CHANGES IN v3.0.4 — ADVISOR FIX + ADVISING VISIBILITY:
   - ADVISOR RESOLUTION WAS BROKEN ON EVERY REQUEST. student.advisor holds an
@@ -216,7 +237,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="KFUT Student Support API",
-    version="3.0.4",
+    version="3.0.5",
     description="Supabase-backed, multi-tenant API for the KFUT WhatsApp student support agent.",
     lifespan=lifespan,
 )
@@ -550,6 +571,54 @@ def _cache_stats() -> Dict[str, Any]:
 
 
 # ============================================================
+# Response pruning
+# ============================================================
+# /student is the hot path — it opens every conversation and is re-sent to the
+# model on EVERY tool-loop iteration, so a three-call turn pays for it three
+# times. Before v3.0.5 it shipped ~30KB, and roughly a third of that was
+# section rows nested inside the eligible-courses list that the agent never
+# reads at that stage of the flow.
+#
+# Nothing here changes what we QUERY — only what leaves the endpoint.
+
+# Present on nearly every row, never usable by the agent. owner_id alone is a
+# 36-char UUID repeated across ~45 rows in a typical response.
+_NOISE_KEYS = ("owner_id", "created_at", "updated_at")
+
+
+def _strip(rows, *extra_keys):
+    """Return rows without noise keys (and any extras). Non-mutating."""
+    drop = set(_NOISE_KEYS) | set(extra_keys)
+    return [{k: v for k, v in r.items() if k not in drop} for r in (rows or [])]
+
+
+def _strip_one(row, *extra_keys):
+    """Same, for a single dict. Returns None unchanged."""
+    if not row:
+        return row
+    drop = set(_NOISE_KEYS) | set(extra_keys)
+    return {k: v for k, v in row.items() if k not in drop}
+
+
+# The advisor's underlying faculty record is returned for context — who they
+# are, what they specialise in. It is NOT returned in full: office_hours is
+# deliberately excluded because those are DROP-IN hours for course questions,
+# not advising hours, and surfacing them next to available_days/hours is the
+# exact mix-up the agent instructions spend a section preventing.
+_FACULTY_CONTEXT_KEYS = (
+    "faculty_id", "name_en", "name_ar", "title", "department",
+    "specialization", "languages", "years_at_kfut",
+)
+
+
+def _faculty_context(fac):
+    """Trim a faculty record to identity + specialism. Drops office_hours."""
+    if not fac:
+        return fac
+    return {k: fac[k] for k in _FACULTY_CONTEXT_KEYS if k in fac}
+
+
+# ============================================================
 # Root / health
 # ============================================================
 
@@ -557,7 +626,7 @@ def _cache_stats() -> Dict[str, Any]:
 async def root():
     return {
         "name": "KFUT Student Support API",
-        "version": "3.0.4",
+        "version": "3.0.5",
         "multi_tenant": True,
         "docs": "/docs",
         "health": "/health",
@@ -578,7 +647,7 @@ async def health(request: Request):
     if not DEFAULT_OWNER_ID:
         return {
             "status": "degraded",
-            "version": "3.0.4",
+            "version": "3.0.5",
             "multi_tenant": True,
             "default_owner_configured": False,
             "reason": "DEFAULT_OWNER_ID not set — unregistered callers will fail",
@@ -603,7 +672,7 @@ async def health(request: Request):
 
     return {
         "status": "ok" if healthy else "degraded",
-        "version": "3.0.4",
+        "version": "3.0.5",
         "multi_tenant": True,
         "default_owner_configured": True,
         "checks": checks,
@@ -921,6 +990,12 @@ async def get_student_data(
                 ]
                 if open_sections:
                     course_meta = courses_by_code.get(code)
+                    # NOTE: the full section rows are deliberately NOT included.
+                    # At this stage the agent is picking a COURSE; sections come
+                    # next, from get_course_info. Carrying ~18 courses x N full
+                    # section rows here added ~10KB to every single /student
+                    # call for data the flow never reads at this point.
+                    # open_sections_count is all that's needed to say "available".
                     eligible_for_planning.append({
                         "course_code": code,
                         "course_name": r.get("course_name"),
@@ -929,7 +1004,6 @@ async def get_student_data(
                         "requirement_type": r.get("requirement_type"),
                         "prerequisites_display": (course_meta or {}).get("prerequisites_display"),
                         "open_sections_count": len(open_sections),
-                        "open_sections": open_sections,
                     })
 
     credits_remaining = max(0, program_total_credits - total_credits) if program_total_credits else None
@@ -975,10 +1049,18 @@ async def get_student_data(
         for sem, rows in sorted(by_semester.items())
     ]
 
+    # --- Prune before returning ------------------------------------------
+    schedule_by_semester_out = [
+        {**grp, "courses": _strip(grp["courses"])} for grp in schedule_by_semester
+    ]
+
     return {
-        "student": student,
+        "student": _strip_one(student),
         "advisor": (
-            {**advisor_record, "faculty_record": advisor_faculty}
+            {
+                **_strip_one(advisor_record),
+                "faculty_record": _faculty_context(advisor_faculty),
+            }
             if advisor_record
             else None
         ),
@@ -987,23 +1069,27 @@ async def get_student_data(
             "completed_credits": total_credits,
             "program_total_credits": program_total_credits,
             "credits_remaining_estimate": credits_remaining,
-            "completed_grades": completed,
-            "in_progress_grades": in_progress,
+            "completed_grades": _strip(completed),
+            "in_progress_grades": _strip(in_progress),
         },
-        "current_schedule": current_schedule,
-        "current_schedule_by_semester": schedule_by_semester,
-        "upcoming_exams": upcoming_exams,
-        "finances": finances,
-        "holds": holds_summary,
+        "current_schedule": _strip(current_schedule),
+        "current_schedule_by_semester": schedule_by_semester_out,
+        "upcoming_exams": _strip(upcoming_exams),
+        "finances": {**finances, "records": _strip(finances.get("records"))},
+        "holds": {
+            **holds_summary,
+            "active_holds": _strip(holds_summary.get("active_holds")),
+            "all_holds": _strip(holds_summary.get("all_holds")),
+        },
         "advising_appointments": {
-            "upcoming": upcoming_advising,
-            "recent_past": past_advising,
+            "upcoming": _strip(upcoming_advising),
+            "recent_past": _strip(past_advising),
             "has_upcoming": len(upcoming_advising) > 0,
         },
-        "generated_documents": generated_docs or [],
+        "generated_documents": _strip(generated_docs),
         "degree_progress": {
             "planning_semester": semester,
-            "remaining_required_courses": remaining_required,
+            "remaining_required_courses": _strip(remaining_required),
             "eligible_courses_for_planning_semester": eligible_for_planning,
         },
     }
@@ -1034,7 +1120,7 @@ async def get_applicant_status(
     row = await sb_get_one("applicants", params=params, request=request, owner=owner)
     if not row:
         raise HTTPException(404, "Application not found")
-    return {"applicant": row}
+    return {"applicant": _strip_one(row)}
 
 
 # ============================================================
@@ -1091,9 +1177,9 @@ async def get_course_info(
                 if (s.get("status") or "").lower() == status_filter.lower()
             ]
         results.append({
-            "course": c,
-            "sections": sections,
-            "offerings_summary": summary,
+            "course": _strip_one(c),
+            "sections": _strip(sections),
+            "offerings_summary": _strip(summary),
         })
 
     if course_code:
@@ -1152,7 +1238,7 @@ async def get_faculty_info(
                 )
         enriched.append(record)
 
-    return {"faculty": enriched, "count": len(enriched)}
+    return {"faculty": _strip(enriched), "count": len(enriched)}
 
 
 # ============================================================
@@ -1214,7 +1300,7 @@ async def get_advisor_info(
 
         enriched.append(record)
 
-    return {"advisors": enriched, "count": len(enriched)}
+    return {"advisors": _strip(enriched), "count": len(enriched)}
 
 
 # ============================================================
@@ -1240,7 +1326,7 @@ async def get_academic_calendar(
         params["start_date"] = f"gte.{today}"
 
     events = await sb_get("academic_calendar", params=params, request=request)
-    return {"events": events, "count": len(events)}
+    return {"events": _strip(events), "count": len(events)}
 
 
 # ============================================================
@@ -1285,7 +1371,7 @@ async def get_degree_requirements(
         request=request,
     )
 
-    return {"program": program, "courses": courses}
+    return {"program": _strip_one(program), "courses": _strip(courses)}
 
 
 # ============================================================
@@ -1314,7 +1400,7 @@ async def get_exam_schedule(
         params["exam_type"] = f"eq.{exam_type}"
 
     exams = await sb_get("exam_schedule", params=params, request=request, owner=owner)
-    return {"exams": exams, "count": len(exams)}
+    return {"exams": _strip(exams), "count": len(exams)}
 
 
 # ============================================================

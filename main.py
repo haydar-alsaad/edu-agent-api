@@ -1,5 +1,28 @@
 """
-Education Agent API v3.0.3 (Supabase-backed, multi-tenant).
+Education Agent API v3.0.4 (Supabase-backed, multi-tenant).
+
+CHANGES IN v3.0.4 — ADVISOR FIX + ADVISING VISIBILITY:
+  - ADVISOR RESOLUTION WAS BROKEN ON EVERY REQUEST. student.advisor holds an
+    ADVISOR_ID ("ADV-001"), but the code looked it up in a dict keyed on
+    faculty_id ("FAC-001"). It never matched, so `advisor` was null in every
+    /student response since v2.1. Silent failure — no error, just a missing
+    field. "Who is my advisor?" had nothing to answer with and the whole
+    advising booking flow was dead. Chain is now:
+      student.advisor -> advisors.advisor_id -> advisors.faculty_id -> faculty
+  - advising_appointments now returned (upcoming / recent_past / has_upcoming).
+    book_advising has always accepted action="cancel" with an appointment_id,
+    but nothing ever returned one — cancel was unreachable. It also means the
+    agent can now see a booking it just made instead of forgetting it.
+  - book_advising rejects a second live appointment with the same advisor
+    (structured 409 carrying the existing appointment_id and time).
+  - current_schedule_by_semester added ALONGSIDE the unchanged flat
+    current_schedule. class_schedules isn't semester-filtered, so once a
+    student plans a future term on top of the current one, a flat list
+    interleaves two semesters with no labels.
+  - generated_documents returned, so the agent knows what it already sent.
+  - Advising audit log tolerates `name` or `name_en` on the advisor row.
+  ADDITIVE ONLY: no field removed, none renamed, no endpoint signature
+  changed. The previous SI keeps working against this build unchanged.
 
 CHANGES IN v3.0.3:
   - Added GET /whoami — a tenant-routing diagnostic. Resolves a caller_phone
@@ -193,7 +216,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="KFUT Student Support API",
-    version="3.0.3",
+    version="3.0.4",
     description="Supabase-backed, multi-tenant API for the KFUT WhatsApp student support agent.",
     lifespan=lifespan,
 )
@@ -534,7 +557,7 @@ def _cache_stats() -> Dict[str, Any]:
 async def root():
     return {
         "name": "KFUT Student Support API",
-        "version": "3.0.3",
+        "version": "3.0.4",
         "multi_tenant": True,
         "docs": "/docs",
         "health": "/health",
@@ -555,7 +578,7 @@ async def health(request: Request):
     if not DEFAULT_OWNER_ID:
         return {
             "status": "degraded",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "multi_tenant": True,
             "default_owner_configured": False,
             "reason": "DEFAULT_OWNER_ID not set — unregistered callers will fail",
@@ -580,7 +603,7 @@ async def health(request: Request):
 
     return {
         "status": "ok" if healthy else "degraded",
-        "version": "3.0.3",
+        "version": "3.0.4",
         "multi_tenant": True,
         "default_owner_configured": True,
         "checks": checks,
@@ -741,6 +764,8 @@ async def get_student_data(
         current_schedule,
         fees,
         holds,
+        advising_appts,
+        generated_docs,
     ) = await asyncio.gather(
         _get_ref_cached("advisors", request=request),
         _get_ref_cached("faculty", request=request),
@@ -767,19 +792,42 @@ async def get_student_data(
             params={"student_id": f"eq.{sid}"},
             request=request, owner=owner,
         ),
+        sb_get(
+            "advising_appointments",
+            params={"student_id": f"eq.{sid}", "order": "scheduled_for.asc"},
+            request=request, owner=owner,
+        ),
+        sb_get(
+            "documents_generated",
+            params={"student_id": f"eq.{sid}"},
+            request=request, owner=owner,
+        ),
     )
 
     # Build in-memory lookup dicts for shared reference data
-    advisors_by_faculty_id = {a["faculty_id"]: a for a in advisors_all if a.get("faculty_id")}
+    advisors_by_id = {a["advisor_id"]: a for a in advisors_all if a.get("advisor_id")}
     faculty_by_id = {f["faculty_id"]: f for f in faculty_all if f.get("faculty_id")}
     programs_by_code = {p["program_code"]: p for p in programs_all if p.get("program_code")}
     courses_by_code = {c["course_code"]: c for c in courses_all if c.get("course_code")}
 
-    # 3. Resolve advisor + advisor's faculty record from the cached tables.
-    # NOTE: student.advisor holds a FACULTY_ID, not an advisor_id.
-    advisor_faculty_id = student.get("advisor")
-    advisor_record = advisors_by_faculty_id.get(advisor_faculty_id) if advisor_faculty_id else None
-    advisor_faculty = faculty_by_id.get(advisor_faculty_id) if advisor_faculty_id else None
+    # 3. Resolve advisor + the advisor's underlying faculty record.
+    #
+    # student.advisor holds an ADVISOR_ID ("ADV-001"). Every version before
+    # v3.0.4 treated it as a faculty_id and looked it up in a dict keyed on
+    # faculty_id ("FAC-001"), which never matched — so `advisor` came back null
+    # on EVERY request and the entire advising flow was dead. It failed
+    # silently: no error, just a missing field the agent worked around by not
+    # mentioning the advisor at all.
+    #
+    # Chain: student.advisor -> advisors.advisor_id -> advisors.faculty_id
+    #        -> faculty.faculty_id
+    advisor_id = student.get("advisor")
+    advisor_record = advisors_by_id.get(advisor_id) if advisor_id else None
+    advisor_faculty = (
+        faculty_by_id.get(advisor_record.get("faculty_id"))
+        if advisor_record and advisor_record.get("faculty_id")
+        else None
+    )
 
     # 4. Compute completed credits from grades; use stored gpa from students record
     completed = [g for g in grades if g.get("status") == "Completed"]
@@ -886,6 +934,47 @@ async def get_student_data(
 
     credits_remaining = max(0, program_total_credits - total_credits) if program_total_credits else None
 
+    # --- Advising appointments -------------------------------------------
+    # Exposed from v3.0.4. book_advising has always supported action="cancel"
+    # with an appointment_id, but nothing ever RETURNED an appointment_id — so
+    # cancel was an unreachable code path and the agent had no way to see, or
+    # avoid duplicating, a booking it had just made.
+    now_iso = datetime.now(timezone.utc).isoformat()
+    live_appts = [
+        a for a in (advising_appts or [])
+        if (a.get("status") or "").lower() not in ("cancelled", "canceled")
+    ]
+    upcoming_advising = [
+        a for a in live_appts if (a.get("scheduled_for") or "") >= now_iso
+    ]
+    past_advising = sorted(
+        [a for a in live_appts if (a.get("scheduled_for") or "") < now_iso],
+        key=lambda a: a.get("scheduled_for") or "",
+        reverse=True,
+    )[:5]
+
+    # --- Schedule grouped by semester ------------------------------------
+    # current_schedule is intentionally left UNCHANGED (flat, every semester)
+    # so nothing that already reads it breaks. This grouping sits alongside it.
+    #
+    # Needed because class_schedules isn't filtered by semester: once a student
+    # plans Fall 2026 courses on top of a Spring 2026 baseline, a flat list
+    # interleaves two semesters with no labels and "what am I enrolled in?"
+    # becomes unanswerable.
+    by_semester: Dict[str, List[Dict[str, Any]]] = {}
+    for row in current_schedule:
+        by_semester.setdefault(row.get("semester") or "Unspecified", []).append(row)
+
+    schedule_by_semester = [
+        {
+            "semester": sem,
+            "course_count": len(rows),
+            "total_credits": sum(int(r.get("credits") or 0) for r in rows),
+            "courses": rows,
+        }
+        for sem, rows in sorted(by_semester.items())
+    ]
+
     return {
         "student": student,
         "advisor": (
@@ -902,9 +991,16 @@ async def get_student_data(
             "in_progress_grades": in_progress,
         },
         "current_schedule": current_schedule,
+        "current_schedule_by_semester": schedule_by_semester,
         "upcoming_exams": upcoming_exams,
         "finances": finances,
         "holds": holds_summary,
+        "advising_appointments": {
+            "upcoming": upcoming_advising,
+            "recent_past": past_advising,
+            "has_upcoming": len(upcoming_advising) > 0,
+        },
+        "generated_documents": generated_docs or [],
         "degree_progress": {
             "planning_semester": semester,
             "remaining_required_courses": remaining_required,
@@ -1811,6 +1907,38 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
         if not advisor:
             raise HTTPException(404, f"Advisor {req.advisor_id} not found")
 
+        # Duplicate guard: one live appointment per student per advisor.
+        # Every other write path here validates before mutating; this one had
+        # no guard at all, and the agent couldn't self-check because
+        # advising_appointments wasn't returned anywhere before v3.0.4.
+        existing_appts = await sb_get(
+            "advising_appointments",
+            params={
+                "student_id": f"eq.{req.student_id}",
+                "advisor_id": f"eq.{req.advisor_id}",
+            },
+            request=request, owner=owner,
+        )
+        live = [
+            a for a in (existing_appts or [])
+            if (a.get("status") or "").lower() not in ("cancelled", "canceled", "completed")
+        ]
+        if live:
+            e = live[0]
+            raise HTTPException(
+                409,
+                detail={
+                    "code": "duplicate_advising_appointment",
+                    "appointment_id": e.get("id"),
+                    "scheduled_for": e.get("scheduled_for"),
+                    "advisor_id": req.advisor_id,
+                    "message": (
+                        f"Student already has an advising appointment with "
+                        f"{req.advisor_id} at {e.get('scheduled_for')}"
+                    ),
+                },
+            )
+
         appt = await sb_insert(
             "advising_appointments",
             {
@@ -1828,7 +1956,7 @@ async def advising_appointment(req: AdvisingAppointmentRequest, request: Request
             action_type="book_advising",
             description=(
                 f"Booked advising appointment for {student_name} with "
-                f"{advisor.get('name', req.advisor_id)} at {req.scheduled_for}"
+                f"{advisor.get('name') or advisor.get('name_en') or req.advisor_id} at {req.scheduled_for}"
             ),
             student_id=req.student_id,
             payload={"appointment": appt},
